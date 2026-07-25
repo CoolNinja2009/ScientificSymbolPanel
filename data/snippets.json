@@ -1,0 +1,118 @@
+{
+  "snippets": [
+    {
+      "name": "Ohm's Law",
+      "text": "V = IR",
+      "description": "Voltage equals current times resistance",
+      "aliases": ["ohm", "resistance", "voltage", "current"]
+    },
+    {
+      "name": "Euler's Identity",
+      "text": "e^(iπ) + 1 = 0",
+      "description": "Euler's identity, the most beautiful equation in mathematics",
+      "aliases": ["euler", "identity"]
+    },
+    {
+      "name": "Quadratic Formula",
+      "text": "x = (-b ± √(b² − 4ac)) / 2a",
+      "description": "Solution to ax² + bx + c = 0",
+      "aliases": ["quadratic", "roots", "parabola"]
+    },
+    {
+      "name": "Ideal Gas Law",
+      "text": "PV = nRT",
+      "description": "Ideal gas equation",
+      "aliases": ["gas", "pv=nrt", "boyle", "charles"]
+    },
+    {
+      "name": "Pythagorean Theorem",
+      "text": "a² + b² = c²",
+      "description": "Right triangle hypotenuse relation",
+      "aliases": ["pythagoras", "triangle", "hypotenuse"]
+    },
+    {
+      "name": "Einstein's Equation",
+      "text": "E = mc²",
+      "description": "Mass-energy equivalence",
+      "aliases": ["einstein", "relativity", "energy", "mass"]
+    },
+    {
+      "name": "Newton's Second Law",
+      "text": "F = ma",
+      "description": "Force equals mass times acceleration",
+      "aliases": ["newton", "force", "acceleration"]
+    },
+    {
+      "name": "Kinetic Energy",
+      "text": "KE = ½mv²",
+      "description": "Kinetic energy formula",
+      "aliases": ["ke", "energy", "velocity"]
+    },
+    {
+      "name": "Coulomb's Law",
+      "text": "F = k(q₁q₂) / r²",
+      "description": "Electrostatic force between two charges",
+      "aliases": ["coulomb", "electrostatic", "charge"]
+    },
+    {
+      "name": "Electric Power",
+      "text": "P = IV",
+      "description": "Power equals current times voltage",
+      "aliases": ["power", "watt"]
+    },
+    {
+      "name": "Wave Equation",
+      "text": "v = fλ",
+      "description": "Wave speed equals frequency times wavelength",
+      "aliases": ["wave", "frequency", "wavelength"]
+    },
+    {
+      "name": "Hooke's Law",
+      "text": "F = −kx",
+      "description": "Spring force equals negative spring constant times displacement",
+      "aliases": ["hooke", "spring", "elastic"]
+    },
+    {
+      "name": "Bernoulli's Equation",
+      "text": "P + ½ρv² + ρgh = constant",
+      "description": "Fluid dynamics pressure-velocity-height relation",
+      "aliases": ["bernoulli", "fluid", "pressure"]
+    },
+    {
+      "name": "Faraday's Law",
+      "text": "ε = −N(dΦ/dt)",
+      "description": "Induced EMF equals negative turns times rate of change of flux",
+      "aliases": ["faraday", "induction", "emf", "flux"]
+    },
+    {
+      "name": "Area of Circle",
+      "text": "A = πr²",
+      "description": "Area of a circle",
+      "aliases": ["circle", "area", "radius"]
+    },
+    {
+      "name": "Volume of Sphere",
+      "text": "V = (4/3)πr³",
+      "description": "Volume of a sphere",
+      "aliases": ["sphere", "volume"]
+    },
+    {
+      "name": "Standard Deviation",
+      "text": "σ = √(Σ(xᵢ − μ)² / N)",
+      "description": "Population standard deviation",
+      "aliases": ["stddev", "statistics", "variance", "sigma"]
+    },
+    {
+      "name": "Schrödinger Equation",
+      "text": "iℏ(∂/∂t)Ψ = ĤΨ",
+      "description": "Time-dependent Schrödinger equation",
+      "aliases": ["schrodinger", "quantum", "wavefunction"]
+    },
+    {
+      "name": "Maxwell's Equations",
+      "text": "∇·E = ρ/ε₀",
+      "description": "Gauss's law (one of Maxwell's equations)",
+      "aliases": ["maxwell", "electromagnetism", "gauss"]
+    }
+  ]
+}
