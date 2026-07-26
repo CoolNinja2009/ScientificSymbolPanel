@@ -24,7 +24,8 @@ public:
 private:
     void BuildIndices();
     static std::filesystem::path DefaultPath();
-
+    bool LoadBinary(const std::vector<uint8_t>& data);
+    bool LoadJson(const std::vector<uint8_t>& data);
     std::vector<Symbol> m_symbols;
     std::unordered_map<Category, std::vector<size_t>> m_categoryIndex;
     std::unordered_map<char32_t, size_t> m_codepointIndex;

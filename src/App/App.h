@@ -83,7 +83,7 @@ private:
     HWND m_hwndPrevFocus = nullptr;
     bool m_visible = false;
     float m_dpiScale = 1.0f;
-    bool m_caretVisible = true;     // Blinking search caret
+    bool m_inserting = false;       // True during focus-yield insert (don't hide on deactivate)
 
     Config m_config;
     std::unique_ptr<SymbolDatabase> m_database;

@@ -31,13 +31,15 @@
 namespace ssp {
 
 App* App::s_instance = nullptr;
-
 App::App()  { s_instance = this; }
 App::~App() { Shutdown(); s_instance = nullptr; }
 
+// ============================================================================
+// Initialize
+// ============================================================================
+
 bool App::Initialize(HINSTANCE hInstance) {
     m_hInstance = hInstance;
-    SSP_LOG_DEBUG("App::Initialize - starting");
     m_config.Load();
     if (!InitCOM()) return false;
     InitFactories();
@@ -50,7 +52,6 @@ bool App::Initialize(HINSTANCE hInstance) {
     m_searchEngine = std::make_unique<SearchEngine>();
     m_searchEngine->Build(m_database->GetSymbols());
     InitSubsystems();
-    SSP_LOG_DEBUG("App::Initialize - done, %zu symbols", m_database->GetSymbols().size());
     return true;
 }
 
@@ -59,9 +60,8 @@ void App::InitSubsystems() {
     bool isDark = Platform::IsDarkMode();
     if (cfg.theme == ThemeMode::Light) isDark = false;
     else if (cfg.theme == ThemeMode::Dark) isDark = true;
-    uint32_t accent = Platform::GetAccentColor();
 
-    m_themeManager = std::make_unique<ThemeManager>(isDark, accent);
+    m_themeManager = std::make_unique<ThemeManager>(isDark, Platform::GetAccentColor());
     m_animation = std::make_unique<Animation>();
     m_animation->enabled = cfg.animations && !Platform::IsLowEndMachine();
 
@@ -92,11 +92,12 @@ void App::InitSubsystems() {
     m_inputHandler->SetRecentManager(m_recentManager.get());
     m_inputHandler->SetFavoritesManager(m_favoritesManager.get());
 
-    // Insert: yield focus to target app, send text, reclaim focus via timer
+    // Insert: yield focus → send text → reclaim focus via timer
     m_inputHandler->SetInsertCallback([this](const std::wstring& text) {
         HWND target = m_hwndPrevFocus;
         if (!target || !IsWindow(target)) target = GetForegroundWindow();
         if (target && target != m_hwnd) {
+            m_inserting = true;
             SetForegroundWindow(target);
             Platform::SendUnicodeText(text);
             SetTimer(m_hwnd, 3, 50, nullptr);
@@ -106,8 +107,12 @@ void App::InitSubsystems() {
     m_inputHandler->SetInvalidateCallback([this]() { InvalidateRect(m_hwnd, nullptr, FALSE); });
 }
 
+// ============================================================================
+// Run / Shutdown
+// ============================================================================
+
 int App::Run() {
-    MSG msg = {};
+    MSG msg;
     while (GetMessageW(&msg, nullptr, 0, 0)) { TranslateMessage(&msg); DispatchMessageW(&msg); }
     return static_cast<int>(msg.wParam);
 }
@@ -123,6 +128,10 @@ void App::Shutdown() {
     if (m_hwnd) { KillTimer(m_hwnd, 1); KillTimer(m_hwnd, 3); DestroyWindow(m_hwnd); m_hwnd = nullptr; }
     m_d2dFactory.reset(); m_dwriteFactory.reset(); m_wicFactory.reset();
 }
+
+// ============================================================================
+// Panel show/hide
+// ============================================================================
 
 void App::ShowPanel() {
     if (m_visible) return;
@@ -161,8 +170,40 @@ void App::OnSymbolInserted(const Symbol* sym) { if (sym && m_recentManager) m_re
 SymbolDatabase& App::GetDatabase()   { return *m_database; }
 SearchEngine& App::GetSearchEngine() { return *m_searchEngine; }
 
-bool App::InitCOM() { return SUCCEEDED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)); }
+// ============================================================================
+// Copy to clipboard
+// ============================================================================
 
+static void CopyToClipboard(const std::wstring& text) {
+    if (!OpenClipboard(nullptr)) return;
+    EmptyClipboard();
+    size_t size = (text.size() + 1) * sizeof(wchar_t);
+    HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, size);
+    if (hMem) {
+        memcpy(GlobalLock(hMem), text.c_str(), size);
+        GlobalUnlock(hMem);
+        SetClipboardData(CF_UNICODETEXT, hMem);
+    }
+    CloseClipboard();
+}
+
+// ============================================================================
+// Get selected symbol
+// ============================================================================
+
+static const Symbol* GetSelectedSymbol(InputHandler* input) {
+    const auto& results = input->GetResults();
+    size_t idx = input->GetSelectedIndex();
+    if (idx < results.size() && results[idx].symbol)
+        return results[idx].symbol;
+    return nullptr;
+}
+
+// ============================================================================
+// COM & factories
+// ============================================================================
+
+bool App::InitCOM() { return SUCCEEDED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)); }
 void App::InitFactories() {
     D2D1_FACTORY_OPTIONS opts = {};
 #ifdef SSP_DEBUG
@@ -175,13 +216,12 @@ void App::InitFactories() {
 
 bool App::RegisterWindowClass() {
     WNDCLASSEXW wc = {};
-    wc.cbSize = sizeof(wc); wc.style = CS_HREDRAW | CS_VREDRAW;
+    wc.cbSize = sizeof(wc); wc.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
     wc.lpfnWndProc = WndProc; wc.hInstance = m_hInstance;
     wc.hCursor = LoadCursorW(nullptr, IDC_ARROW); wc.hbrBackground = nullptr;
     wc.lpszClassName = kWindowClass;
     wc.hIcon = LoadIconW(m_hInstance, MAKEINTRESOURCEW(IDI_SSP_ICON)); wc.hIconSm = wc.hIcon;
-    if (!RegisterClassExW(&wc)) { SSP_LOG_DEBUG("RegisterClassExW failed: %lu", GetLastError()); return false; }
-    return true;
+    return RegisterClassExW(&wc) != 0;
 }
 
 bool App::CreateMainWindow() {
@@ -190,7 +230,7 @@ bool App::CreateMainWindow() {
         kWindowClass, kAppName, WS_POPUP,
         s.windowX >= 0 ? s.windowX : CW_USEDEFAULT, s.windowY >= 0 ? s.windowY : CW_USEDEFAULT,
         s.windowWidth, s.windowHeight, nullptr, nullptr, m_hInstance, this);
-    if (!m_hwnd) { SSP_LOG_DEBUG("CreateWindowExW failed: %lu", GetLastError()); return false; }
+    if (!m_hwnd) return false;
     Platform::ApplyBackdrop(m_hwnd);
     Platform::ApplyRoundedCorners(m_hwnd);
     Platform::HideFromTaskbar(m_hwnd);
@@ -198,11 +238,14 @@ bool App::CreateMainWindow() {
 }
 
 void App::RegisterHotkey() {
-    auto& s = m_config.Get();
-    if (!::RegisterHotKey(m_hwnd, 1, s.hotkeyModifiers, s.hotkeyVk))
+    if (!::RegisterHotKey(m_hwnd, 1, m_config.Get().hotkeyModifiers, m_config.Get().hotkeyVk))
         SSP_LOG_DEBUG("RegisterHotKey failed: %lu", GetLastError());
 }
 void App::UnregisterHotkey() { if (m_hwnd) ::UnregisterHotKey(m_hwnd, 1); }
+
+// ============================================================================
+// Rendering
+// ============================================================================
 
 void App::RenderFrame() {
     if (!m_renderer || !m_visible) return;
@@ -215,95 +258,91 @@ void App::RenderFrame() {
 
     auto layout = ComputeLayout(w, h, m_dpiScale, hasRecent, hasFavorites, input.GetResults().size());
     layout.scrollOffset = input.GetScrollOffset();
-    int visibleRows = static_cast<int>((layout.resultsGrid.height) / layout.cellSize);
-    if (visibleRows < 1) visibleRows = 1;
-    input.UpdateLayoutInfo(layout.columns, visibleRows, layout.maxScroll);
+    int vr = static_cast<int>(layout.resultsGrid.height / layout.cellSize);
+    if (vr < 1) vr = 1;
+    input.UpdateLayoutInfo(layout.columns, vr, layout.maxScroll);
     if (!m_renderer->BeginDraw()) return;
 
     m_renderer->FillRect({0, 0, w, h}, colors.bgPrimary);
     float dpi = m_dpiScale;
-    auto searchFmtKey = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSearch * dpi);
-    auto smallFmtKey  = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSmall * dpi);
-    auto symFmtKey    = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSymbol * dpi);
+    auto sf = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSearch * dpi);
+    auto tf = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSmall * dpi);
+    auto yf = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSymbol * dpi);
 
     // Search bar
     {
         RectF r = layout.searchBar;
         m_renderer->DrawRoundedRect({r.x + 4, r.y + 4, r.width - 8, r.height - 8}, 6.0f, colors.bgSecondary);
-        const auto& query = input.GetQuery();
-        m_renderer->DrawText(query.empty() ? L"Search symbols..." : query,
-            {r.x + 12, r.y, r.width - 24, r.height},
-            m_renderer->GetTextFormat(searchFmtKey), query.empty() ? colors.textMuted : colors.textPrimary);
+        const auto& q = input.GetQuery();
+        m_renderer->DrawText(q.empty() ? L"Search symbols..." : q,
+            {r.x + 12, r.y, r.width - 24, r.height}, m_renderer->GetTextFormat(sf),
+            q.empty() ? colors.textMuted : colors.textPrimary);
     }
 
-    // Recent strip
+    // Recents
     if (hasRecent) {
-        m_renderer->DrawText(L"Recent", {layout.recentLabel.x + 8, layout.recentLabel.y, layout.recentLabel.width, layout.recentLabel.height},
-            m_renderer->GetTextFormat(smallFmtKey), colors.textMuted);
-        auto& recents = m_recentManager->GetRecent();
+        m_renderer->DrawText(L"Recent", {layout.recentLabel.x+8,layout.recentLabel.y,layout.recentLabel.width,layout.recentLabel.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
+        auto& rec = m_recentManager->GetRecent();
         float cx = layout.recentGrid.x, cy = layout.recentGrid.y, cs = layout.cellSize;
-        for (size_t i = 0; i < recents.size() && cx + cs <= layout.recentGrid.x + layout.recentGrid.width; i++, cx += cs)
-            m_renderer->DrawTextCentered(recents[i]->symbol, {cx, cy, cs, cs}, m_renderer->GetTextFormat(symFmtKey), colors.textPrimary);
+        for (size_t i = 0; i < rec.size() && cx+cs <= layout.recentGrid.x+layout.recentGrid.width; i++, cx+=cs)
+            m_renderer->DrawTextCentered(rec[i]->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf), colors.textPrimary);
     }
 
-    // Favorites strip
+    // Favorites
     if (hasFavorites) {
-        m_renderer->DrawText(L"Favorites", {layout.favoritesLabel.x + 8, layout.favoritesLabel.y, layout.favoritesLabel.width, layout.favoritesLabel.height},
-            m_renderer->GetTextFormat(smallFmtKey), colors.textMuted);
-        auto& favs = m_favoritesManager->GetFavorites();
+        m_renderer->DrawText(L"Favorites", {layout.favoritesLabel.x+8,layout.favoritesLabel.y,layout.favoritesLabel.width,layout.favoritesLabel.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
+        auto& fav = m_favoritesManager->GetFavorites();
         float cx = layout.favoritesGrid.x, cy = layout.favoritesGrid.y, cs = layout.cellSize;
-        for (size_t i = 0; i < favs.size() && cx + cs <= layout.favoritesGrid.x + layout.favoritesGrid.width; i++, cx += cs)
-            m_renderer->DrawTextCentered(favs[i]->symbol, {cx, cy, cs, cs}, m_renderer->GetTextFormat(symFmtKey), colors.textPrimary);
+        for (size_t i = 0; i < fav.size() && cx+cs <= layout.favoritesGrid.x+layout.favoritesGrid.width; i++, cx+=cs)
+            m_renderer->DrawTextCentered(fav[i]->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf), colors.textPrimary);
     }
 
-    // Category bar
+    // Category bar — equal-width buttons (matches HitTestCategory)
     {
         RectF r = layout.categoryBar;
-        float cx = r.x + 4, cy = r.y, ch = r.height;
-        int activeCat = input.IsAllCategories() ? -1 : static_cast<int>(input.GetCategoryFilter());
-        for (int i = 0; i < static_cast<int>(Category::COUNT); i++) {
+        int ac = input.IsAllCategories() ? -1 : static_cast<int>(input.GetCategoryFilter());
+        int numCats = static_cast<int>(Category::COUNT);
+        float catW = (r.width - 8.0f) / static_cast<float>(numCats);
+        for (int i = 0; i < numCats; i++) {
+            float cx = r.x + 4.0f + i * catW;
+            RectF b{cx + 1.0f, r.y + 4.0f, catW - 2.0f, r.height - 8.0f};
+            m_renderer->DrawRoundedRect(b, 4.0f, (i==ac) ? colors.accent : colors.bgTertiary);
             std::wstring name(CategoryNames[i], CategoryNames[i] + strlen(CategoryNames[i]));
-            name = L" " + name + L" ";
-            float tw = static_cast<float>(name.size()) * 7.0f * dpi;
-            RectF btn{cx, cy + 4, tw, ch - 8};
-            m_renderer->DrawRoundedRect(btn, 4.0f, (i == activeCat) ? colors.accent : colors.bgTertiary);
-            m_renderer->DrawText(name, {cx + 4, cy, tw - 8, ch}, m_renderer->GetTextFormat(smallFmtKey),
-                (i == activeCat) ? 0xFFFFFFFF : colors.textSecondary);
-            cx += tw + 4;
-            if (cx > r.x + r.width) break;
+            m_renderer->DrawTextCentered(name, b, m_renderer->GetTextFormat(tf), (i==ac)?0xFFFFFFFF:colors.textSecondary);
         }
     }
-
-    // Results grid
     {
-        auto& results = input.GetResults();
-        float cs = layout.cellSize;
-        float sx = layout.resultsGrid.x, sy = layout.resultsGrid.y - layout.scrollOffset * cs;
-        float ct = layout.resultsGrid.y, cb = ct + layout.resultsGrid.height;
-        for (size_t i = 0; i < results.size(); i++) {
-            float cx = sx + (i % layout.columns) * cs, cy = sy + (i / layout.columns) * cs;
-            if (cy + cs < ct || cy > cb) continue;
-            bool sel = (static_cast<int>(i) == static_cast<int>(input.GetSelectedIndex()));
-            if (sel) m_renderer->DrawRoundedRect({cx + 2, cy + 2, cs - 4, cs - 4}, 4.0f, colors.selected);
-            m_renderer->DrawTextCentered(results[i].symbol->symbol, {cx, cy, cs, cs},
-                m_renderer->GetTextFormat(symFmtKey), sel ? 0xFFFFFFFF : colors.textPrimary);
+        auto& res = input.GetResults(); float cs = layout.cellSize;
+        float sx = layout.resultsGrid.x, sy = layout.resultsGrid.y - layout.scrollOffset;
+        float ct = layout.resultsGrid.y, cb = ct+layout.resultsGrid.height;
+        int sel = static_cast<int>(input.GetSelectedIndex());
+        for (size_t i = 0; i < res.size(); i++) {
+            float cx = sx + (i%layout.columns)*cs, cy = sy + (i/layout.columns)*cs;
+            if (cy+cs < ct || cy > cb) continue;
+            if (static_cast<int>(i) == sel)
+                m_renderer->DrawRoundedRect({cx+2,cy+2,cs-4,cs-4}, 4.0f, colors.selected);
+            // Favorited indicator
+            if (m_favoritesManager && m_favoritesManager->IsFavorite(*res[i].symbol))
+                m_renderer->DrawText(L"\u2605", {cx+2, cy+2, 14.0f*dpi, 14.0f*dpi}, m_renderer->GetTextFormat(tf), 0xFFFFD700);
+            m_renderer->DrawTextCentered(res[i].symbol->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf),
+                (static_cast<int>(i)==sel) ? 0xFFE0F0FF : colors.textPrimary);
         }
     }
 
     // Status bar
     if (layout.statusBar.height > 0) {
-        wchar_t buf[64];
-        const auto& query = input.GetQuery();
-        if (!query.empty())
-            swprintf_s(buf, L"%zu results for \"%s\"", input.GetResults().size(), query.c_str());
-        else
-            swprintf_s(buf, L"%zu symbols  •  Alt+A to toggle", m_database->GetSymbols().size());
-        m_renderer->DrawText(buf, {layout.statusBar.x + 8, layout.statusBar.y, layout.statusBar.width, layout.statusBar.height},
-            m_renderer->GetTextFormat(smallFmtKey), colors.textMuted);
+        wchar_t buf[128]; const auto& q = input.GetQuery();
+        if (!q.empty()) swprintf_s(buf, L"%zu results \u2022 Ctrl+C copy \u2022 Ctrl+D fav \u2022 DblClick insert+close", input.GetResults().size());
+        else swprintf_s(buf, L"%zu symbols \u2022 Alt+A toggle \u2022 Drag to move", m_database->GetSymbols().size());
+        m_renderer->DrawText(buf, {layout.statusBar.x+8,layout.statusBar.y,layout.statusBar.width,layout.statusBar.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
     }
 
     m_renderer->EndDraw();
 }
+
+// ============================================================================
+// Window Procedure
+// ============================================================================
 
 LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     auto* app = reinterpret_cast<App*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
@@ -313,12 +352,40 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         SetWindowLongPtrW(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(reinterpret_cast<CREATESTRUCT*>(lp)->lpCreateParams));
         return 0;
 
+    case WM_NCHITTEST: {
+        // Allow dragging the window by its background
+        LRESULT hit = DefWindowProcW(hwnd, msg, wp, lp);
+        if (hit == HTCLIENT) {
+            // Check if mouse is over search bar or results — pass through
+            // Otherwise return HTCAPTION to allow dragging
+            if (app && app->m_visible) {
+                POINT pt = { GET_X_LPARAM(lp), GET_Y_LPARAM(lp) };
+                ScreenToClient(hwnd, &pt);
+                float mx = static_cast<float>(pt.x), my = static_cast<float>(pt.y);
+                auto& input = *app->m_inputHandler;
+                bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
+                bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
+                RECT cr; GetClientRect(hwnd, &cr);
+                auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
+                    app->m_dpiScale, hasRec, hasFav, input.GetResults().size());
+                // Only drag on background areas (not on search bar, grid, categories, strips)
+                auto hitR = [](const RectF& r, float x, float y) { return x>=r.x && x<r.x+r.width && y>=r.y && y<r.y+r.height; };
+                if (!hitR(lo.searchBar, mx, my) && !hitR(lo.resultsGrid, mx, my) &&
+                    !hitR(lo.categoryBar, mx, my) && !hitR(lo.recentGrid, mx, my) &&
+                    !hitR(lo.favoritesGrid, mx, my) && !hitR(lo.statusBar, mx, my))
+                    return HTCAPTION;
+            }
+        }
+        return hit;
+    }
+
     case WM_HOTKEY:
         if (wp == 1 && app) app->TogglePanel();
         return 0;
 
     case WM_ACTIVATE:
-        if (LOWORD(wp) == WA_INACTIVE && app && app->IsVisible()) app->HidePanel();
+        if (LOWORD(wp) == WA_INACTIVE && app && app->IsVisible() && !app->m_inserting)
+            app->HidePanel();
         return 0;
 
     case WM_TIMER:
@@ -328,15 +395,39 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             if (!app->m_animation->IsActive()) KillTimer(hwnd, 1);
         } else if (wp == 3 && app) {
             KillTimer(hwnd, 3);
+            app->m_inserting = false;
             SetForegroundWindow(hwnd);
+            InvalidateRect(hwnd, nullptr, FALSE);
         }
         return 0;
 
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
         if (app && app->m_inputHandler && app->m_visible) {
+            bool ctrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
             bool shift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-            bool ctrl  = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+
+            // Ctrl+C: copy selected symbol to clipboard
+            if (ctrl && wp == 'C') {
+                auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
+                if (sym) CopyToClipboard(sym->symbol);
+                return 0;
+            }
+            // Ctrl+D: toggle favorite
+            if (ctrl && wp == 'D') {
+                auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
+                if (sym && app->m_favoritesManager) {
+                    if (app->m_favoritesManager->IsFavorite(*sym))
+                        app->m_favoritesManager->Remove(*sym);
+                    else
+                        app->m_favoritesManager->Add(*sym);
+                    InvalidateRect(hwnd, nullptr, FALSE);
+                }
+                return 0;
+            }
+            // Ctrl+W / Escape: close
+            if (ctrl && wp == 'W') { app->HidePanel(); return 0; }
+
             bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
             bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
             if (app->m_inputHandler->HandleKeyDown(wp, shift, ctrl, hasRec, hasFav)) {
@@ -354,15 +445,58 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         }
         break;
 
+    case WM_LBUTTONDBLCLK:
+        // Double-click: insert and close
+        if (app && app->m_inputHandler && app->m_visible) {
+            bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
+            bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
+            RECT cr; GetClientRect(hwnd, &cr);
+            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
+                app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
+            app->m_inputHandler->HandleMouseDown(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
+            InvalidateRect(hwnd, nullptr, FALSE);
+            // The insert callback will be invoked, then we close
+            app->HidePanel();
+            return 0;
+        }
+        break;
+
     case WM_LBUTTONDOWN:
         if (app && app->m_inputHandler && app->m_visible) {
             bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
             bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
             RECT cr; GetClientRect(hwnd, &cr);
-            auto tmpLayout = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
+            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
                 app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
-            app->m_inputHandler->HandleMouseDown(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), tmpLayout, hasRec, hasFav);
+            app->m_inputHandler->HandleMouseDown(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
             InvalidateRect(hwnd, nullptr, FALSE);
+            return 0;
+        }
+        break;
+
+    case WM_RBUTTONUP:
+        if (app && app->m_inputHandler && app->m_visible) {
+            // Determine what's under cursor
+            POINT pt = { GET_X_LPARAM(lp), GET_Y_LPARAM(lp) };
+            ClientToScreen(hwnd, &pt);
+            auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
+            if (sym) {
+                bool isFav = app->m_favoritesManager && app->m_favoritesManager->IsFavorite(*sym);
+                HMENU menu = CreatePopupMenu();
+                AppendMenuW(menu, MF_STRING, 1, L"Copy Symbol");
+                AppendMenuW(menu, MF_STRING, 2, (std::wstring(L"Copy LaTeX: ") + sym->latex).c_str());
+                AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+                AppendMenuW(menu, MF_STRING, 3, isFav ? L"Remove from Favorites" : L"Add to Favorites");
+                int cmd = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_NONOTIFY, pt.x, pt.y, 0, hwnd, nullptr);
+                if (cmd == 1) CopyToClipboard(sym->symbol);
+                else if (cmd == 2) CopyToClipboard(sym->latex);
+                else if (cmd == 3 && app->m_favoritesManager) {
+                    if (isFav) app->m_favoritesManager->Remove(*sym);
+                    else app->m_favoritesManager->Add(*sym);
+                    InvalidateRect(hwnd, nullptr, FALSE);
+                }
+                DestroyMenu(menu);
+            }
             return 0;
         }
         break;
@@ -374,9 +508,9 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
             bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
             RECT cr; GetClientRect(hwnd, &cr);
-            auto tmpLayout = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
+            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
                 app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
-            app->m_inputHandler->HandleMouseWheel(GET_WHEEL_DELTA_WPARAM(wp), pt.x, pt.y, tmpLayout);
+            app->m_inputHandler->HandleMouseWheel(GET_WHEEL_DELTA_WPARAM(wp), pt.x, pt.y, lo);
             InvalidateRect(hwnd, nullptr, FALSE);
             return 0;
         }
