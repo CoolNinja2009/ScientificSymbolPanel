@@ -16,6 +16,9 @@
     <ClCompile Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\SearchEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\TextEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\Favorites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,7 +75,13 @@
     <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\SearchEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\TextEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\Trie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\stb_textedit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\Favorites.h">

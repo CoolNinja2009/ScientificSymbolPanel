@@ -3,6 +3,7 @@ C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\App\Input
 C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Core\Config.cpp;C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\build\SSP.dir\Release\Config.obj
 C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Platform\Win32.cpp;C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\build\SSP.dir\Release\Win32.obj
 C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\SearchEngine.cpp;C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\build\SSP.dir\Release\SearchEngine.obj
+C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\TextEdit.cpp;C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\build\SSP.dir\Release\TextEdit.obj
 C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\Favorites.cpp;C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\build\SSP.dir\Release\Favorites.obj
 C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\JsonStore.cpp;C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\build\SSP.dir\Release\JsonStore.obj
 C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\Recent.cpp;C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\build\SSP.dir\Release\Recent.obj

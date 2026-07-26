@@ -19,7 +19,6 @@ PanelLayout ComputeLayout(float panelWidth, float panelHeight, float dpiScale,
     layout.cellSize = kSymbolCellSize * dpiScale;
 
     const float searchBarH  = kSearchBarHeight * dpiScale;
-    const float categoryBarH = kCategoryBarHeight * dpiScale;
     const float statusBarH  = kStatusBarHeight * dpiScale;
     const float labelH      = kLabelHeight * dpiScale;
     const float cellSz      = layout.cellSize;
@@ -54,9 +53,6 @@ PanelLayout ComputeLayout(float panelWidth, float panelHeight, float dpiScale,
         layout.favoritesGrid  = RectF{};
     }
 
-    // 4. Category bar — fixed height
-    layout.categoryBar = RectF{0.0f, y, panelWidth, categoryBarH};
-    y += categoryBarH + vGap;
 
     // 5. Results grid — fills remaining space down to status bar
     float remainingH = panelHeight - y - statusBarH - vGap;

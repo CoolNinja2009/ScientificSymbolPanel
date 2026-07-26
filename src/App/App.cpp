@@ -150,6 +150,7 @@ void App::ShowPanel() {
     m_visible = true;
     if (m_inputHandler) m_inputHandler->Reset();
     if (m_animation && m_animation->enabled) { m_animation->StartFadeIn(); SetTimer(m_hwnd, 1, 8, nullptr); }
+    SetTimer(m_hwnd, 2, 530, nullptr); // cursor blink
     ShowWindow(m_hwnd, SW_SHOW);
     SetForegroundWindow(m_hwnd);
     InvalidateRect(m_hwnd, nullptr, FALSE);
@@ -159,6 +160,7 @@ void App::HidePanel() {
     if (!m_visible) return;
     m_visible = false;
     KillTimer(m_hwnd, 1);
+    KillTimer(m_hwnd, 2);
     ShowWindow(m_hwnd, SW_HIDE);
     if (m_hwndPrevFocus && IsWindow(m_hwndPrevFocus)) SetForegroundWindow(m_hwndPrevFocus);
 }
@@ -275,8 +277,24 @@ void App::RenderFrame() {
         m_renderer->DrawRoundedRect({r.x + 4, r.y + 4, r.width - 8, r.height - 8}, 6.0f, colors.bgSecondary);
         const auto& q = input.GetQuery();
         m_renderer->DrawText(q.empty() ? L"Search symbols..." : q,
-            {r.x + 12, r.y, r.width - 24, r.height}, m_renderer->GetTextFormat(sf),
+            {r.x + 12, r.y + (r.height - kFontSizeSearch * dpi) * 0.5f, r.width - 24, r.height},
+            m_renderer->GetTextFormat(sf),
             q.empty() ? colors.textMuted : colors.textPrimary);
+        if (input.GetActiveZone() == Zone::SearchBar && input.HasSelection()) {
+            int ss = input.GetSelectStart(), se = input.GetSelectEnd();
+            if (ss > se) std::swap(ss, se);
+            float selX = r.x + 12.0f + m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf), ss);
+            float selW = m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf), se) -
+                         m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf), ss);
+            if (selX + selW > r.x + r.width - 4.0f) selW = r.x + r.width - 4.0f - selX;
+            m_renderer->FillRect({selX, r.y + 6.0f, selW, r.height - 12.0f}, 0x664078D4);
+        }
+        if (input.GetActiveZone() == Zone::SearchBar && m_cursorVisible && !q.empty()) {
+            float cursorX = r.x + 12.0f + m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf),
+                static_cast<int>(input.GetCursorPos()));
+            if (cursorX < r.x + r.width - 12.0f)
+                m_renderer->FillRect({cursorX, r.y + 8.0f, 1.5f, r.height - 16.0f}, colors.accent);
+        }
     }
 
     // Recents
@@ -297,20 +315,7 @@ void App::RenderFrame() {
             m_renderer->DrawTextCentered(fav[i]->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf), colors.textPrimary);
     }
 
-    // Category bar — equal-width buttons (matches HitTestCategory)
-    {
-        RectF r = layout.categoryBar;
-        int ac = input.IsAllCategories() ? -1 : static_cast<int>(input.GetCategoryFilter());
-        int numCats = static_cast<int>(Category::COUNT);
-        float catW = (r.width - 8.0f) / static_cast<float>(numCats);
-        for (int i = 0; i < numCats; i++) {
-            float cx = r.x + 4.0f + i * catW;
-            RectF b{cx + 1.0f, r.y + 4.0f, catW - 2.0f, r.height - 8.0f};
-            m_renderer->DrawRoundedRect(b, 4.0f, (i==ac) ? colors.accent : colors.bgTertiary);
-            std::wstring name(CategoryNames[i], CategoryNames[i] + strlen(CategoryNames[i]));
-            m_renderer->DrawTextCentered(name, b, m_renderer->GetTextFormat(tf), (i==ac)?0xFFFFFFFF:colors.textSecondary);
-        }
-    }
+    // Results grid
     {
         auto& res = input.GetResults(); float cs = layout.cellSize;
         float sx = layout.resultsGrid.x, sy = layout.resultsGrid.y - layout.scrollOffset;
@@ -319,9 +324,13 @@ void App::RenderFrame() {
         for (size_t i = 0; i < res.size(); i++) {
             float cx = sx + (i%layout.columns)*cs, cy = sy + (i/layout.columns)*cs;
             if (cy+cs < ct || cy > cb) continue;
+            int hoverIdx = input.GetHoverIndex();
+            if (input.IsHovering() && input.GetHoverZone() == Zone::ResultsGrid &&
+                static_cast<int>(i) == hoverIdx && static_cast<int>(i) != sel) {
+                m_renderer->DrawRoundedRect({cx+2,cy+2,cs-4,cs-4}, 4.0f, colors.hover);
+            }
             if (static_cast<int>(i) == sel)
                 m_renderer->DrawRoundedRect({cx+2,cy+2,cs-4,cs-4}, 4.0f, colors.selected);
-            // Favorited indicator
             if (m_favoritesManager && m_favoritesManager->IsFavorite(*res[i].symbol))
                 m_renderer->DrawText(L"\u2605", {cx+2, cy+2, 14.0f*dpi, 14.0f*dpi}, m_renderer->GetTextFormat(tf), 0xFFFFD700);
             m_renderer->DrawTextCentered(res[i].symbol->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf),
@@ -371,7 +380,7 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 // Only drag on background areas (not on search bar, grid, categories, strips)
                 auto hitR = [](const RectF& r, float x, float y) { return x>=r.x && x<r.x+r.width && y>=r.y && y<r.y+r.height; };
                 if (!hitR(lo.searchBar, mx, my) && !hitR(lo.resultsGrid, mx, my) &&
-                    !hitR(lo.categoryBar, mx, my) && !hitR(lo.recentGrid, mx, my) &&
+                    !hitR(lo.recentGrid, mx, my) &&
                     !hitR(lo.favoritesGrid, mx, my) && !hitR(lo.statusBar, mx, my))
                     return HTCAPTION;
             }
@@ -393,6 +402,10 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             app->m_animation->Update(8.0f);
             InvalidateRect(hwnd, nullptr, FALSE);
             if (!app->m_animation->IsActive()) KillTimer(hwnd, 1);
+        } else if (wp == 2 && app) {
+            app->m_cursorVisible = !app->m_cursorVisible;
+            // Only invalidate search bar area to minimize repaint
+            InvalidateRect(hwnd, nullptr, FALSE);
         } else if (wp == 3 && app) {
             KillTimer(hwnd, 3);
             app->m_inserting = false;
@@ -403,14 +416,35 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
+        {
         if (app && app->m_inputHandler && app->m_visible) {
             bool ctrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
             bool shift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 
-            // Ctrl+C: copy selected symbol to clipboard
+            // Ctrl+C: copy selection, query, or symbol
             if (ctrl && wp == 'C') {
-                auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
-                if (sym) CopyToClipboard(sym->symbol);
+                if (app->m_inputHandler->GetActiveZone() == Zone::SearchBar) {
+                    if (app->m_inputHandler->HasSelection())
+                        CopyToClipboard(app->m_inputHandler->GetSelection());
+                    else if (!app->m_inputHandler->GetQuery().empty())
+                        CopyToClipboard(app->m_inputHandler->GetQuery());
+                } else {
+                    auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
+                    if (sym) CopyToClipboard(sym->symbol);
+                }
+                return 0;
+            }
+            // Ctrl+X: cut selection or all text
+            if (ctrl && wp == 'X' && app->m_inputHandler->GetActiveZone() == Zone::SearchBar) {
+                if (app->m_inputHandler->HasSelection()) {
+                    CopyToClipboard(app->m_inputHandler->GetSelection());
+                    app->m_inputHandler->CutSelection();
+                } else if (!app->m_inputHandler->GetQuery().empty()) {
+                    CopyToClipboard(app->m_inputHandler->GetQuery());
+                    app->m_inputHandler->Reset();
+                }
+                app->m_inputHandler->RefreshResults();
+                InvalidateRect(hwnd, nullptr, FALSE);
                 return 0;
             }
             // Ctrl+D: toggle favorite
@@ -425,6 +459,22 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 }
                 return 0;
             }
+            // Ctrl+V: paste into search bar
+            if (ctrl && wp == 'V') {
+                if (OpenClipboard(nullptr)) {
+                    HANDLE hData = GetClipboardData(CF_UNICODETEXT);
+                    if (hData) {
+                        wchar_t* pText = static_cast<wchar_t*>(GlobalLock(hData));
+                        if (pText) {
+                            app->m_inputHandler->AppendToQuery(pText);
+                            GlobalUnlock(hData);
+                            InvalidateRect(hwnd, nullptr, FALSE);
+                        }
+                    }
+                    CloseClipboard();
+                }
+                return 0;
+            }
             // Ctrl+W / Escape: close
             if (ctrl && wp == 'W') { app->HidePanel(); return 0; }
 
@@ -436,7 +486,7 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             }
         }
         break;
-
+        }
     case WM_CHAR:
         if (app && app->m_inputHandler && app->m_visible) {
             app->m_inputHandler->HandleChar(static_cast<wchar_t>(wp));
@@ -497,6 +547,20 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 }
                 DestroyMenu(menu);
             }
+            return 0;
+        }
+        break;
+
+
+    case WM_MOUSEMOVE:
+        if (app && app->m_inputHandler && app->m_visible) {
+            bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
+            bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
+            RECT cr; GetClientRect(hwnd, &cr);
+            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
+                app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
+            app->m_inputHandler->HandleMouseMove(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
+            InvalidateRect(hwnd, nullptr, FALSE);
             return 0;
         }
         break;

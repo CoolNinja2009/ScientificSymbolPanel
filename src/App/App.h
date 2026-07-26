@@ -84,6 +84,7 @@ private:
     bool m_visible = false;
     float m_dpiScale = 1.0f;
     bool m_inserting = false;       // True during focus-yield insert (don't hide on deactivate)
+    bool m_cursorVisible = true;    // Blinking cursor in search bar
 
     Config m_config;
     std::unique_ptr<SymbolDatabase> m_database;

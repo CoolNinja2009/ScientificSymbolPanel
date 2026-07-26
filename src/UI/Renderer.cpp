@@ -203,6 +203,31 @@ void Renderer::DrawText(std::wstring_view text, const RectF& rect,
     );
 }
 
+float Renderer::MeasureTextWidth(std::wstring_view text, IDWriteTextFormat* format,
+                                  int upToChars) const {
+    if (!m_dwriteFactory || !format || text.empty()) return 0.0f;
+
+    int count = (upToChars < 0) ? static_cast<int>(text.size()) : upToChars;
+    if (count <= 0) return 0.0f;
+    if (count > static_cast<int>(text.size())) count = static_cast<int>(text.size());
+
+    IDWriteTextLayout* rawLayout = nullptr;
+    HRESULT hr = m_dwriteFactory->CreateTextLayout(
+        text.data(),
+        static_cast<UINT32>(count),
+        format,
+        10000.0f,  // max width
+        10000.0f,  // max height
+        &rawLayout
+    );
+    if (FAILED(hr) || !rawLayout) return 0.0f;
+
+    DWRITE_TEXT_METRICS metrics;
+    rawLayout->GetMetrics(&metrics);
+    rawLayout->Release();
+    return metrics.width;
+}
+
 void Renderer::DrawTextCentered(std::wstring_view text, const RectF& rect,
                                  IDWriteTextFormat* format, uint32_t color) {
     if (!m_renderTarget || !format || !m_dwriteFactory) return;

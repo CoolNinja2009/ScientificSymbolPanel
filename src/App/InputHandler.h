@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <memory>
 
 namespace ssp {
 
@@ -12,6 +13,7 @@ class SymbolDatabase;
 class RecentManager;
 class FavoritesManager;
 struct PanelLayout;
+struct TextEditState;
 
 // ============================================================================
 // Zone — which UI region currently has keyboard focus
@@ -31,6 +33,7 @@ enum class Zone : uint8_t {
 class InputHandler {
 public:
     InputHandler();
+    ~InputHandler();
 
     // --- Dependencies (set once after construction) ---
     void SetSearchEngine(SearchEngine* se)     { m_searchEngine = se; }
@@ -65,6 +68,15 @@ public:
     // --- Lifecycle ---
     void Reset();           // Called when panel opens / resets to defaults
     void RefreshResults();  // Re-run search after external change
+
+    // --- Text editing (delegates to stb_textedit) ---
+    void AppendToQuery(const std::wstring& text);  // Paste support
+    int  GetCursorPos() const;                     // For cursor rendering
+    bool HasSelection() const;
+    int  GetSelectStart() const;
+    int  GetSelectEnd() const;
+    std::wstring GetSelection() const;
+    void CutSelection();
 
     // --- State queries (read by Renderer) ---
     Zone GetActiveZone() const               { return m_activeZone; }
@@ -109,6 +121,8 @@ private:
     int         m_hoverIndex     = -1;   // -1 = not hovering
     Zone        m_hoverZone      = Zone::SearchBar;
 
+    // Text editing state (stb_textedit) — opaque, managed via factory
+    TextEditState* m_textEdit = nullptr;
     // Cached query results
     std::vector<SearchResult>  m_results;
     std::vector<const Symbol*> m_filteredSymbols; // category-only view (no query)

@@ -45,6 +45,9 @@ public:
     void DrawRoundedRect(const RectF& rect, float radius, uint32_t color);
     void DrawLine(const PointF& p0, const PointF& p1, uint32_t color,
                   float width = 1.0f);
+    // Measure text width up to a given character count (-1 = full string)
+    float MeasureTextWidth(std::wstring_view text, IDWriteTextFormat* format,
+                           int upToChars = -1) const;
 
     // Text format management
     std::wstring CreateTextFormat(const wchar_t* fontName, float fontSize,

@@ -398,7 +398,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Platform\Win32.h" />
     <ClCompile Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\SearchEngine.cpp" />
     <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\SearchEngine.h" />
+    <ClCompile Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\TextEdit.cpp" />
+    <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\TextEdit.h" />
     <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\Trie.h" />
+    <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Search\stb_textedit.h" />
     <ClCompile Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\Favorites.cpp" />
     <ClInclude Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\Favorites.h" />
     <ClCompile Include="C:\Users\cooln\Documents\Scientific Keyboard\ScientificSymbolPanel\src\Storage\JsonStore.cpp" />

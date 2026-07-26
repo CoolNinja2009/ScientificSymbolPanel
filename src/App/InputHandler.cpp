@@ -5,6 +5,7 @@
 #include "Storage/Recent.h"
 #include "Symbols/Converters.h"
 #include "UI/Layout.h"
+#include "Search/TextEdit.h"
 #include <algorithm>
 
 // Use actual includes instead of forward declarations
@@ -20,13 +21,16 @@ namespace ssp {
 static constexpr int kVisibleCategories = 9;   // Ctrl+1..9 map
 
 // ============================================================================
-// Construction
+// Construction / Destruction
 // ============================================================================
 
-InputHandler::InputHandler() = default;
+InputHandler::InputHandler()
+{
+    m_textEdit = TextEdit_Create();
+    TextEdit_SetString(m_textEdit, &m_query);
+}
 
-// ============================================================================
-// Reset
+InputHandler::~InputHandler() { TextEdit_Destroy(m_textEdit); }
 // ============================================================================
 
 void InputHandler::Reset() {
@@ -38,6 +42,8 @@ void InputHandler::Reset() {
     m_scrollOffset   = 0.0f;
     m_results.clear();
     m_filteredSymbols.clear();
+    TextEdit_Init(m_textEdit);
+    TextEdit_SetString(m_textEdit, &m_query);
     PerformSearch();
 }
 
@@ -48,6 +54,25 @@ void InputHandler::Reset() {
 void InputHandler::RefreshResults() {
     PerformSearch();
 }
+
+// ============================================================================
+// Text editing (stb_textedit delegates)
+// ============================================================================
+
+void InputHandler::AppendToQuery(const std::wstring& text) {
+    TextEdit_Paste(m_textEdit, text);
+    m_activeZone = Zone::SearchBar;
+    m_selectedIndex = 0;
+    m_scrollOffset = 0.0f;
+    PerformSearch();
+}
+
+int InputHandler::GetCursorPos() const    { return TextEdit_GetCursor(m_textEdit); }
+bool InputHandler::HasSelection() const   { return TextEdit_HasSelection(m_textEdit); }
+int InputHandler::GetSelectStart() const  { return TextEdit_GetSelectStart(m_textEdit); }
+int InputHandler::GetSelectEnd() const    { return TextEdit_GetSelectEnd(m_textEdit); }
+std::wstring InputHandler::GetSelection() const { return TextEdit_GetSelection(m_textEdit); }
+void InputHandler::CutSelection()         { TextEdit_Cut(m_textEdit); }
 
 // ============================================================================
 // Search
@@ -62,8 +87,7 @@ void InputHandler::PerformSearch() {
     const auto& allSymbols = m_database->GetSymbols();
 
     if (m_query.empty()) {
-        // No query: show by category or all. Populate BOTH m_results (for renderer)
-        // and m_filteredSymbols (for category-only filtering).
+        // No query: show by category or all
         if (m_allCategories) {
             m_results.reserve(allSymbols.size());
             m_filteredSymbols.reserve(allSymbols.size());
@@ -119,10 +143,8 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
     if (ctrl && vk >= '0' && vk <= '9') {
         int idx = static_cast<int>(vk - '0');
         if (idx == 0) {
-            // Ctrl+0 → all categories
             m_allCategories = true;
         } else if (idx <= kVisibleCategories) {
-            // Ctrl+1..9 → specific category
             m_allCategories = false;
             m_categoryFilter = static_cast<Category>(idx - 1);
         }
@@ -157,32 +179,47 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
     switch (m_activeZone) {
 
     case Zone::SearchBar: {
-        if (vk == VK_BACK) {
-            if (!m_query.empty()) {
-                m_query.pop_back();
-                m_selectedIndex = 0;
-                m_scrollOffset = 0.0f;
-                PerformSearch();
-                if (m_onInvalidate) m_onInvalidate();
-            }
+        // Ctrl+Backspace: delete word left
+        if (vk == VK_BACK && ctrl && !m_query.empty()) {
+            int pos = static_cast<int>(GetCursorPos());
+            int start = pos;
+            while (start > 0 && std::iswspace(m_query[start - 1])) start--;
+            while (start > 0 && !std::iswspace(m_query[start - 1])) start--;
+            m_query.erase(start, pos - start);
+            TextEdit_Init(m_textEdit); TextEdit_SetString(m_textEdit, &m_query);
+            m_selectedIndex = 0; m_scrollOffset = 0.0f;
+            PerformSearch();
+            if (m_onInvalidate) m_onInvalidate();
             return true;
         }
-        if (vk == VK_DELETE) {
-            // Delete acts like Backspace in search (no cursor selection)
-            if (!m_query.empty()) {
-                m_query.pop_back();
-                m_selectedIndex = 0;
-                m_scrollOffset = 0.0f;
-                PerformSearch();
-                if (m_onInvalidate) m_onInvalidate();
-            }
+        // Ctrl+Delete: delete word right
+        if (vk == VK_DELETE && ctrl && GetCursorPos() < static_cast<int>(m_query.size())) {
+            int pos = static_cast<int>(GetCursorPos());
+            int end = pos;
+            while (end < static_cast<int>(m_query.size()) && !std::iswspace(m_query[end])) end++;
+            while (end < static_cast<int>(m_query.size()) && std::iswspace(m_query[end])) end++;
+            m_query.erase(pos, end - pos);
+            TextEdit_Init(m_textEdit); TextEdit_SetString(m_textEdit, &m_query);
+            m_selectedIndex = 0; m_scrollOffset = 0.0f;
+            if (m_onInvalidate) m_onInvalidate();
+            return true;
+        }
+        // Delegate to stb_textedit for text editing keys
+        if (vk == VK_BACK || vk == VK_DELETE ||
+            vk == VK_LEFT || vk == VK_RIGHT ||
+            vk == VK_HOME || vk == VK_END) {
+            TextEdit_Key(m_textEdit, (int)vk, ctrl, shift);
+            m_selectedIndex = 0;
+            m_scrollOffset = 0.0f;
+            PerformSearch();
+            if (m_onInvalidate) m_onInvalidate();
             return true;
         }
         if (vk == VK_RETURN) {
             ExecuteAction(hasRecent, hasFavorites);
             return true;
         }
-        // Arrow keys in search bar: switch to results if there are any
+        // Arrow keys: switch to results if there are any
         if (vk == VK_DOWN || vk == VK_UP) {
             size_t total = m_query.empty() ? m_filteredSymbols.size() : m_results.size();
             if (total > 0) {
@@ -199,24 +236,22 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
         size_t total = m_query.empty() ? m_filteredSymbols.size() : m_results.size();
         if (total == 0) break;
 
-        // Grid column count from layout (updated via UpdateLayoutInfo)
         int cols = m_gridColumns;
 
         switch (vk) {
         case VK_LEFT:
             if (m_selectedIndex > 0) m_selectedIndex--;
-            else m_selectedIndex = total - 1;  // wrap
+            else m_selectedIndex = total - 1;
             break;
         case VK_RIGHT:
             if (m_selectedIndex + 1 < total) m_selectedIndex++;
-            else m_selectedIndex = 0;  // wrap
+            else m_selectedIndex = 0;
             break;
         case VK_UP: {
             size_t row = m_selectedIndex / cols;
             if (row > 0) {
                 m_selectedIndex = std::min(m_selectedIndex - cols, total - 1);
             } else {
-                // Wrap to last row, same column
                 size_t col = m_selectedIndex % cols;
                 size_t lastRow = (total - 1) / cols;
                 size_t candidate = lastRow * cols + col;
@@ -229,7 +264,6 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             if (candidate < total) {
                 m_selectedIndex = candidate;
             } else {
-                // Wrap to first row, same column
                 m_selectedIndex = m_selectedIndex % cols;
                 if (m_selectedIndex >= total) m_selectedIndex = 0;
             }
@@ -244,12 +278,12 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
         case VK_END:
             m_selectedIndex = total - 1;
             break;
-        case VK_PRIOR: { // PageUp
+        case VK_PRIOR: {
             size_t step = static_cast<size_t>(m_visibleRows) * cols;
             m_selectedIndex = (m_selectedIndex >= step) ? m_selectedIndex - step : 0;
             break;
         }
-        case VK_NEXT: { // PageDown
+        case VK_NEXT: {
             size_t step = static_cast<size_t>(m_visibleRows) * cols;
             m_selectedIndex = std::min(m_selectedIndex + step, total - 1);
             break;
@@ -259,8 +293,6 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             return false;
         }
 
-        // Auto-scroll to keep selected item visible
-        // (scrolling is refined during rendering; we just flag invalidate)
         if (m_onInvalidate) m_onInvalidate();
         return true;
     }
@@ -287,7 +319,6 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             if (m_onInvalidate) m_onInvalidate();
             return true;
         case VK_RETURN:
-            // Apply category and move to results
             m_allCategories = false;
             m_selectedIndex = 0;
             m_scrollOffset = 0.0f;
@@ -368,12 +399,9 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
 // ============================================================================
 
 bool InputHandler::HandleChar(wchar_t ch) {
-    // Only printable characters are appended to search
-    if (ch < L' ' || ch == 127) return false; // control chars
+    if (ch < L' ' || ch == 127) return false;
 
-    // Always append to search query regardless of zone
-    // (switches focus to search bar implicitly)
-    m_query.push_back(ch);
+    TextEdit_Char(m_textEdit, ch);
     m_activeZone = Zone::SearchBar;
     m_selectedIndex = 0;
     m_scrollOffset = 0.0f;
@@ -392,7 +420,6 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
     float fx = static_cast<float>(x);
     float fy = static_cast<float>(y);
 
-    // Hit-test zones in priority order (front to back)
     auto hit = [](const RectF& r, float px, float py) -> bool {
         return px >= r.x && px < r.x + r.width &&
                py >= r.y && py < r.y + r.height;
@@ -401,11 +428,12 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
     // 1. Search bar
     if (hit(layout.searchBar, fx, fy)) {
         m_activeZone = Zone::SearchBar;
+        TextEdit_Click(m_textEdit, fx - layout.searchBar.x - 12.0f);
         if (m_onInvalidate) m_onInvalidate();
         return true;
     }
 
-    // 2. Category bar — determine which category was clicked
+    // 2. Category bar
     if (hit(layout.categoryBar, fx, fy)) {
         int numCats = static_cast<int>(Category::COUNT);
         int catIdx = HitTestCategory(fx - layout.categoryBar.x, layout.categoryBar, numCats);
@@ -420,7 +448,7 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
         return true;
     }
 
-    // 3. Results grid — determine which cell was clicked
+    // 3. Results grid
     if (hit(layout.resultsGrid, fx, fy)) {
         size_t total = m_query.empty() ? m_filteredSymbols.size() : m_results.size();
         if (total > 0 && layout.cellSize > 0 && layout.columns > 0) {
@@ -434,7 +462,6 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
                 return true;
             }
         }
-        // Even if no cell hit, focus the zone
         m_activeZone = Zone::ResultsGrid;
         if (m_onInvalidate) m_onInvalidate();
         return true;
@@ -480,9 +507,7 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
 
     return false;
 }
-
-bool InputHandler::HandleMouseWheel(int delta, int x, int y,
-                                     const PanelLayout& layout) {
+bool InputHandler::HandleMouseWheel(int delta, int x, int y, const PanelLayout& layout) {
     float fx = static_cast<float>(x);
     float fy = static_cast<float>(y);
 
@@ -494,13 +519,11 @@ bool InputHandler::HandleMouseWheel(int delta, int x, int y,
     // Only scroll if over results grid
     if (!hit(layout.resultsGrid, fx, fy)) return false;
 
-    // WHEEL_DELTA = 120 per notch. Convert to pixel scroll.
-    float scrollAmount = delta / static_cast<float>(WHEEL_DELTA) * kSymbolCellSize * 2.0f;
+    float scrollAmount = static_cast<float>(delta) / static_cast<float>(WHEEL_DELTA) * kSymbolCellSize * 2.0f;
     ScrollBy(-scrollAmount);
     if (m_onInvalidate) m_onInvalidate();
     return true;
 }
-
 void InputHandler::HandleMouseMove(int x, int y, const PanelLayout& layout,
                                     bool hasRecent, bool hasFavorites) {
     float fx = static_cast<float>(x);
@@ -569,8 +592,6 @@ void InputHandler::HandleMouseMove(int x, int y, const PanelLayout& layout,
 // ============================================================================
 
 void InputHandler::CycleZone(bool forward, bool hasRecent, bool hasFavorites) {
-    // Zone order: SearchBar → RecentStrip → FavoritesStrip → CategoryBar → ResultsGrid
-    // Skip RecentStrip/FavoritesStrip if empty
     static constexpr Zone kOrder[] = {
         Zone::SearchBar, Zone::RecentStrip, Zone::FavoritesStrip,
         Zone::CategoryBar, Zone::ResultsGrid
@@ -612,49 +633,37 @@ void InputHandler::UpdateLayoutInfo(int gridColumns, int visibleRows, float maxS
 // ============================================================================
 
 void InputHandler::ExecuteAction(bool hasRecent, bool hasFavorites) {
+    (void)hasRecent; (void)hasFavorites;
     switch (m_activeZone) {
     case Zone::SearchBar: {
-        // If query matches a converter, use the converted text
         if (!m_query.empty()) {
-            // Try converters in priority order
             std::wstring converted;
 
-            // Scientific notation: "6.02e23" → "6.02 × 10²³"
             converted = ScientificConverter::Convert(m_query);
             if (!converted.empty() && converted != m_query) {
                 if (m_onInsert) m_onInsert(converted);
                 return;
             }
-
-            // LaTeX: "\\pi" → "π"
             converted = LaTeXConverter::Convert(m_query);
             if (!converted.empty() && converted != m_query) {
                 if (m_onInsert) m_onInsert(converted);
                 return;
             }
-
-            // Superscript: "x^2" → "x²"
             converted = SuperscriptBuilder::Convert(m_query);
             if (!converted.empty() && converted != m_query) {
                 if (m_onInsert) m_onInsert(converted);
                 return;
             }
-
-            // Subscript: "H2O" → "H₂O"
             converted = SubscriptBuilder::Convert(m_query);
             if (!converted.empty() && converted != m_query) {
                 if (m_onInsert) m_onInsert(converted);
                 return;
             }
-
-            // Fraction: "1/2" → "½"
             converted = FractionBuilder::Convert(m_query);
             if (!converted.empty() && converted != m_query) {
                 if (m_onInsert) m_onInsert(converted);
                 return;
             }
-
-            // No converter matched — insert the raw text
             if (m_onInsert) m_onInsert(m_query);
             return;
         }
@@ -684,7 +693,6 @@ void InputHandler::ExecuteAction(bool hasRecent, bool hasFavorites) {
         break;
 
     case Zone::CategoryBar:
-        // Apply category filter and move to results
         m_allCategories = false;
         m_selectedIndex = 0;
         m_scrollOffset = 0.0f;
@@ -709,12 +717,7 @@ void InputHandler::InsertSelectedResult() {
     } else {
         sym = m_results[m_selectedIndex].symbol;
     }
-
     if (sym && m_onInsert) {
-        // Add to recents before inserting
-        if (m_recentManager) {
-            m_recentManager->Add(*sym);
-        }
         m_onInsert(sym->symbol);
     }
 }
