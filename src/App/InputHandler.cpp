@@ -226,7 +226,12 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             size_t total = m_query.empty() ? m_filteredSymbols.size() : m_results.size();
             if (total > 0) {
                 m_activeZone = Zone::ResultsGrid;
-                m_selectedIndex = (vk == VK_DOWN) ? 0 : total - 1;
+                if (vk == VK_DOWN) {
+                    m_selectedIndex = 0;
+                    m_scrollOffset = 0.0f;
+                } else {
+                    m_selectedIndex = total - 1;
+                }
                 EnsureSelectionVisible();
                 if (m_onInvalidate) m_onInvalidate();
             }
@@ -473,7 +478,7 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
             if (cellIdx >= 0 && static_cast<size_t>(cellIdx) < total) {
                 m_selectedIndex = static_cast<size_t>(cellIdx);
                 m_activeZone = Zone::ResultsGrid;
-                if (m_onInvalidate) m_onInvalidate();
+                InsertSelectedResult();
                 return true;
             }
         }
@@ -493,7 +498,7 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
                 if (idx >= 0 && idx < n) {
                     m_selectedIndex = static_cast<size_t>(idx);
                     m_activeZone = Zone::RecentStrip;
-                    if (m_onInvalidate) m_onInvalidate();
+                    ExecuteAction(hasRecent, hasFavorites);
                     return true;
                 }
             }
@@ -514,7 +519,7 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
                 if (idx >= 0 && idx < n) {
                     m_selectedIndex = static_cast<size_t>(idx);
                     m_activeZone = Zone::FavoritesStrip;
-                    if (m_onInvalidate) m_onInvalidate();
+                    ExecuteAction(hasRecent, hasFavorites);
                     return true;
                 }
             }
@@ -531,12 +536,6 @@ bool InputHandler::HandleMouseDoubleClick(int x, int y, const PanelLayout& layou
                                            bool hasRecent, bool hasFavorites) {
     if (!HandleMouseDown(x, y, layout, hasRecent, hasFavorites)) {
         return false;
-    }
-
-    if (m_activeZone == Zone::ResultsGrid ||
-        m_activeZone == Zone::RecentStrip ||
-        m_activeZone == Zone::FavoritesStrip) {
-        ExecuteAction(hasRecent, hasFavorites);
     }
 
     return true;

@@ -379,8 +379,8 @@ void App::RenderFrame() {
     // Status bar
     if (layout.statusBar.height > 0) {
         wchar_t buf[128]; const auto& q = input.GetQuery();
-        if (!q.empty()) swprintf_s(buf, L"%zu results \u2022 Ctrl+C copy \u2022 Ctrl+D fav \u2022 DblClick insert+close", input.GetResults().size());
-        else swprintf_s(buf, L"%zu symbols \u2022 Alt+A toggle \u2022 Drag to move", m_database->GetSymbols().size());
+        if (!q.empty()) swprintf_s(buf, L"%zu results \u2022 Click insert \u2022 Ctrl+C copy \u2022 Ctrl+D fav", input.GetResults().size());
+        else swprintf_s(buf, L"%zu symbols \u2022 Click insert \u2022 Alt+A toggle", m_database->GetSymbols().size());
         m_renderer->DrawText(buf, {layout.statusBar.x+8,layout.statusBar.y,layout.statusBar.width,layout.statusBar.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
     }
 
