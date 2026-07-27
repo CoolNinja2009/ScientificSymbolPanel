@@ -1,0 +1,51 @@
+# Build output
+build/
+build-*/
+out/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln
+*.vcxproj*
+CMakeUserPresets.json
+
+# Object and binary files
+*.obj
+*.exe
+*.ilk
+*.pdb
+*.lib
+*.dll
+*.exp
+*.res
+*.manifest
+*.modmap
+
+# Intermediate files
+*.ddi
+*.ddi.d
+*.ddi.i
+*.i
+
+# CMake generated
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+.ninja_*
+
+# Archives
+*.zip
+*.7z
+*.tar.gz
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Project-specific
+vision.md

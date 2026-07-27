@@ -1,7 +1,0 @@
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/SSP.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/edit_cache.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/rebuild_cache.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/list_install_components.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/install.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/install/local.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/install/strip.dir

@@ -1,6 +1,0 @@
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/SSP.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/edit_cache.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/rebuild_cache.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/list_install_components.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/install.dir
-C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/install/local.dir
