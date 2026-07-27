@@ -151,6 +151,7 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
         m_selectedIndex = 0;
         m_scrollOffset = 0.0f;
         PerformSearch();
+        EnsureSelectionVisible();
         if (m_onInvalidate) m_onInvalidate();
         return true;
     }
@@ -201,6 +202,7 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             m_query.erase(pos, end - pos);
             TextEdit_Init(m_textEdit); TextEdit_SetString(m_textEdit, &m_query);
             m_selectedIndex = 0; m_scrollOffset = 0.0f;
+            PerformSearch();
             if (m_onInvalidate) m_onInvalidate();
             return true;
         }
@@ -225,6 +227,7 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             if (total > 0) {
                 m_activeZone = Zone::ResultsGrid;
                 m_selectedIndex = (vk == VK_DOWN) ? 0 : total - 1;
+                EnsureSelectionVisible();
                 if (m_onInvalidate) m_onInvalidate();
             }
             return true;
@@ -293,12 +296,13 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             return false;
         }
 
+        EnsureSelectionVisible();
         if (m_onInvalidate) m_onInvalidate();
         return true;
     }
 
     case Zone::CategoryBar: {
-        int numCats = static_cast<int>(Category::COUNT);
+        int numCats = kVisibleCategories;
         switch (vk) {
         case VK_LEFT:
             m_categoryFilter = static_cast<Category>(
@@ -350,7 +354,10 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             return true;
         case VK_RETURN:
             if (m_selectedIndex < n && m_onInsert) {
-                m_onInsert(recents[m_selectedIndex]->symbol);
+                const Symbol* sym = recents[m_selectedIndex];
+                std::wstring text = sym->symbol;
+                if (m_recentManager) m_recentManager->Add(*sym);
+                m_onInsert(text);
             }
             return true;
 
@@ -377,6 +384,7 @@ bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
             return true;
         case VK_RETURN:
             if (m_selectedIndex < n && m_onInsert) {
+                if (m_recentManager) m_recentManager->Add(*favs[m_selectedIndex]);
                 m_onInsert(favs[m_selectedIndex]->symbol);
             }
             return true;
@@ -435,11 +443,17 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
 
     // 2. Category bar
     if (hit(layout.categoryBar, fx, fy)) {
-        int numCats = static_cast<int>(Category::COUNT);
+        int numCats = kVisibleCategories + 1;
         int catIdx = HitTestCategory(fx - layout.categoryBar.x, layout.categoryBar, numCats);
-        if (catIdx >= 0 && catIdx < numCats) {
+        if (catIdx == 0) {
+            m_allCategories = true;
+            m_selectedIndex = 0;
+            m_scrollOffset = 0.0f;
+            PerformSearch();
+            if (m_onInvalidate) m_onInvalidate();
+        } else if (catIdx > 0 && catIdx <= kVisibleCategories) {
             m_allCategories = false;
-            m_categoryFilter = static_cast<Category>(catIdx);
+            m_categoryFilter = static_cast<Category>(catIdx - 1);
             m_selectedIndex = 0;
             m_scrollOffset = 0.0f;
             PerformSearch();
@@ -458,7 +472,8 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
                 layout.resultsGrid, layout.cellSize, layout.columns);
             if (cellIdx >= 0 && static_cast<size_t>(cellIdx) < total) {
                 m_selectedIndex = static_cast<size_t>(cellIdx);
-                InsertSelectedResult();
+                m_activeZone = Zone::ResultsGrid;
+                if (m_onInvalidate) m_onInvalidate();
                 return true;
             }
         }
@@ -474,9 +489,11 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
             int n = static_cast<int>(recents.size());
             if (n > 0) {
                 int idx = HitTestStripItem(fx - layout.recentGrid.x,
-                    layout.recentGrid, kSymbolCellSize, n);
-                if (idx >= 0 && idx < n && m_onInsert) {
-                    m_onInsert(recents[idx]->symbol);
+                    layout.recentGrid, layout.cellSize, n);
+                if (idx >= 0 && idx < n) {
+                    m_selectedIndex = static_cast<size_t>(idx);
+                    m_activeZone = Zone::RecentStrip;
+                    if (m_onInvalidate) m_onInvalidate();
                     return true;
                 }
             }
@@ -493,9 +510,11 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
             int n = static_cast<int>(favs.size());
             if (n > 0) {
                 int idx = HitTestStripItem(fx - layout.favoritesGrid.x,
-                    layout.favoritesGrid, kSymbolCellSize, n);
-                if (idx >= 0 && idx < n && m_onInsert) {
-                    m_onInsert(favs[idx]->symbol);
+                    layout.favoritesGrid, layout.cellSize, n);
+                if (idx >= 0 && idx < n) {
+                    m_selectedIndex = static_cast<size_t>(idx);
+                    m_activeZone = Zone::FavoritesStrip;
+                    if (m_onInvalidate) m_onInvalidate();
                     return true;
                 }
             }
@@ -507,6 +526,22 @@ bool InputHandler::HandleMouseDown(int x, int y, const PanelLayout& layout,
 
     return false;
 }
+
+bool InputHandler::HandleMouseDoubleClick(int x, int y, const PanelLayout& layout,
+                                           bool hasRecent, bool hasFavorites) {
+    if (!HandleMouseDown(x, y, layout, hasRecent, hasFavorites)) {
+        return false;
+    }
+
+    if (m_activeZone == Zone::ResultsGrid ||
+        m_activeZone == Zone::RecentStrip ||
+        m_activeZone == Zone::FavoritesStrip) {
+        ExecuteAction(hasRecent, hasFavorites);
+    }
+
+    return true;
+}
+
 bool InputHandler::HandleMouseWheel(int delta, int x, int y, const PanelLayout& layout) {
     float fx = static_cast<float>(x);
     float fy = static_cast<float>(y);
@@ -519,7 +554,7 @@ bool InputHandler::HandleMouseWheel(int delta, int x, int y, const PanelLayout& 
     // Only scroll if over results grid
     if (!hit(layout.resultsGrid, fx, fy)) return false;
 
-    float scrollAmount = static_cast<float>(delta) / static_cast<float>(WHEEL_DELTA) * kSymbolCellSize * 2.0f;
+    float scrollAmount = static_cast<float>(delta) / static_cast<float>(WHEEL_DELTA) * layout.cellSize * 2.0f;
     ScrollBy(-scrollAmount);
     if (m_onInvalidate) m_onInvalidate();
     return true;
@@ -559,7 +594,7 @@ void InputHandler::HandleMouseMove(int x, int y, const PanelLayout& layout,
             int n = static_cast<int>(m_recentManager->GetRecent().size());
             if (n > 0) {
                 int idx = HitTestStripItem(fx - layout.recentGrid.x,
-                    layout.recentGrid, kSymbolCellSize, n);
+                    layout.recentGrid, layout.cellSize, n);
                 if (idx >= 0 && idx < n) m_hoverIndex = idx;
             }
         }
@@ -573,7 +608,7 @@ void InputHandler::HandleMouseMove(int x, int y, const PanelLayout& layout,
             int n = static_cast<int>(m_favoritesManager->GetFavorites().size());
             if (n > 0) {
                 int idx = HitTestStripItem(fx - layout.favoritesGrid.x,
-                    layout.favoritesGrid, kSymbolCellSize, n);
+                    layout.favoritesGrid, layout.cellSize, n);
                 if (idx >= 0 && idx < n) m_hoverIndex = idx;
             }
         }
@@ -621,10 +656,30 @@ void InputHandler::ScrollBy(float delta) {
     if (m_scrollOffset > m_maxScroll) m_scrollOffset = m_maxScroll;
 }
 
-void InputHandler::UpdateLayoutInfo(int gridColumns, int visibleRows, float maxScroll) {
+void InputHandler::EnsureSelectionVisible() {
+    if (m_cellSize <= 0.0f || m_gridColumns <= 0 || m_visibleRows <= 0) return;
+
+    size_t row = m_selectedIndex / static_cast<size_t>(m_gridColumns);
+    float rowTop = static_cast<float>(row) * m_cellSize;
+    float rowBottom = rowTop + m_cellSize;
+    float viewTop = m_scrollOffset;
+    float viewBottom = viewTop + static_cast<float>(m_visibleRows) * m_cellSize;
+
+    if (rowTop < viewTop) {
+        m_scrollOffset = rowTop;
+    } else if (rowBottom > viewBottom) {
+        m_scrollOffset = rowBottom - static_cast<float>(m_visibleRows) * m_cellSize;
+    }
+
+    if (m_scrollOffset < 0.0f) m_scrollOffset = 0.0f;
+    if (m_scrollOffset > m_maxScroll) m_scrollOffset = m_maxScroll;
+}
+
+void InputHandler::UpdateLayoutInfo(int gridColumns, int visibleRows, float maxScroll, float cellSize) {
     m_gridColumns = std::max(1, gridColumns);
     m_visibleRows = std::max(1, visibleRows);
     m_maxScroll   = std::max(0.0f, maxScroll);
+    m_cellSize     = std::max(1.0f, cellSize);
     if (m_scrollOffset > m_maxScroll) m_scrollOffset = m_maxScroll;
 }
 
@@ -678,7 +733,10 @@ void InputHandler::ExecuteAction(bool hasRecent, bool hasFavorites) {
         if (m_recentManager) {
             const auto& recents = m_recentManager->GetRecent();
             if (m_selectedIndex < recents.size() && m_onInsert) {
-                m_onInsert(recents[m_selectedIndex]->symbol);
+                const Symbol* sym = recents[m_selectedIndex];
+                std::wstring text = sym->symbol;
+                m_recentManager->Add(*sym);
+                m_onInsert(text);
             }
         }
         break;
@@ -687,6 +745,7 @@ void InputHandler::ExecuteAction(bool hasRecent, bool hasFavorites) {
         if (m_favoritesManager) {
             const auto& favs = m_favoritesManager->GetFavorites();
             if (m_selectedIndex < favs.size() && m_onInsert) {
+                if (m_recentManager) m_recentManager->Add(*favs[m_selectedIndex]);
                 m_onInsert(favs[m_selectedIndex]->symbol);
             }
         }
@@ -718,6 +777,7 @@ void InputHandler::InsertSelectedResult() {
         sym = m_results[m_selectedIndex].symbol;
     }
     if (sym && m_onInsert) {
+        if (m_recentManager) m_recentManager->Add(*sym);
         m_onInsert(sym->symbol);
     }
 }

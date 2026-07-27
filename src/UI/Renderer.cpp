@@ -59,14 +59,10 @@ bool Renderer::Initialize() {
 bool Renderer::CreateRenderTarget() {
     if (m_width == 0 || m_height == 0) return false;
 
-    UINT dpi = GetDpiForWindow(m_hwnd);
-    float dpiX = static_cast<float>(dpi);
-    float dpiY = static_cast<float>(dpi);
-
     auto props = D2D1::RenderTargetProperties(
         D2D1_RENDER_TARGET_TYPE_DEFAULT,
         D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED),
-        dpiX, dpiY
+        96.0f, 96.0f
     );
 
     auto hwndProps = D2D1::HwndRenderTargetProperties(
@@ -81,7 +77,7 @@ bool Renderer::CreateRenderTarget() {
         return false;
     }
 
-    SSP_LOG_DEBUG("Renderer::CreateRenderTarget - success, %u x %u, DPI: %u", m_width, m_height, dpi);
+    SSP_LOG_DEBUG("Renderer::CreateRenderTarget - success, %u x %u", m_width, m_height);
     return true;
 }
 

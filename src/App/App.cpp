@@ -22,6 +22,8 @@
 #include <dwrite.h>
 #include <wincodec.h>
 #include <shellapi.h>
+#include <algorithm>
+#include <cstring>
 
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
@@ -262,7 +264,7 @@ void App::RenderFrame() {
     layout.scrollOffset = input.GetScrollOffset();
     int vr = static_cast<int>(layout.resultsGrid.height / layout.cellSize);
     if (vr < 1) vr = 1;
-    input.UpdateLayoutInfo(layout.columns, vr, layout.maxScroll);
+    input.UpdateLayoutInfo(layout.columns, vr, layout.maxScroll, layout.cellSize);
     if (!m_renderer->BeginDraw()) return;
 
     m_renderer->FillRect({0, 0, w, h}, colors.bgPrimary);
@@ -276,10 +278,6 @@ void App::RenderFrame() {
         RectF r = layout.searchBar;
         m_renderer->DrawRoundedRect({r.x + 4, r.y + 4, r.width - 8, r.height - 8}, 6.0f, colors.bgSecondary);
         const auto& q = input.GetQuery();
-        m_renderer->DrawText(q.empty() ? L"Search symbols..." : q,
-            {r.x + 12, r.y + (r.height - kFontSizeSearch * dpi) * 0.5f, r.width - 24, r.height},
-            m_renderer->GetTextFormat(sf),
-            q.empty() ? colors.textMuted : colors.textPrimary);
         if (input.GetActiveZone() == Zone::SearchBar && input.HasSelection()) {
             int ss = input.GetSelectStart(), se = input.GetSelectEnd();
             if (ss > se) std::swap(ss, se);
@@ -289,7 +287,11 @@ void App::RenderFrame() {
             if (selX + selW > r.x + r.width - 4.0f) selW = r.x + r.width - 4.0f - selX;
             m_renderer->FillRect({selX, r.y + 6.0f, selW, r.height - 12.0f}, 0x664078D4);
         }
-        if (input.GetActiveZone() == Zone::SearchBar && m_cursorVisible && !q.empty()) {
+        m_renderer->DrawText(q.empty() ? L"Search symbols..." : q,
+            {r.x + 12, r.y + (r.height - kFontSizeSearch * dpi) * 0.5f, r.width - 24, r.height},
+            m_renderer->GetTextFormat(sf),
+            q.empty() ? colors.textMuted : colors.textPrimary);
+        if (input.GetActiveZone() == Zone::SearchBar && m_cursorVisible) {
             float cursorX = r.x + 12.0f + m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf),
                 static_cast<int>(input.GetCursorPos()));
             if (cursorX < r.x + r.width - 12.0f)
@@ -302,8 +304,13 @@ void App::RenderFrame() {
         m_renderer->DrawText(L"Recent", {layout.recentLabel.x+8,layout.recentLabel.y,layout.recentLabel.width,layout.recentLabel.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
         auto& rec = m_recentManager->GetRecent();
         float cx = layout.recentGrid.x, cy = layout.recentGrid.y, cs = layout.cellSize;
-        for (size_t i = 0; i < rec.size() && cx+cs <= layout.recentGrid.x+layout.recentGrid.width; i++, cx+=cs)
+        for (size_t i = 0; i < rec.size() && cx+cs <= layout.recentGrid.x+layout.recentGrid.width; i++, cx+=cs) {
+            if (input.GetActiveZone() == Zone::RecentStrip && input.GetSelectedIndex() == i)
+                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.selected);
+            else if (input.IsHovering() && input.GetHoverZone() == Zone::RecentStrip && input.GetHoverIndex() == static_cast<int>(i))
+                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.hover);
             m_renderer->DrawTextCentered(rec[i]->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf), colors.textPrimary);
+        }
     }
 
     // Favorites
@@ -311,8 +318,39 @@ void App::RenderFrame() {
         m_renderer->DrawText(L"Favorites", {layout.favoritesLabel.x+8,layout.favoritesLabel.y,layout.favoritesLabel.width,layout.favoritesLabel.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
         auto& fav = m_favoritesManager->GetFavorites();
         float cx = layout.favoritesGrid.x, cy = layout.favoritesGrid.y, cs = layout.cellSize;
-        for (size_t i = 0; i < fav.size() && cx+cs <= layout.favoritesGrid.x+layout.favoritesGrid.width; i++, cx+=cs)
+        for (size_t i = 0; i < fav.size() && cx+cs <= layout.favoritesGrid.x+layout.favoritesGrid.width; i++, cx+=cs) {
+            if (input.GetActiveZone() == Zone::FavoritesStrip && input.GetSelectedIndex() == i)
+                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.selected);
+            else if (input.IsHovering() && input.GetHoverZone() == Zone::FavoritesStrip && input.GetHoverIndex() == static_cast<int>(i))
+                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.hover);
             m_renderer->DrawTextCentered(fav[i]->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf), colors.textPrimary);
+        }
+    }
+
+    // Category filter
+    {
+        constexpr int visibleCategories = 9;
+        float count = static_cast<float>(visibleCategories + 1);
+        float chipW = layout.categoryBar.width / count;
+        float x = layout.categoryBar.x;
+        for (int i = 0; i <= visibleCategories; ++i, x += chipW) {
+            bool active = (i == 0 && input.IsAllCategories()) ||
+                (i > 0 && !input.IsAllCategories() && input.GetCategoryFilter() == static_cast<Category>(i - 1));
+            uint32_t fill = active ? colors.selected : colors.bgSecondary;
+            if (!active && input.GetActiveZone() == Zone::CategoryBar)
+                fill = colors.bgTertiary;
+            m_renderer->DrawRoundedRect({x + 2.0f, layout.categoryBar.y + 3.0f, chipW - 4.0f, layout.categoryBar.height - 6.0f}, 4.0f, fill);
+
+            std::wstring label;
+            if (i == 0) label = L"All";
+            else {
+                const char* name = CategoryNames[i - 1];
+                label.assign(name, name + std::strlen(name));
+            }
+            if (label.size() > 5) label = label.substr(0, 5);
+            m_renderer->DrawTextCentered(label, {x + 3.0f, layout.categoryBar.y, chipW - 6.0f, layout.categoryBar.height},
+                m_renderer->GetTextFormat(tf), active ? colors.textPrimary : colors.textSecondary);
+        }
     }
 
     // Results grid
@@ -323,7 +361,7 @@ void App::RenderFrame() {
         int sel = static_cast<int>(input.GetSelectedIndex());
         for (size_t i = 0; i < res.size(); i++) {
             float cx = sx + (i%layout.columns)*cs, cy = sy + (i/layout.columns)*cs;
-            if (cy+cs < ct || cy > cb) continue;
+            if (cy < ct || cy + cs > cb) continue;
             int hoverIdx = input.GetHoverIndex();
             if (input.IsHovering() && input.GetHoverZone() == Zone::ResultsGrid &&
                 static_cast<int>(i) == hoverIdx && static_cast<int>(i) != sel) {
@@ -381,7 +419,8 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 auto hitR = [](const RectF& r, float x, float y) { return x>=r.x && x<r.x+r.width && y>=r.y && y<r.y+r.height; };
                 if (!hitR(lo.searchBar, mx, my) && !hitR(lo.resultsGrid, mx, my) &&
                     !hitR(lo.recentGrid, mx, my) &&
-                    !hitR(lo.favoritesGrid, mx, my) && !hitR(lo.statusBar, mx, my))
+                    !hitR(lo.favoritesGrid, mx, my) && !hitR(lo.categoryBar, mx, my) &&
+                    !hitR(lo.statusBar, mx, my))
                     return HTCAPTION;
             }
         }
@@ -503,10 +542,8 @@ LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             RECT cr; GetClientRect(hwnd, &cr);
             auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
                 app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
-            app->m_inputHandler->HandleMouseDown(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
+            app->m_inputHandler->HandleMouseDoubleClick(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
             InvalidateRect(hwnd, nullptr, FALSE);
-            // The insert callback will be invoked, then we close
-            app->HidePanel();
             return 0;
         }
         break;

@@ -1,0 +1,110 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja",
+	"dir-cur-src" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel",
+	"dir-top-bld" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja",
+	"dir-top-src" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"C:\\Users\\cooln\\Documents\\Projects\\ScientificSymbolPanel\\src"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build-codex-ninja/CMakeFiles/SSP.dir",
+	"sources" : 
+	{
+		"CMakeFiles/SSP.dir/src/App/App.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/App/App.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/App/InputHandler.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/App/InputHandler.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Core/Config.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Core/Config.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Platform/Win32.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Platform/Win32.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Search/SearchEngine.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Search/SearchEngine.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Search/TextEdit.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Search/TextEdit.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Storage/Favorites.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Storage/Favorites.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Storage/JsonStore.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Storage/JsonStore.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Storage/Recent.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Storage/Recent.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Symbols/Converters.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Symbols/Converters.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Symbols/Database.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Symbols/Database.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/Symbols/Snippets.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/Symbols/Snippets.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/UI/Animation.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/UI/Animation.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/UI/Layout.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/UI/Layout.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/UI/Renderer.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/UI/Renderer.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/UI/Themes.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/UI/Themes.cpp"
+		},
+		"CMakeFiles/SSP.dir/src/main.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/src/main.cpp"
+		}
+	}
+}

@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\SSP.dir\\src\\Storage\\Recent.cpp.obj",
+            "outputs": [
+                "C:\\Users\\cooln\\Documents\\Projects\\ScientificSymbolPanel\\build\\vc140.pdb",
+                "CMakeFiles\\SSP.dir\\src\\Storage\\Recent.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}

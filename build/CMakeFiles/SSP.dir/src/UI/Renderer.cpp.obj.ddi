@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\SSP.dir\\src\\UI\\Renderer.cpp.obj",
+            "outputs": [
+                "C:\\Users\\cooln\\Documents\\Projects\\ScientificSymbolPanel\\build\\vc140.pdb",
+                "CMakeFiles\\SSP.dir\\src\\UI\\Renderer.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}

@@ -1,4 +1,6 @@
-C:/Users/cooln/Documents/Scientific Keyboard/ScientificSymbolPanel/build/CMakeFiles/SSP.dir
-C:/Users/cooln/Documents/Scientific Keyboard/ScientificSymbolPanel/build/CMakeFiles/INSTALL.dir
-C:/Users/cooln/Documents/Scientific Keyboard/ScientificSymbolPanel/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/cooln/Documents/Scientific Keyboard/ScientificSymbolPanel/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/SSP.dir
+C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/edit_cache.dir
+C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/rebuild_cache.dir
+C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/list_install_components.dir
+C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/install.dir
+C:/Users/cooln/Documents/Projects/ScientificSymbolPanel/build/CMakeFiles/install/local.dir

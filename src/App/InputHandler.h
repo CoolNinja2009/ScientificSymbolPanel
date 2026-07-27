@@ -55,6 +55,8 @@ public:
     bool HandleChar(wchar_t ch);
     bool HandleMouseDown(int x, int y, const PanelLayout& layout,
                          bool hasRecent, bool hasFavorites);
+    bool HandleMouseDoubleClick(int x, int y, const PanelLayout& layout,
+                                bool hasRecent, bool hasFavorites);
     bool HandleMouseWheel(int delta, int x, int y, const PanelLayout& layout);
     void HandleMouseMove(int x, int y, const PanelLayout& layout,
                          bool hasRecent, bool hasFavorites);
@@ -63,7 +65,7 @@ public:
     int  GetHoverIndex() const                { return m_hoverIndex; }
     Zone GetHoverZone() const                 { return m_hoverZone; }
     // Called after layout computation so grid nav uses real dimensions
-    void UpdateLayoutInfo(int gridColumns, int visibleRows, float maxScroll);
+    void UpdateLayoutInfo(int gridColumns, int visibleRows, float maxScroll, float cellSize);
 
     // --- Lifecycle ---
     void Reset();           // Called when panel opens / resets to defaults
@@ -93,6 +95,7 @@ private:
     // --- Navigation ---
     void CycleZone(bool forward, bool hasRecent, bool hasFavorites);
     void ScrollBy(float delta);
+    void EnsureSelectionVisible();
 
     // --- Actions ---
     void ExecuteAction(bool hasRecent, bool hasFavorites);
@@ -118,6 +121,7 @@ private:
     int         m_gridColumns    = 6;
     int         m_visibleRows    = 5;
     float       m_maxScroll      = 0.0f;
+    float       m_cellSize       = kSymbolCellSize;
     int         m_hoverIndex     = -1;   // -1 = not hovering
     Zone        m_hoverZone      = Zone::SearchBar;
 

@@ -1,0 +1,11 @@
+{
+"rules": [
+{
+"primary-output": "CMakeFiles\\SSP.dir\\src\\App\\InputHandler.cpp.obj",
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

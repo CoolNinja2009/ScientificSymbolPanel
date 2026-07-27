@@ -16,6 +16,9 @@ file(GLOB_RECURSE SSP_SOURCES CONFIGURE_DEPENDS
     src/*.cpp
     src/*.h
 )
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/InputHandler\\.(cpp|h)$")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/TextEdit\\.(cpp|h)$")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/stb_textedit\\.h$")
 
 # Executable
 add_executable(SSP WIN32

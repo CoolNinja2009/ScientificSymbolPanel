@@ -6,10 +6,10 @@
 namespace ssp {
 
 namespace {
-    constexpr float kLabelHeight       = 20.0f;  // Height of section labels ("Recent", "Favorites")
+    constexpr float kLabelHeight       = 18.0f;  // Height of section labels ("Recent", "Favorites")
     constexpr float kStatusBarHeight   = 24.0f;
-    constexpr float kHorizontalPadding = 4.0f;
-    constexpr float kVerticalSpacing   = 2.0f;
+    constexpr float kHorizontalPadding = 8.0f;
+    constexpr float kVerticalSpacing   = 4.0f;
 }
 
 PanelLayout ComputeLayout(float panelWidth, float panelHeight, float dpiScale,
@@ -55,6 +55,9 @@ PanelLayout ComputeLayout(float panelWidth, float panelHeight, float dpiScale,
 
 
     // 5. Results grid — fills remaining space down to status bar
+    layout.categoryBar = RectF{hPad, y, panelWidth - 2.0f * hPad, kCategoryBarHeight * dpiScale};
+    y += layout.categoryBar.height + vGap;
+
     float remainingH = panelHeight - y - statusBarH - vGap;
     if (remainingH < 0.0f) remainingH = 0.0f;
     layout.resultsGrid = RectF{hPad, y, panelWidth - 2.0f * hPad, remainingH};
