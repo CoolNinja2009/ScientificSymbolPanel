@@ -1,12 +1,10 @@
 #pragma once
 #include "Core/Types.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 #include <string>
 #include <string_view>
 #include <unordered_map>
-#include <SDL.h>
-
-struct _TTF_Font;
-typedef struct _TTF_Font TTF_Font;
 
 namespace ssp {
 
