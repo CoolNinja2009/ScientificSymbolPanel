@@ -46,7 +46,7 @@ add_custom_command(TARGET SSP POST_BUILD
 # ---- Link ----
 target_link_libraries(SSP PRIVATE
     SDL2::SDL2
-    SDL2::SDL2_ttf
+    $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
 )
 
 # ---- Include dirs ----
