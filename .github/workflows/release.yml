@@ -1,8 +1,8 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [ main ]
 
 jobs:
   build_and_publish:
@@ -41,13 +41,17 @@ jobs:
         shell: pwsh
         run: |
           Set-Location build\Release
-          $zip = Join-Path $env:GITHUB_WORKSPACE "SSP-${{ github.event.release.tag_name }}.zip"
+          $zip = Join-Path $env:GITHUB_WORKSPACE "SSP-${{ github.run_number }}.zip"
           if (Test-Path $zip) { Remove-Item $zip }
           Compress-Archive -Path * -DestinationPath $zip
           Write-Output "Built release archive: $zip"
 
-      - name: Upload release asset
-        uses: ncipollo/release-action@v2
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
         with:
-          tag: ${{ github.event.release.tag_name }}
-          artifacts: SSP-${{ github.event.release.tag_name }}.zip
+          tag_name: release-${{ github.run_number }}
+          name: Release ${{ github.run_number }}
+          body: "Automated release for commit ${{ github.sha }}"
+          files: ${{ github.workspace }}/SSP-${{ github.run_number }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
