@@ -26,7 +26,7 @@ list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/stb_textedit\\.")
 
 # ---- Executable ----
 if(WIN32)
-    add_executable(SSP WIN32 ${SSP_SOURCES} assets/icon.rc)
+    add_executable(SSP ${SSP_SOURCES} assets/icon.rc)
 else()
     add_executable(SSP ${SSP_SOURCES})
 endif()
