@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build_and_publish:
+    runs-on: windows-latest
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}\vcpkg
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Bootstrap vcpkg
+        shell: pwsh
+        run: |
+          Set-Location $env:VCPKG_ROOT
+          .\bootstrap-vcpkg.bat
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          Set-Location $env:VCPKG_ROOT
+          .\vcpkg.exe install --triplet x64-windows
+
+      - name: Configure CMake
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build | Out-Null
+          Set-Location build
+          cmake -A x64 .. -DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT\scripts\buildsystems\vcpkg.cmake
+
+      - name: Build Release
+        shell: pwsh
+        run: |
+          Set-Location build
+          cmake --build . --config Release
+
+      - name: Package release artifact
+        shell: pwsh
+        run: |
+          Set-Location build\Release
+          $zip = Join-Path $env:GITHUB_WORKSPACE "SSP-${{ github.event.release.tag_name }}.zip"
+          if (Test-Path $zip) { Remove-Item $zip }
+          Compress-Archive -Path * -DestinationPath $zip
+          Write-Output "Built release archive: $zip"
+
+      - name: Upload release asset
+        uses: ncipollo/release-action@v2
+        with:
+          tag: ${{ github.event.release.tag_name }}
+          artifacts: SSP-${{ github.event.release.tag_name }}.zip

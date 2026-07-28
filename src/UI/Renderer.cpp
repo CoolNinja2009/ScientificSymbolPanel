@@ -1,107 +1,91 @@
 #include "UI/Renderer.h"
 #include "Core/Log.h"
-#include <windows.h>
-#include <sstream>
+#include <SDL_ttf.h>
+#include <algorithm>
+#include <codecvt>
+#include <locale>
+#include <cmath>
+
+#ifdef DrawText
+#undef DrawText
+#endif
 
 namespace ssp {
 
 // ============================================================================
-// Color conversion
+// UTF-8 conversion
 // ============================================================================
 
-D2D1::ColorF Renderer::ToColorF(uint32_t color) {
-    return D2D1::ColorF(
-        ((color >> 16) & 0xFF) / 255.0f,  // R
-        ((color >> 8) & 0xFF) / 255.0f,   // G
-        (color & 0xFF) / 255.0f,          // B
-        ((color >> 24) & 0xFF) / 255.0f   // A
-    );
+std::string Renderer::ToUtf8(std::wstring_view ws) {
+    if (ws.empty()) return {};
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    return conv.to_bytes(ws.data(), ws.data() + ws.size());
 }
 
 // ============================================================================
-// Construction / Destruction
+// Construction
 // ============================================================================
 
-Renderer::Renderer(HWND hwnd, ID2D1Factory* d2dFactory, IDWriteFactory* dwriteFactory)
-    : m_hwnd(hwnd), m_d2dFactory(d2dFactory), m_dwriteFactory(dwriteFactory) {
-}
+Renderer::Renderer(SDL_Window* window)
+    : m_window(window), m_width(360), m_height(480) {}
 
-Renderer::~Renderer() = default;
+Renderer::~Renderer() {
+    for (auto& [size, font] : m_fontCache)
+        if (font) TTF_CloseFont(font);
+    m_fontCache.clear();
+    if (m_renderer) SDL_DestroyRenderer(m_renderer);
+}
 
 // ============================================================================
 // Lifecycle
 // ============================================================================
 
-bool Renderer::Initialize() {
-    if (!m_hwnd || !m_d2dFactory) {
-        SSP_LOG_DEBUG("Renderer::Initialize - invalid state (hwnd=%p, d2d=%p)",
-                      static_cast<void*>(m_hwnd), static_cast<void*>(m_d2dFactory));
+bool Renderer::Initialize(const char* fontPath, int fontSize) {
+    m_renderer = SDL_CreateRenderer(m_window, -1,
+        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!m_renderer) {
+        SSP_LOG_DEBUG("Renderer: SDL_CreateRenderer failed: %s", SDL_GetError());
         return false;
     }
 
-    RECT rc;
-    if (!GetClientRect(m_hwnd, &rc)) {
-        SSP_LOG_DEBUG("Renderer::Initialize - GetClientRect failed");
-        return false;
+    // Enable blending for alpha
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+
+    m_fontPath = fontPath ? fontPath : "";
+    m_baseFontSize = fontSize;
+
+    if (fontPath && *fontPath) {
+        if (TTF_Init() == 0) {
+            m_baseFont = TTF_OpenFont(fontPath, fontSize);
+            if (!m_baseFont)
+                SSP_LOG_DEBUG("Renderer: TTF_OpenFont failed: %s", TTF_GetError());
+        } else {
+            SSP_LOG_DEBUG("Renderer: TTF_Init failed: %s", TTF_GetError());
+        }
     }
 
-    m_width = static_cast<uint32_t>(rc.right - rc.left);
-    m_height = static_cast<uint32_t>(rc.bottom - rc.top);
-
-    // Defer creation if window is not yet sized — WM_SIZE will trigger Resize()
-    if (m_width == 0 || m_height == 0) {
-        SSP_LOG_DEBUG("Renderer::Initialize - window not yet sized, deferring");
-        return true;
-    }
-    return CreateRenderTarget();
-}
-
-bool Renderer::CreateRenderTarget() {
-    if (m_width == 0 || m_height == 0) return false;
-
-    auto props = D2D1::RenderTargetProperties(
-        D2D1_RENDER_TARGET_TYPE_DEFAULT,
-        D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED),
-        96.0f, 96.0f
-    );
-
-    auto hwndProps = D2D1::HwndRenderTargetProperties(
-        m_hwnd,
-        D2D1::SizeU(m_width, m_height)
-    );
-
-    HRESULT hr = m_d2dFactory->CreateHwndRenderTarget(props, hwndProps,
-        reinterpret_cast<ID2D1HwndRenderTarget**>(&m_renderTarget));
-    if (FAILED(hr)) {
-        SSP_LOG_DEBUG("Renderer::CreateRenderTarget - failed: 0x%08X", hr);
-        return false;
-    }
-
-    SSP_LOG_DEBUG("Renderer::CreateRenderTarget - success, %u x %u", m_width, m_height);
+    SDL_GetWindowSize(m_window, &m_width, &m_height);
     return true;
 }
 
-void Renderer::Resize(uint32_t width, uint32_t height) {
-    if (width == 0 || height == 0) return;
-
+void Renderer::Resize(int width, int height) {
     m_width = width;
     m_height = height;
+}
 
-    if (m_renderTarget) {
-        HRESULT hr = m_renderTarget->Resize(D2D1::SizeU(width, height));
-        if (FAILED(hr)) {
-            SSP_LOG_DEBUG("Renderer::Resize - failed: 0x%08X, recreating", hr);
-            m_renderTarget.reset();
-            m_brushes.clear();
-            CreateRenderTarget();
-        } else {
-            SSP_LOG_DEBUG("Renderer::Resize - %u x %u", width, height);
-        }
-    } else {
-        // Render target not yet created (window was 0x0 at Initialize time)
-        SSP_LOG_DEBUG("Renderer::Resize - lazy init, creating render target");
-        CreateRenderTarget();
+TTF_Font* Renderer::GetFont(float size) {
+    int isize = (int)(size + 0.5f);
+    auto it = m_fontCache.find((float)isize);
+    if (it != m_fontCache.end()) return it->second;
+
+    if (m_fontPath.empty() || !m_baseFont) return m_baseFont;
+
+    TTF_Font* font = TTF_OpenFont(m_fontPath.c_str(), isize);
+    if (font) {
+        m_fontCache[(float)isize] = font;
+        return font;
     }
+    return m_baseFont;
 }
 
 // ============================================================================
@@ -109,23 +93,15 @@ void Renderer::Resize(uint32_t width, uint32_t height) {
 // ============================================================================
 
 bool Renderer::BeginDraw() {
-    if (!m_renderTarget) return false;
-
-    m_renderTarget->BeginDraw();
+    if (!m_renderer) return false;
+    SDL_RenderClear(m_renderer);
     return true;
 }
 
 bool Renderer::EndDraw() {
-    if (!m_renderTarget) return false;
-
-    HRESULT hr = m_renderTarget->EndDraw();
-    if (hr == D2DERR_RECREATE_TARGET) {
-        SSP_LOG_DEBUG("Renderer::EndDraw - device lost, recreating target");
-        m_renderTarget.reset();
-        m_brushes.clear();
-        CreateRenderTarget();
-    }
-    return SUCCEEDED(hr);
+    if (!m_renderer) return false;
+    SDL_RenderPresent(m_renderer);
+    return true;
 }
 
 // ============================================================================
@@ -133,38 +109,19 @@ bool Renderer::EndDraw() {
 // ============================================================================
 
 void Renderer::SetTheme(const ThemeColors& /*colors*/) {
-    ClearBrushes();
-    SSP_LOG_DEBUG("Renderer::SetTheme - brushes cleared");
+    // Colors applied per draw call
 }
 
 // ============================================================================
-// Brush management
+// Drawing helpers
 // ============================================================================
 
-ID2D1SolidColorBrush* Renderer::GetBrush(uint32_t color) {
-    auto it = m_brushes.find(color);
-    if (it != m_brushes.end()) {
-        return it->second.get();
-    }
-
-    if (!m_renderTarget) return nullptr;
-
-    ComPtr<ID2D1SolidColorBrush> brush;
-    HRESULT hr = m_renderTarget->CreateSolidColorBrush(ToColorF(color),
-        reinterpret_cast<ID2D1SolidColorBrush**>(&brush));
-    if (FAILED(hr)) {
-        SSP_LOG_DEBUG("Renderer::GetBrush - CreateSolidColorBrush(0x%08X) failed: 0x%08X",
-                      color, hr);
-        return nullptr;
-    }
-
-    ID2D1SolidColorBrush* ptr = brush.get();
-    m_brushes[color] = std::move(brush);
-    return ptr;
-}
-
-void Renderer::ClearBrushes() {
-    m_brushes.clear();
+void Renderer::SetDrawColor(uint32_t color) {
+    Uint8 r = (color >> 16) & 0xFF;
+    Uint8 g = (color >> 8) & 0xFF;
+    Uint8 b = color & 0xFF;
+    Uint8 a = (color >> 24) & 0xFF;
+    SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
 }
 
 // ============================================================================
@@ -172,176 +129,147 @@ void Renderer::ClearBrushes() {
 // ============================================================================
 
 void Renderer::FillRect(const RectF& rect, uint32_t color) {
-    if (!m_renderTarget) return;
-
-    auto* brush = GetBrush(color);
-    if (!brush) return;
-
-    m_renderTarget->FillRectangle(
-        D2D1::RectF(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height),
-        brush
-    );
+    if (!m_renderer) return;
+    SetDrawColor(color);
+    SDL_Rect r = {(int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height};
+    SDL_RenderFillRect(m_renderer, &r);
 }
 
-void Renderer::DrawText(std::wstring_view text, const RectF& rect,
-                         IDWriteTextFormat* format, uint32_t color) {
-    if (!m_renderTarget || !format) return;
+void Renderer::DrawText(std::wstring_view text, float x, float y,
+                         float fontSize, uint32_t color) {
+    if (!m_renderer || text.empty()) return;
 
-    auto* brush = GetBrush(color);
-    if (!brush) return;
+    TTF_Font* font = GetFont(fontSize);
+    if (!font) return;
 
-    m_renderTarget->DrawText(
-        text.data(),
-        static_cast<UINT32>(text.size()),
-        format,
-        D2D1::RectF(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height),
-        brush
-    );
-}
+    Uint8 r = (color >> 16) & 0xFF;
+    Uint8 g = (color >> 8) & 0xFF;
+    Uint8 b = color & 0xFF;
 
-float Renderer::MeasureTextWidth(std::wstring_view text, IDWriteTextFormat* format,
-                                  int upToChars) const {
-    if (!m_dwriteFactory || !format || text.empty()) return 0.0f;
+    std::string utf8 = ToUtf8(text);
+    SDL_Color fg = {r, g, b, 255};
+    SDL_Surface* surf = TTF_RenderUTF8_Blended(font, utf8.c_str(), fg);
+    if (!surf) return;
 
-    int count = (upToChars < 0) ? static_cast<int>(text.size()) : upToChars;
-    if (count <= 0) return 0.0f;
-    if (count > static_cast<int>(text.size())) count = static_cast<int>(text.size());
-
-    IDWriteTextLayout* rawLayout = nullptr;
-    HRESULT hr = m_dwriteFactory->CreateTextLayout(
-        text.data(),
-        static_cast<UINT32>(count),
-        format,
-        10000.0f,  // max width
-        10000.0f,  // max height
-        &rawLayout
-    );
-    if (FAILED(hr) || !rawLayout) return 0.0f;
-
-    DWRITE_TEXT_METRICS metrics;
-    rawLayout->GetMetrics(&metrics);
-    rawLayout->Release();
-    return metrics.width;
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(m_renderer, surf);
+    if (tex) {
+        SDL_Rect dst = {(int)x, (int)y, surf->w, surf->h};
+        SDL_RenderCopy(m_renderer, tex, nullptr, &dst);
+        SDL_DestroyTexture(tex);
+    }
+    SDL_FreeSurface(surf);
 }
 
 void Renderer::DrawTextCentered(std::wstring_view text, const RectF& rect,
-                                 IDWriteTextFormat* format, uint32_t color) {
-    if (!m_renderTarget || !format || !m_dwriteFactory) return;
+                                 float fontSize, uint32_t color) {
+    if (!m_renderer || text.empty()) return;
 
-    auto* brush = GetBrush(color);
-    if (!brush) return;
+    TTF_Font* font = GetFont(fontSize);
+    if (!font) return;
 
-    // Create a temporary layout to set centering without modifying the shared format
-    IDWriteTextLayout* rawLayout = nullptr;
-    HRESULT hr = m_dwriteFactory->CreateTextLayout(
-        text.data(),
-        static_cast<UINT32>(text.size()),
-        format,
-        rect.width,
-        rect.height,
-        &rawLayout
-    );
-    ComPtr<IDWriteTextLayout> layout(rawLayout);
+    Uint8 r = (color >> 16) & 0xFF;
+    Uint8 g = (color >> 8) & 0xFF;
+    Uint8 b = color & 0xFF;
 
-    if (FAILED(hr)) {
-        SSP_LOG_DEBUG("Renderer::DrawTextCentered - CreateTextLayout failed: 0x%08X", hr);
-        return;
+    std::string utf8 = ToUtf8(text);
+    SDL_Color fg = {r, g, b, 255};
+    SDL_Surface* surf = TTF_RenderUTF8_Blended(font, utf8.c_str(), fg);
+    if (!surf) return;
+
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(m_renderer, surf);
+    if (tex) {
+        int cx = (int)(rect.x + (rect.width - surf->w) * 0.5f);
+        int cy = (int)(rect.y + (rect.height - surf->h) * 0.5f);
+        SDL_Rect dst = {cx, cy, surf->w, surf->h};
+        SDL_RenderCopy(m_renderer, tex, nullptr, &dst);
+        SDL_DestroyTexture(tex);
     }
-
-    layout->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-    layout->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-
-    m_renderTarget->DrawTextLayout(
-        D2D1::Point2F(rect.x, rect.y),
-        layout.get(),
-        brush
-    );
+    SDL_FreeSurface(surf);
 }
 
 void Renderer::DrawRoundedRect(const RectF& rect, float radius, uint32_t color) {
-    if (!m_renderTarget) return;
+    if (!m_renderer) return;
+    // Simple approximation: draw a filled rect (no rounded corners in SDL2 base)
+    // For a production app, use SDL2_gfx or custom rendering
+    int r = (int)(radius + 0.5f);
+    int rx = (int)rect.x, ry = (int)rect.y;
+    int rw = (int)rect.width, rh = (int)rect.height;
 
-    auto* brush = GetBrush(color);
-    if (!brush) return;
+    SetDrawColor(color);
 
-    auto rr = D2D1::RoundedRect(
-        D2D1::RectF(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height),
-        radius,
-        radius
-    );
-
-    m_renderTarget->FillRoundedRectangle(rr, brush);
+    // Fill center
+    SDL_Rect cr = {rx + r, ry, rw - 2*r, rh};
+    SDL_RenderFillRect(m_renderer, &cr);
+    // Fill top/bottom strips (minus corners)
+    SDL_Rect tr = {rx + r, ry, rw - 2*r, r};
+    SDL_RenderFillRect(m_renderer, &tr);
+    SDL_Rect br = {rx + r, ry + rh - r, rw - 2*r, r};
+    SDL_RenderFillRect(m_renderer, &br);
+    // Fill left/right strips
+    SDL_Rect lr = {rx, ry + r, r, rh - 2*r};
+    SDL_RenderFillRect(m_renderer, &lr);
+    SDL_Rect rr2 = {rx + rw - r, ry + r, r, rh - 2*r};
+    SDL_RenderFillRect(m_renderer, &rr2);
+    // Draw corner circles approximated as filled squares for now
+    SDL_Rect tl = {rx, ry, r, r};
+    SDL_RenderFillRect(m_renderer, &tl);
+    SDL_Rect tr2 = {rx + rw - r, ry, r, r};
+    SDL_RenderFillRect(m_renderer, &tr2);
+    SDL_Rect bl = {rx, ry + rh - r, r, r};
+    SDL_RenderFillRect(m_renderer, &bl);
+    SDL_Rect br2 = {rx + rw - r, ry + rh - r, r, r};
+    SDL_RenderFillRect(m_renderer, &br2);
 }
 
 void Renderer::DrawLine(const PointF& p0, const PointF& p1, uint32_t color, float width) {
-    if (!m_renderTarget) return;
-
-    auto* brush = GetBrush(color);
-    if (!brush) return;
-
-    m_renderTarget->DrawLine(
-        D2D1::Point2F(p0.x, p0.y),
-        D2D1::Point2F(p1.x, p1.y),
-        brush,
-        width
-    );
+    if (!m_renderer) return;
+    SetDrawColor(color);
+    SDL_RenderDrawLine(m_renderer, (int)p0.x, (int)p0.y, (int)p1.x, (int)p1.y);
+    (void)width;
 }
 
 // ============================================================================
-// Text format management
+// Clip
 // ============================================================================
 
-std::wstring Renderer::MakeTextFormatKey(const wchar_t* fontName, float fontSize,
-                                          DWRITE_FONT_WEIGHT fontWeight,
-                                          DWRITE_FONT_STYLE style) const {
-    std::wostringstream oss;
-    oss << fontName << L'|' << fontSize << L'|'
-        << static_cast<int>(fontWeight) << L'|'
-        << static_cast<int>(style);
-    return oss.str();
+void Renderer::PushClip(const RectF& rect) {
+    if (!m_renderer) return;
+    SDL_Rect r = {(int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height};
+    SDL_RenderSetClipRect(m_renderer, &r);
 }
 
-std::wstring Renderer::CreateTextFormat(const wchar_t* fontName, float fontSize,
-                                         DWRITE_FONT_WEIGHT fontWeight,
-                                         DWRITE_FONT_STYLE style) {
-    if (!m_dwriteFactory) return {};
-
-    auto key = MakeTextFormatKey(fontName, fontSize, fontWeight, style);
-
-    if (m_textFormats.find(key) != m_textFormats.end()) {
-        return key;
-    }
-
-    ComPtr<IDWriteTextFormat> format;
-    HRESULT hr = m_dwriteFactory->CreateTextFormat(
-        fontName,
-        nullptr,                     // font collection
-        fontWeight,
-        style,
-        DWRITE_FONT_STRETCH_NORMAL,
-        fontSize,
-        L"",                         // locale
-        reinterpret_cast<IDWriteTextFormat**>(&format)
-    );
-
-    if (FAILED(hr)) {
-        SSP_LOG_DEBUG("Renderer::CreateTextFormat - failed for '%ls' %.1f: 0x%08X",
-                      fontName, fontSize, hr);
-        return {};
-    }
-
-    format->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
-
-    m_textFormats[key] = std::move(format);
-    return key;
+void Renderer::PopClip() {
+    if (!m_renderer) return;
+    SDL_RenderSetClipRect(m_renderer, nullptr);
 }
 
-IDWriteTextFormat* Renderer::GetTextFormat(const std::wstring& key) const {
-    auto it = m_textFormats.find(key);
-    if (it != m_textFormats.end()) {
-        return it->second.get();
+// ============================================================================
+// Text measurement
+// ============================================================================
+
+float Renderer::MeasureTextWidth(std::wstring_view text, float fontSize,
+                                  int upToChars) const {
+    if (text.empty()) return 0.0f;
+
+    TTF_Font* font = const_cast<Renderer*>(this)->GetFont(fontSize);
+    if (!font) return 0.0f;
+
+    std::string utf8 = ToUtf8(text);
+    if (upToChars > 0) {
+        // Approximate: TTF doesn't support partial string measurement easily
+        // Use ratio of character count
+        int totalChars = 0;
+        for (auto c : text) { (void)c; totalChars++; }
+        if (totalChars == 0) return 0.0f;
+        float ratio = (float)upToChars / (float)totalChars;
+        int w, h;
+        TTF_SizeUTF8(font, utf8.c_str(), &w, &h);
+        return (float)w * ratio;
     }
-    return nullptr;
+
+    int w, h;
+    TTF_SizeUTF8(font, utf8.c_str(), &w, &h);
+    return (float)w;
 }
 
 } // namespace ssp

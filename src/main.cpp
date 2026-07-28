@@ -1,38 +1,22 @@
+#define SDL_MAIN_HANDLED
 #include "App/App.h"
-#include <windows.h>
+#include "config.h"
+#include <chrono>
+#include <cstdio>
 
-int APIENTRY wWinMain(
-    HINSTANCE hInstance,
-    HINSTANCE /*hPrevInstance*/,
-    LPWSTR    /*lpCmdLine*/,
-    int       nCmdShow)
-{
-    // Prevent multiple instances
-    HANDLE hMutex = CreateMutexW(nullptr, TRUE, L"ScientificSymbolPanel_SingleInstance");
-    if (GetLastError() == ERROR_ALREADY_EXISTS) {
-        if (hMutex) CloseHandle(hMutex);
-        // TODO: Send WM_SSP_ACTIVATE to existing instance
-        return 0;
-    }
+int main(int argc, char* argv[]) {
+    (void)argc; (void)argv;
+    auto start = std::chrono::steady_clock::now();
 
-    // Set DPI awareness (Per-Monitor v2 for best scaling)
-    SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
-
-    // Initialize COM
     ssp::App app;
-    if (!app.Initialize(hInstance)) {
-        MessageBoxW(nullptr, L"Failed to initialize Scientific Symbol Panel.",
-            L"Error", MB_OK | MB_ICONERROR);
+    if (!app.Initialize()) {
+        fprintf(stderr, "Failed to initialize Scientific Symbol Panel.\n");
         return 1;
     }
 
-    // Run message loop
-    int result = app.Run();
+    auto ready = std::chrono::steady_clock::now();
+    double initMs = std::chrono::duration<double, std::milli>(ready - start).count();
+    printf("Scientific Symbol Panel started in %.1f ms\n", initMs);
 
-    if (hMutex) {
-        ReleaseMutex(hMutex);
-        CloseHandle(hMutex);
-    }
-
-    return result;
+    return app.Run();
 }

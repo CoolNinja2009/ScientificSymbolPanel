@@ -519,7 +519,7 @@ bool InputHandler::HandleMouseWheel(int delta, int x, int y, const PanelLayout& 
     // Only scroll if over results grid
     if (!hit(layout.resultsGrid, fx, fy)) return false;
 
-    float scrollAmount = static_cast<float>(delta) / static_cast<float>(WHEEL_DELTA) * kSymbolCellSize * 2.0f;
+    float scrollAmount = static_cast<float>(delta) / static_cast<float>(120 /* WHEEL_DELTA */) * kSymbolCellSize * 2.0f;
     ScrollBy(-scrollAmount);
     if (m_onInvalidate) m_onInvalidate();
     return true;

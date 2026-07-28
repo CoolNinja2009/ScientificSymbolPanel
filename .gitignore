@@ -3,13 +3,28 @@ build/
 build-*/
 out/
 
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
 # IDE
 .vs/
 .vscode/
+.idea/
 *.user
 *.suo
 *.sln
 *.vcxproj*
+*.vcxproj.user
+*.ncb
+*.sdf
+*.opensdf
+*.ipch
+*.vsp
+*.vspx
+*.vspscc
 CMakeUserPresets.json
 
 # Object and binary files
@@ -23,29 +38,46 @@ CMakeUserPresets.json
 *.res
 *.manifest
 *.modmap
+*.o
+*.a
+*.lo
+*.la
+*.dll.a
 
 # Intermediate files
 *.ddi
 *.ddi.d
 *.ddi.i
 *.i
+*.idb
+*.tmp
+*.temp
+*.log
 
 # CMake generated
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 CTestTestfile.cmake
+Makefile
+cmake_install.cmake
 .ninja_*
 
 # Archives
 *.zip
 *.7z
 *.tar.gz
+*.rar
+*.7z
+*.tar
+*.tar.bz2
 
 # OS junk
 Thumbs.db
 Desktop.ini
 .DS_Store
+ehthumbs.db
+Icon
 
 # Project-specific
 vision.md

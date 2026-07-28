@@ -1,60 +1,121 @@
-#include "App.h"
-#include "resource.h"
-#include "Core/Log.h"
-#include "Platform/Win32.h"
+#include <SDL.h>
+#include "App/App.h"
+#include "config.h"
+#include "Platform/Platform.h"
 #include "Symbols/Database.h"
 #include "Search/SearchEngine.h"
-#include "Storage/JsonStore.h"
 #include "Storage/Recent.h"
 #include "Storage/Favorites.h"
 #include "Symbols/Snippets.h"
-#include "Symbols/Converters.h"
 #include "UI/Renderer.h"
 #include "UI/Themes.h"
 #include "UI/Layout.h"
 #include "UI/Animation.h"
-#include "InputHandler.h"
-
-#include <windows.h>
-#include <windowsx.h>
-#include <dwmapi.h>
-#include <d2d1.h>
-#include <dwrite.h>
-#include <wincodec.h>
-#include <shellapi.h>
+#include "App/InputHandler.h"
 #include <algorithm>
-#include <cstring>
+#include <chrono>
+#include <codecvt>
 
-#pragma comment(lib, "d2d1.lib")
-#pragma comment(lib, "dwrite.lib")
-#pragma comment(lib, "windowscodecs.lib")
-#pragma comment(lib, "dwmapi.lib")
+#ifdef DrawText
+#undef DrawText
+#endif
 
 namespace ssp {
 
 App* App::s_instance = nullptr;
-App::App()  { s_instance = this; }
+
+App::App() {
+    s_instance = this;
+    m_constructTime = std::chrono::steady_clock::now();
+}
+
 App::~App() { Shutdown(); s_instance = nullptr; }
 
 // ============================================================================
 // Initialize
 // ============================================================================
 
-bool App::Initialize(HINSTANCE hInstance) {
-    m_hInstance = hInstance;
+bool App::Initialize() {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
+        return false;
+    }
+
+    m_window = SDL_CreateWindow("Scientific Symbol Panel",
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        SSP_WINDOW_WIDTH, SSP_WINDOW_HEIGHT,
+        SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP |
+        SDL_WINDOW_HIDDEN | SDL_WINDOW_ALLOW_HIGHDPI);
+    if (!m_window) {
+        fprintf(stderr, "SDL_CreateWindow failed: %s\n", SDL_GetError());
+        SDL_Quit();
+        return false;
+    }
+
     m_config.Load();
-    if (!InitCOM()) return false;
-    InitFactories();
-    if (!m_d2dFactory || !m_dwriteFactory) return false;
-    if (!RegisterWindowClass()) return false;
-    if (!CreateMainWindow()) return false;
-    RegisterHotkey();
-    m_database = std::make_unique<SymbolDatabase>();
-    m_database->Load();
+
+    // Font
+    std::string fontPath = Platform::FindFontFile().string();
+
+    // Renderer
+    m_renderer = std::make_unique<Renderer>(m_window);
+    if (!m_renderer->Initialize(fontPath.empty() ? nullptr : fontPath.c_str(), 14)) {
+        fprintf(stderr, "Renderer init failed\n");
+        return false;
+    }
+
+    SDL_GetWindowSize(m_window, &m_width, &m_height);
+
+    LoadDatabase();
     m_searchEngine = std::make_unique<SearchEngine>();
     m_searchEngine->Build(m_database->GetSymbols());
     InitSubsystems();
+
+    // Global hotkey
+    Platform::RegisterGlobalHotkey(SSP_HOTKEY_MOD, SSP_HOTKEY_KEY, []() {
+        if (App::s_instance) App::s_instance->TogglePanel();
+    });
+
+    // Benchmark
+    auto now = std::chrono::steady_clock::now();
+    m_startupMs = std::chrono::duration<double, std::milli>(now - m_constructTime).count();
+
     return true;
+}
+
+void App::LoadDatabase() {
+    m_database = std::make_unique<SymbolDatabase>();
+    auto exeDir = Platform::ExeDir();
+    m_symbolsPath = exeDir / "data" / "symbols.bin";
+    if (!std::filesystem::exists(m_symbolsPath))
+        m_symbolsPath = exeDir / ".." / "data" / "symbols.bin";
+    if (!std::filesystem::exists(m_symbolsPath))
+        m_symbolsPath = std::filesystem::current_path() / "data" / "symbols.bin";
+    m_database->Load();
+    for (auto& p : { m_symbolsPath, m_symbolsPath.parent_path() / "symbols.json" }) {
+        if (std::filesystem::exists(p)) {
+            m_symbolsMtime = std::filesystem::last_write_time(p);
+            break;
+        }
+    }
+}
+
+void App::ReloadDatabaseIfChanged() {
+    auto paths = { m_symbolsPath, m_symbolsPath.parent_path() / "symbols.json" };
+    bool changed = false;
+    for (auto& p : paths) {
+        if (std::filesystem::exists(p)) {
+            auto mt = std::filesystem::last_write_time(p);
+            if (mt != m_symbolsMtime) { changed = true; m_symbolsMtime = mt; break; }
+        }
+    }
+    if (!changed) return;
+    m_database->Load();
+    m_searchEngine->Build(m_database->GetSymbols());
+    if (m_inputHandler) {
+        m_inputHandler->SetDatabase(m_database.get());
+        m_inputHandler->RefreshResults();
+    }
 }
 
 void App::InitSubsystems() {
@@ -65,14 +126,9 @@ void App::InitSubsystems() {
 
     m_themeManager = std::make_unique<ThemeManager>(isDark, Platform::GetAccentColor());
     m_animation = std::make_unique<Animation>();
-    m_animation->enabled = cfg.animations && !Platform::IsLowEndMachine();
+    m_animation->enabled = SSP_ANIMATIONS && !Platform::IsLowEndMachine();
 
-    m_renderer = std::make_unique<Renderer>(m_hwnd, m_d2dFactory.get(), m_dwriteFactory.get());
-    m_renderer->Initialize();
     m_renderer->SetTheme(m_themeManager->GetColors());
-    m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSearch * m_dpiScale);
-    m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSymbol * m_dpiScale);
-    m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSmall * m_dpiScale);
 
     m_recentManager = std::make_unique<RecentManager>(m_database.get(), m_config);
     m_recentManager->Load();
@@ -80,12 +136,10 @@ void App::InitSubsystems() {
     m_favoritesManager->Load();
 
     m_snippetManager = std::make_unique<SnippetManager>();
-    wchar_t exePath[MAX_PATH];
-    GetModuleFileNameW(nullptr, exePath, MAX_PATH);
-    std::filesystem::path exeDir = std::filesystem::path(exePath).parent_path();
-    std::filesystem::path bundledSnippets = exeDir / L"data" / L"snippets.json";
+    auto exeDir = Platform::ExeDir();
+    auto bundledSnippets = exeDir / "data" / "snippets.json";
     if (!std::filesystem::exists(bundledSnippets))
-        bundledSnippets = std::filesystem::current_path() / L"data" / L"snippets.json";
+        bundledSnippets = std::filesystem::current_path() / "data" / "snippets.json";
     m_snippetManager->Load(bundledSnippets, m_config.DataDir());
 
     m_inputHandler = std::make_unique<InputHandler>();
@@ -94,19 +148,14 @@ void App::InitSubsystems() {
     m_inputHandler->SetRecentManager(m_recentManager.get());
     m_inputHandler->SetFavoritesManager(m_favoritesManager.get());
 
-    // Insert: yield focus → send text → reclaim focus via timer
     m_inputHandler->SetInsertCallback([this](const std::wstring& text) {
-        HWND target = m_hwndPrevFocus;
-        if (!target || !IsWindow(target)) target = GetForegroundWindow();
-        if (target && target != m_hwnd) {
-            m_inserting = true;
-            SetForegroundWindow(target);
-            Platform::SendUnicodeText(text);
-            SetTimer(m_hwnd, 3, 50, nullptr);
-        }
+        m_inserting = true;
+        HidePanel();
+        Platform::SendUnicodeText(text);
+        m_inserting = false;
     });
     m_inputHandler->SetCloseCallback([this]() { HidePanel(); });
-    m_inputHandler->SetInvalidateCallback([this]() { InvalidateRect(m_hwnd, nullptr, FALSE); });
+    m_inputHandler->SetInvalidateCallback([this]() { RequestRedraw(); });
 }
 
 // ============================================================================
@@ -114,138 +163,65 @@ void App::InitSubsystems() {
 // ============================================================================
 
 int App::Run() {
-    MSG msg;
-    while (GetMessageW(&msg, nullptr, 0, 0)) { TranslateMessage(&msg); DispatchMessageW(&msg); }
-    return static_cast<int>(msg.wParam);
+    SDL_Event e;
+    while (m_running) {
+        while (SDL_PollEvent(&e)) {
+            ProcessEvent(e);
+        }
+        if (m_visible && m_needsRedraw) {
+            m_needsRedraw = false;
+            ReloadDatabaseIfChanged();
+            RenderFrame();
+        }
+        SDL_Delay(8); // ~120 FPS cap when visible, 8ms poll when hidden
+    }
+    return 0;
 }
 
 void App::Shutdown() {
-    UnregisterHotkey();
+    Platform::UnregisterGlobalHotkey();
     if (m_recentManager) m_recentManager->Save();
     if (m_favoritesManager) m_favoritesManager->Save();
     m_config.Save();
     m_inputHandler.reset(); m_snippetManager.reset(); m_favoritesManager.reset();
     m_recentManager.reset(); m_renderer.reset(); m_themeManager.reset();
     m_animation.reset(); m_searchEngine.reset(); m_database.reset();
-    if (m_hwnd) { KillTimer(m_hwnd, 1); KillTimer(m_hwnd, 3); DestroyWindow(m_hwnd); m_hwnd = nullptr; }
-    m_d2dFactory.reset(); m_dwriteFactory.reset(); m_wicFactory.reset();
+    if (m_window) { SDL_DestroyWindow(m_window); m_window = nullptr; }
+    SDL_Quit();
 }
-
-// ============================================================================
-// Panel show/hide
-// ============================================================================
 
 void App::ShowPanel() {
     if (m_visible) return;
-    m_hwndPrevFocus = GetForegroundWindow();
-    HMONITOR hmon = MonitorFromWindow(m_hwndPrevFocus, MONITOR_DEFAULTTONEAREST);
-    MONITORINFO mi = { sizeof(mi) }; GetMonitorInfoW(hmon, &mi);
-    RECT work = mi.rcWork;
-    auto& s = m_config.Get();
-    int w = s.windowWidth, h = s.windowHeight;
-    int x = ((work.right - work.left) - w) / 2 + work.left;
-    int y = ((work.bottom - work.top) - h) / 2 + work.top;
-    if (s.windowX >= 0) x = s.windowX;
-    if (s.windowY >= 0) y = s.windowY;
-    m_dpiScale = static_cast<float>(GetDpiForWindow(m_hwnd)) / 96.0f;
-    SetWindowPos(m_hwnd, HWND_TOPMOST, x, y, w, h, SWP_SHOWWINDOW | SWP_NOACTIVATE);
+    ReloadDatabaseIfChanged();
+
+    SDL_Rect db;
+    SDL_GetDisplayBounds(0, &db);
+    int x = (db.w - m_width) / 2 + db.x;
+    int y = (db.h - m_height) / 2 + db.y;
+    SDL_SetWindowPosition(m_window, x, y);
+
+    SDL_ShowWindow(m_window);
+    SDL_RaiseWindow(m_window);
     m_visible = true;
+
     if (m_inputHandler) m_inputHandler->Reset();
-    if (m_animation && m_animation->enabled) { m_animation->StartFadeIn(); SetTimer(m_hwnd, 1, 8, nullptr); }
-    SetTimer(m_hwnd, 2, 530, nullptr); // cursor blink
-    ShowWindow(m_hwnd, SW_SHOW);
-    SetForegroundWindow(m_hwnd);
-    InvalidateRect(m_hwnd, nullptr, FALSE);
+    if (m_animation && m_animation->enabled) m_animation->StartFadeIn();
+    RequestRedraw();
 }
 
 void App::HidePanel() {
     if (!m_visible) return;
     m_visible = false;
-    KillTimer(m_hwnd, 1);
-    KillTimer(m_hwnd, 2);
-    ShowWindow(m_hwnd, SW_HIDE);
-    if (m_hwndPrevFocus && IsWindow(m_hwndPrevFocus)) SetForegroundWindow(m_hwndPrevFocus);
+    SDL_HideWindow(m_window);
 }
 
 void App::TogglePanel() { m_visible ? HidePanel() : ShowPanel(); }
-void App::InsertSymbol(const std::wstring& text) { HidePanel(); Platform::SendUnicodeText(text); }
-void App::InsertSnippet(const std::wstring& text) { HidePanel(); Platform::SendUnicodeText(text); }
-void App::OnSymbolInserted(const Symbol* sym) { if (sym && m_recentManager) m_recentManager->Add(*sym); }
+
 SymbolDatabase& App::GetDatabase()   { return *m_database; }
 SearchEngine& App::GetSearchEngine() { return *m_searchEngine; }
-
-// ============================================================================
-// Copy to clipboard
-// ============================================================================
-
-static void CopyToClipboard(const std::wstring& text) {
-    if (!OpenClipboard(nullptr)) return;
-    EmptyClipboard();
-    size_t size = (text.size() + 1) * sizeof(wchar_t);
-    HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, size);
-    if (hMem) {
-        memcpy(GlobalLock(hMem), text.c_str(), size);
-        GlobalUnlock(hMem);
-        SetClipboardData(CF_UNICODETEXT, hMem);
-    }
-    CloseClipboard();
+void App::OnSymbolInserted(const Symbol* sym) {
+    if (sym && m_recentManager) m_recentManager->Add(*sym);
 }
-
-// ============================================================================
-// Get selected symbol
-// ============================================================================
-
-static const Symbol* GetSelectedSymbol(InputHandler* input) {
-    const auto& results = input->GetResults();
-    size_t idx = input->GetSelectedIndex();
-    if (idx < results.size() && results[idx].symbol)
-        return results[idx].symbol;
-    return nullptr;
-}
-
-// ============================================================================
-// COM & factories
-// ============================================================================
-
-bool App::InitCOM() { return SUCCEEDED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)); }
-void App::InitFactories() {
-    D2D1_FACTORY_OPTIONS opts = {};
-#ifdef SSP_DEBUG
-    opts.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
-#endif
-    D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory), &opts, reinterpret_cast<void**>(&m_d2dFactory));
-    DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&m_dwriteFactory));
-    CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, __uuidof(IWICImagingFactory), reinterpret_cast<void**>(&m_wicFactory));
-}
-
-bool App::RegisterWindowClass() {
-    WNDCLASSEXW wc = {};
-    wc.cbSize = sizeof(wc); wc.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
-    wc.lpfnWndProc = WndProc; wc.hInstance = m_hInstance;
-    wc.hCursor = LoadCursorW(nullptr, IDC_ARROW); wc.hbrBackground = nullptr;
-    wc.lpszClassName = kWindowClass;
-    wc.hIcon = LoadIconW(m_hInstance, MAKEINTRESOURCEW(IDI_SSP_ICON)); wc.hIconSm = wc.hIcon;
-    return RegisterClassExW(&wc) != 0;
-}
-
-bool App::CreateMainWindow() {
-    auto& s = m_config.Get();
-    m_hwnd = CreateWindowExW(WS_EX_TOOLWINDOW | WS_EX_TOPMOST | WS_EX_NOACTIVATE,
-        kWindowClass, kAppName, WS_POPUP,
-        s.windowX >= 0 ? s.windowX : CW_USEDEFAULT, s.windowY >= 0 ? s.windowY : CW_USEDEFAULT,
-        s.windowWidth, s.windowHeight, nullptr, nullptr, m_hInstance, this);
-    if (!m_hwnd) return false;
-    Platform::ApplyBackdrop(m_hwnd);
-    Platform::ApplyRoundedCorners(m_hwnd);
-    Platform::HideFromTaskbar(m_hwnd);
-    return true;
-}
-
-void App::RegisterHotkey() {
-    if (!::RegisterHotKey(m_hwnd, 1, m_config.Get().hotkeyModifiers, m_config.Get().hotkeyVk))
-        SSP_LOG_DEBUG("RegisterHotKey failed: %lu", GetLastError());
-}
-void App::UnregisterHotkey() { if (m_hwnd) ::UnregisterHotKey(m_hwnd, 1); }
 
 // ============================================================================
 // Rendering
@@ -253,402 +229,225 @@ void App::UnregisterHotkey() { if (m_hwnd) ::UnregisterHotKey(m_hwnd, 1); }
 
 void App::RenderFrame() {
     if (!m_renderer || !m_visible) return;
+
     auto& colors = m_themeManager->GetColors();
-    RECT cr; GetClientRect(m_hwnd, &cr);
-    float w = static_cast<float>(cr.right), h = static_cast<float>(cr.bottom);
+    float w = (float)m_width;
+    float h = (float)m_height;
     auto& input = *m_inputHandler;
-    bool hasRecent = !m_recentManager->GetRecent().empty();
-    bool hasFavorites = !m_favoritesManager->GetFavorites().empty();
+    bool hasRecent = m_recentManager ? !m_recentManager->GetRecent().empty() : false;
+    bool hasFavorites = m_favoritesManager ? !m_favoritesManager->GetFavorites().empty() : false;
 
     auto layout = ComputeLayout(w, h, m_dpiScale, hasRecent, hasFavorites, input.GetResults().size());
     layout.scrollOffset = input.GetScrollOffset();
-    int vr = static_cast<int>(layout.resultsGrid.height / layout.cellSize);
+    int vr = (int)(layout.resultsGrid.height / layout.cellSize);
     if (vr < 1) vr = 1;
     input.UpdateLayoutInfo(layout.columns, vr, layout.maxScroll, layout.cellSize);
+
     if (!m_renderer->BeginDraw()) return;
 
     m_renderer->FillRect({0, 0, w, h}, colors.bgPrimary);
-    float dpi = m_dpiScale;
-    auto sf = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSearch * dpi);
-    auto tf = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSmall * dpi);
-    auto yf = m_renderer->CreateTextFormat(L"Segoe UI", kFontSizeSymbol * dpi);
 
     // Search bar
     {
         RectF r = layout.searchBar;
-        m_renderer->DrawRoundedRect({r.x + 4, r.y + 4, r.width - 8, r.height - 8}, 6.0f, colors.bgSecondary);
+        m_renderer->DrawRoundedRect(
+            {r.x + 4, r.y + 4, r.width - 8, r.height - 8}, 6.0f, colors.bgSecondary);
+
         const auto& q = input.GetQuery();
+        float fs = SSP_FONT_SIZE_SEARCH * m_dpiScale;
+
         if (input.GetActiveZone() == Zone::SearchBar && input.HasSelection()) {
             int ss = input.GetSelectStart(), se = input.GetSelectEnd();
             if (ss > se) std::swap(ss, se);
-            float selX = r.x + 12.0f + m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf), ss);
-            float selW = m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf), se) -
-                         m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf), ss);
-            if (selX + selW > r.x + r.width - 4.0f) selW = r.x + r.width - 4.0f - selX;
+            float selX = r.x + 12.0f + m_renderer->MeasureTextWidth(q, fs, ss);
+            float selW = m_renderer->MeasureTextWidth(q, fs, se) -
+                         m_renderer->MeasureTextWidth(q, fs, ss);
             m_renderer->FillRect({selX, r.y + 6.0f, selW, r.height - 12.0f}, 0x664078D4);
         }
-        m_renderer->DrawText(q.empty() ? L"Search symbols..." : q,
-            {r.x + 12, r.y + (r.height - kFontSizeSearch * dpi) * 0.5f, r.width - 24, r.height},
-            m_renderer->GetTextFormat(sf),
-            q.empty() ? colors.textMuted : colors.textPrimary);
+
+        if (q.empty())
+            m_renderer->DrawText(L"Search symbols...", r.x + 12, r.y + 4, fs, colors.textMuted);
+        else
+            m_renderer->DrawText(q, r.x + 12, r.y + 4, fs, colors.textPrimary);
+
         if (input.GetActiveZone() == Zone::SearchBar && m_cursorVisible) {
-            float cursorX = r.x + 12.0f + m_renderer->MeasureTextWidth(q, m_renderer->GetTextFormat(sf),
-                static_cast<int>(input.GetCursorPos()));
-            if (cursorX < r.x + r.width - 12.0f)
-                m_renderer->FillRect({cursorX, r.y + 8.0f, 1.5f, r.height - 16.0f}, colors.accent);
+            float cx = r.x + 12.0f + m_renderer->MeasureTextWidth(q, fs, (int)input.GetCursorPos());
+            m_renderer->FillRect({cx, r.y + 8.0f, 1.5f, r.height - 16.0f}, colors.accent);
         }
     }
 
-    // Recents
-    if (hasRecent) {
-        m_renderer->DrawText(L"Recent", {layout.recentLabel.x+8,layout.recentLabel.y,layout.recentLabel.width,layout.recentLabel.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
-        auto& rec = m_recentManager->GetRecent();
-        float cx = layout.recentGrid.x, cy = layout.recentGrid.y, cs = layout.cellSize;
-        for (size_t i = 0; i < rec.size() && cx+cs <= layout.recentGrid.x+layout.recentGrid.width; i++, cx+=cs) {
-            if (input.GetActiveZone() == Zone::RecentStrip && input.GetSelectedIndex() == i)
-                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.selected);
-            else if (input.IsHovering() && input.GetHoverZone() == Zone::RecentStrip && input.GetHoverIndex() == static_cast<int>(i))
-                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.hover);
-            m_renderer->DrawTextCentered(rec[i]->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf), colors.textPrimary);
-        }
-    }
-
-    // Favorites
-    if (hasFavorites) {
-        m_renderer->DrawText(L"Favorites", {layout.favoritesLabel.x+8,layout.favoritesLabel.y,layout.favoritesLabel.width,layout.favoritesLabel.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
-        auto& fav = m_favoritesManager->GetFavorites();
-        float cx = layout.favoritesGrid.x, cy = layout.favoritesGrid.y, cs = layout.cellSize;
-        for (size_t i = 0; i < fav.size() && cx+cs <= layout.favoritesGrid.x+layout.favoritesGrid.width; i++, cx+=cs) {
-            if (input.GetActiveZone() == Zone::FavoritesStrip && input.GetSelectedIndex() == i)
-                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.selected);
-            else if (input.IsHovering() && input.GetHoverZone() == Zone::FavoritesStrip && input.GetHoverIndex() == static_cast<int>(i))
-                m_renderer->DrawRoundedRect({cx+2, cy+2, cs-4, cs-4}, 4.0f, colors.hover);
-            m_renderer->DrawTextCentered(fav[i]->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf), colors.textPrimary);
-        }
-    }
-
-    // Category filter
+    // Category bar
     {
-        constexpr int visibleCategories = 9;
-        float count = static_cast<float>(visibleCategories + 1);
-        float chipW = layout.categoryBar.width / count;
-        float x = layout.categoryBar.x;
-        for (int i = 0; i <= visibleCategories; ++i, x += chipW) {
-            bool active = (i == 0 && input.IsAllCategories()) ||
-                (i > 0 && !input.IsAllCategories() && input.GetCategoryFilter() == static_cast<Category>(i - 1));
-            uint32_t fill = active ? colors.selected : colors.bgSecondary;
-            if (!active && input.GetActiveZone() == Zone::CategoryBar)
-                fill = colors.bgTertiary;
-            m_renderer->DrawRoundedRect({x + 2.0f, layout.categoryBar.y + 3.0f, chipW - 4.0f, layout.categoryBar.height - 6.0f}, 4.0f, fill);
-
-            std::wstring label;
-            if (i == 0) label = L"All";
-            else {
-                const char* name = CategoryNames[i - 1];
-                label.assign(name, name + std::strlen(name));
-            }
-            if (label.size() > 5) label = label.substr(0, 5);
-            m_renderer->DrawTextCentered(label, {x + 3.0f, layout.categoryBar.y, chipW - 6.0f, layout.categoryBar.height},
-                m_renderer->GetTextFormat(tf), active ? colors.textPrimary : colors.textSecondary);
+        RectF r = layout.categoryBar;
+        float fs = SSP_FONT_SIZE_SMALL * m_dpiScale;
+        constexpr const wchar_t* catShort[] = {
+            L"Math", L"Greek", L"Phys", L"Chem", L"Elec", L"SI",
+            L"Logic", L"Prog", L"Arrow", L"Curr", L"Frac", L"Super",
+            L"Sub", L"Stat", L"Geom", L"Calc", L"Astro", L"Misc", L"Custom"
+        };
+        float catW = r.width / 19.0f;
+        for (int i = 0; i < 19 && i < (int)Category::COUNT; i++) {
+            RectF cr = {r.x + i * catW, r.y, catW - 2, r.height};
+            bool active = !input.IsAllCategories() &&
+                          input.GetCategoryFilter() == (Category)i;
+            if (active) m_renderer->DrawRoundedRect(cr, 4.0f, colors.accent);
+            m_renderer->DrawTextCentered(catShort[i], cr, fs,
+                active ? colors.textPrimary : colors.textSecondary);
         }
     }
 
     // Results grid
     {
-        auto& res = input.GetResults(); float cs = layout.cellSize;
-        float sx = layout.resultsGrid.x, sy = layout.resultsGrid.y - layout.scrollOffset;
-        float ct = layout.resultsGrid.y, cb = ct+layout.resultsGrid.height;
-        int sel = static_cast<int>(input.GetSelectedIndex());
-        for (size_t i = 0; i < res.size(); i++) {
-            float cx = sx + (i%layout.columns)*cs, cy = sy + (i/layout.columns)*cs;
-            if (cy < ct || cy + cs > cb) continue;
-            int hoverIdx = input.GetHoverIndex();
-            if (input.IsHovering() && input.GetHoverZone() == Zone::ResultsGrid &&
-                static_cast<int>(i) == hoverIdx && static_cast<int>(i) != sel) {
-                m_renderer->DrawRoundedRect({cx+2,cy+2,cs-4,cs-4}, 4.0f, colors.hover);
+        RectF r = layout.resultsGrid;
+        m_renderer->PushClip(r);
+
+        const auto& results = input.GetResults();
+        float cellSize = layout.cellSize;
+        int cols = layout.columns;
+        float sy = r.y - input.GetScrollOffset();
+        float sf = SSP_FONT_SIZE_SYMBOL * m_dpiScale;
+        float tf = SSP_FONT_SIZE_SMALL * m_dpiScale;
+        size_t sel = input.GetSelectedIndex();
+
+        for (size_t i = 0; i < results.size(); i++) {
+            int row = (int)i / cols, col = (int)i % cols;
+            float cx = r.x + col * cellSize;
+            float cy = sy + row * cellSize;
+            if (cy + cellSize < r.y || cy > r.y + r.height) continue;
+
+            RectF cell = {cx, cy, cellSize, cellSize};
+            if (i == sel)
+                m_renderer->DrawRoundedRect(cell, 6.0f, colors.selected);
+            else if (input.IsHovering() && (size_t)input.GetHoverIndex() == i)
+                m_renderer->DrawRoundedRect(cell, 6.0f, colors.hover);
+
+            const auto* sym = results[i].symbol;
+            if (sym) {
+                m_renderer->DrawTextCentered(sym->symbol,
+                    {cx, cy, cellSize, cellSize * 0.65f}, sf, colors.textPrimary);
+                if (!sym->name.empty())
+                    m_renderer->DrawTextCentered(sym->name,
+                        {cx, cy + cellSize * 0.55f, cellSize, cellSize * 0.4f}, tf, colors.textMuted);
             }
-            if (static_cast<int>(i) == sel)
-                m_renderer->DrawRoundedRect({cx+2,cy+2,cs-4,cs-4}, 4.0f, colors.selected);
-            if (m_favoritesManager && m_favoritesManager->IsFavorite(*res[i].symbol))
-                m_renderer->DrawText(L"\u2605", {cx+2, cy+2, 14.0f*dpi, 14.0f*dpi}, m_renderer->GetTextFormat(tf), 0xFFFFD700);
-            m_renderer->DrawTextCentered(res[i].symbol->symbol, {cx,cy,cs,cs}, m_renderer->GetTextFormat(yf),
-                (static_cast<int>(i)==sel) ? 0xFFE0F0FF : colors.textPrimary);
         }
+
+        m_renderer->PopClip();
     }
 
-    // Status bar
-    if (layout.statusBar.height > 0) {
-        wchar_t buf[128]; const auto& q = input.GetQuery();
-        if (!q.empty()) swprintf_s(buf, L"%zu results \u2022 Click insert \u2022 Ctrl+C copy \u2022 Ctrl+D fav", input.GetResults().size());
-        else swprintf_s(buf, L"%zu symbols \u2022 Click insert \u2022 Alt+A toggle", m_database->GetSymbols().size());
-        m_renderer->DrawText(buf, {layout.statusBar.x+8,layout.statusBar.y,layout.statusBar.width,layout.statusBar.height}, m_renderer->GetTextFormat(tf), colors.textMuted);
+    // Scrollbar
+    if (layout.maxScroll > 0) {
+        float barW = 6.0f;
+        float visH = layout.resultsGrid.height;
+        float totalH = visH + layout.maxScroll;
+        float thumbH = visH * (visH / totalH);
+        if (thumbH < 20) thumbH = 20;
+        float thumbY = layout.resultsGrid.y + (input.GetScrollOffset() / layout.maxScroll) * (visH - thumbH);
+        m_renderer->DrawRoundedRect(
+            {layout.resultsGrid.x + layout.resultsGrid.width - barW - 2, thumbY, barW, thumbH},
+            3.0f, colors.scrollbar);
     }
 
     m_renderer->EndDraw();
 }
 
 // ============================================================================
-// Window Procedure
+// Event processing
 // ============================================================================
 
-LRESULT CALLBACK App::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
-    auto* app = reinterpret_cast<App*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
-
-    switch (msg) {
-    case WM_CREATE:
-        SetWindowLongPtrW(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(reinterpret_cast<CREATESTRUCT*>(lp)->lpCreateParams));
-        return 0;
-
-    case WM_NCHITTEST: {
-        // Allow dragging the window by its background
-        LRESULT hit = DefWindowProcW(hwnd, msg, wp, lp);
-        if (hit == HTCLIENT) {
-            // Check if mouse is over search bar or results — pass through
-            // Otherwise return HTCAPTION to allow dragging
-            if (app && app->m_visible) {
-                POINT pt = { GET_X_LPARAM(lp), GET_Y_LPARAM(lp) };
-                ScreenToClient(hwnd, &pt);
-                float mx = static_cast<float>(pt.x), my = static_cast<float>(pt.y);
-                auto& input = *app->m_inputHandler;
-                bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
-                bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
-                RECT cr; GetClientRect(hwnd, &cr);
-                auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
-                    app->m_dpiScale, hasRec, hasFav, input.GetResults().size());
-                // Only drag on background areas (not on search bar, grid, categories, strips)
-                auto hitR = [](const RectF& r, float x, float y) { return x>=r.x && x<r.x+r.width && y>=r.y && y<r.y+r.height; };
-                if (!hitR(lo.searchBar, mx, my) && !hitR(lo.resultsGrid, mx, my) &&
-                    !hitR(lo.recentGrid, mx, my) &&
-                    !hitR(lo.favoritesGrid, mx, my) && !hitR(lo.categoryBar, mx, my) &&
-                    !hitR(lo.statusBar, mx, my))
-                    return HTCAPTION;
+void App::ProcessEvent(const SDL_Event& e) {
+    switch (e.type) {
+    case SDL_QUIT:
+        m_running = false;
+        break;
+    case SDL_WINDOWEVENT:
+        if (e.window.event == SDL_WINDOWEVENT_FOCUS_LOST && m_visible && !m_inserting) {
+            HidePanel();
+        } else if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+            m_width = e.window.data1;
+            m_height = e.window.data2;
+            if (m_renderer) m_renderer->Resize(m_width, m_height);
+        } else if (e.window.event == SDL_WINDOWEVENT_EXPOSED && m_visible) {
+            RequestRedraw();
+        }
+        break;
+    case SDL_KEYDOWN:
+        if (m_visible) {
+            auto* input = GetInputHandler();
+            if (!input) break;
+            SDL_Keymod mod = SDL_GetModState();
+            bool ctrl  = (mod & KMOD_CTRL) != 0;
+            bool shift = (mod & KMOD_SHIFT) != 0;
+            int vk = 0;
+            switch (e.key.keysym.sym) {
+            case SDLK_ESCAPE:    vk = 256; break;
+            case SDLK_RETURN:    vk = 257; break;
+            case SDLK_TAB:       vk = 258; break;
+            case SDLK_LEFT:      vk = 263; break;
+            case SDLK_UP:        vk = 264; break;
+            case SDLK_RIGHT:     vk = 265; break;
+            case SDLK_DOWN:      vk = 266; break;
+            case SDLK_PAGEUP:    vk = 267; break;
+            case SDLK_PAGEDOWN:  vk = 268; break;
+            case SDLK_HOME:      vk = 269; break;
+            case SDLK_END:       vk = 270; break;
+            case SDLK_DELETE:    vk = 271; break;
+            case SDLK_BACKSPACE: vk = 272; break;
+            case SDLK_SLASH:     vk = 287; break;
+            default: break;
+            }
+            if (ctrl && e.key.keysym.sym >= SDLK_1 && e.key.keysym.sym <= SDLK_9)
+                vk = '1' + (e.key.keysym.sym - SDLK_1);
+            if (vk != 0) {
+                bool hasR = m_recentManager && !m_recentManager->GetRecent().empty();
+                bool hasF = m_favoritesManager && !m_favoritesManager->GetFavorites().empty();
+                if (input->HandleKeyDown(vk, shift, ctrl, hasR, hasF))
+                    RequestRedraw();
             }
         }
-        return hit;
+        break;
+    case SDL_TEXTINPUT:
+        if (m_visible) {
+            auto* input = GetInputHandler();
+            if (input && e.text.text[0]) {
+                // Convert UTF-8 to wchar_t
+                std::string utf8(e.text.text);
+                std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+                std::wstring w = conv.from_bytes(utf8);
+                if (input->HandleChar(w[0]))
+                    RequestRedraw();
+            }
+        }
+        break;
+    case SDL_MOUSEBUTTONDOWN:
+        if (m_visible) {
+            auto* input = GetInputHandler();
+            if (!input) break;
+            int mx = e.button.x, my = e.button.y;
+            bool hasR = m_recentManager && !m_recentManager->GetRecent().empty();
+            bool hasF = m_favoritesManager && !m_favoritesManager->GetFavorites().empty();
+            auto layout = ComputeLayout((float)m_width, (float)m_height, m_dpiScale,
+                                         hasR, hasF, input->GetResults().size());
+            layout.scrollOffset = input->GetScrollOffset();
+            if (input->HandleMouseDown(mx, my, layout, hasR, hasF))
+                RequestRedraw();
+        }
+        break;
+    case SDL_MOUSEWHEEL:
+        if (m_visible) {
+            auto* input = GetInputHandler();
+            if (!input) break;
+            int mx, my;
+            SDL_GetMouseState(&mx, &my);
+            bool hasR = m_recentManager && !m_recentManager->GetRecent().empty();
+            bool hasF = m_favoritesManager && !m_favoritesManager->GetFavorites().empty();
+            auto layout = ComputeLayout((float)m_width, (float)m_height, m_dpiScale,
+                                         hasR, hasF, input->GetResults().size());
+            layout.scrollOffset = input->GetScrollOffset();
+            if (input->HandleMouseWheel(e.wheel.y * 40, mx, my, layout))
+                RequestRedraw();
+        }
+        break;
     }
-
-    case WM_HOTKEY:
-        if (wp == 1 && app) app->TogglePanel();
-        return 0;
-
-    case WM_ACTIVATE:
-        if (LOWORD(wp) == WA_INACTIVE && app && app->IsVisible() && !app->m_inserting)
-            app->HidePanel();
-        return 0;
-
-    case WM_TIMER:
-        if (wp == 1 && app && app->m_animation && app->m_animation->IsActive()) {
-            app->m_animation->Update(8.0f);
-            InvalidateRect(hwnd, nullptr, FALSE);
-            if (!app->m_animation->IsActive()) KillTimer(hwnd, 1);
-        } else if (wp == 2 && app) {
-            app->m_cursorVisible = !app->m_cursorVisible;
-            // Only invalidate search bar area to minimize repaint
-            InvalidateRect(hwnd, nullptr, FALSE);
-        } else if (wp == 3 && app) {
-            KillTimer(hwnd, 3);
-            app->m_inserting = false;
-            SetForegroundWindow(hwnd);
-            InvalidateRect(hwnd, nullptr, FALSE);
-        }
-        return 0;
-
-    case WM_KEYDOWN:
-    case WM_SYSKEYDOWN:
-        {
-        if (app && app->m_inputHandler && app->m_visible) {
-            bool ctrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-            bool shift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-
-            // Ctrl+C: copy selection, query, or symbol
-            if (ctrl && wp == 'C') {
-                if (app->m_inputHandler->GetActiveZone() == Zone::SearchBar) {
-                    if (app->m_inputHandler->HasSelection())
-                        CopyToClipboard(app->m_inputHandler->GetSelection());
-                    else if (!app->m_inputHandler->GetQuery().empty())
-                        CopyToClipboard(app->m_inputHandler->GetQuery());
-                } else {
-                    auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
-                    if (sym) CopyToClipboard(sym->symbol);
-                }
-                return 0;
-            }
-            // Ctrl+X: cut selection or all text
-            if (ctrl && wp == 'X' && app->m_inputHandler->GetActiveZone() == Zone::SearchBar) {
-                if (app->m_inputHandler->HasSelection()) {
-                    CopyToClipboard(app->m_inputHandler->GetSelection());
-                    app->m_inputHandler->CutSelection();
-                } else if (!app->m_inputHandler->GetQuery().empty()) {
-                    CopyToClipboard(app->m_inputHandler->GetQuery());
-                    app->m_inputHandler->Reset();
-                }
-                app->m_inputHandler->RefreshResults();
-                InvalidateRect(hwnd, nullptr, FALSE);
-                return 0;
-            }
-            // Ctrl+D: toggle favorite
-            if (ctrl && wp == 'D') {
-                auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
-                if (sym && app->m_favoritesManager) {
-                    if (app->m_favoritesManager->IsFavorite(*sym))
-                        app->m_favoritesManager->Remove(*sym);
-                    else
-                        app->m_favoritesManager->Add(*sym);
-                    InvalidateRect(hwnd, nullptr, FALSE);
-                }
-                return 0;
-            }
-            // Ctrl+V: paste into search bar
-            if (ctrl && wp == 'V') {
-                if (OpenClipboard(nullptr)) {
-                    HANDLE hData = GetClipboardData(CF_UNICODETEXT);
-                    if (hData) {
-                        wchar_t* pText = static_cast<wchar_t*>(GlobalLock(hData));
-                        if (pText) {
-                            app->m_inputHandler->AppendToQuery(pText);
-                            GlobalUnlock(hData);
-                            InvalidateRect(hwnd, nullptr, FALSE);
-                        }
-                    }
-                    CloseClipboard();
-                }
-                return 0;
-            }
-            // Ctrl+W / Escape: close
-            if (ctrl && wp == 'W') { app->HidePanel(); return 0; }
-
-            bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
-            bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
-            if (app->m_inputHandler->HandleKeyDown(wp, shift, ctrl, hasRec, hasFav)) {
-                InvalidateRect(hwnd, nullptr, FALSE);
-                return 0;
-            }
-        }
-        break;
-        }
-    case WM_CHAR:
-        if (app && app->m_inputHandler && app->m_visible) {
-            app->m_inputHandler->HandleChar(static_cast<wchar_t>(wp));
-            InvalidateRect(hwnd, nullptr, FALSE);
-            return 0;
-        }
-        break;
-
-    case WM_LBUTTONDBLCLK:
-        // Double-click: insert and close
-        if (app && app->m_inputHandler && app->m_visible) {
-            bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
-            bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
-            RECT cr; GetClientRect(hwnd, &cr);
-            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
-                app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
-            app->m_inputHandler->HandleMouseDoubleClick(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
-            InvalidateRect(hwnd, nullptr, FALSE);
-            return 0;
-        }
-        break;
-
-    case WM_LBUTTONDOWN:
-        if (app && app->m_inputHandler && app->m_visible) {
-            bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
-            bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
-            RECT cr; GetClientRect(hwnd, &cr);
-            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
-                app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
-            app->m_inputHandler->HandleMouseDown(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
-            InvalidateRect(hwnd, nullptr, FALSE);
-            return 0;
-        }
-        break;
-
-    case WM_RBUTTONUP:
-        if (app && app->m_inputHandler && app->m_visible) {
-            // Determine what's under cursor
-            POINT pt = { GET_X_LPARAM(lp), GET_Y_LPARAM(lp) };
-            ClientToScreen(hwnd, &pt);
-            auto* sym = GetSelectedSymbol(app->m_inputHandler.get());
-            if (sym) {
-                bool isFav = app->m_favoritesManager && app->m_favoritesManager->IsFavorite(*sym);
-                HMENU menu = CreatePopupMenu();
-                AppendMenuW(menu, MF_STRING, 1, L"Copy Symbol");
-                AppendMenuW(menu, MF_STRING, 2, (std::wstring(L"Copy LaTeX: ") + sym->latex).c_str());
-                AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
-                AppendMenuW(menu, MF_STRING, 3, isFav ? L"Remove from Favorites" : L"Add to Favorites");
-                int cmd = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_NONOTIFY, pt.x, pt.y, 0, hwnd, nullptr);
-                if (cmd == 1) CopyToClipboard(sym->symbol);
-                else if (cmd == 2) CopyToClipboard(sym->latex);
-                else if (cmd == 3 && app->m_favoritesManager) {
-                    if (isFav) app->m_favoritesManager->Remove(*sym);
-                    else app->m_favoritesManager->Add(*sym);
-                    InvalidateRect(hwnd, nullptr, FALSE);
-                }
-                DestroyMenu(menu);
-            }
-            return 0;
-        }
-        break;
-
-
-    case WM_MOUSEMOVE:
-        if (app && app->m_inputHandler && app->m_visible) {
-            bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
-            bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
-            RECT cr; GetClientRect(hwnd, &cr);
-            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
-                app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
-            app->m_inputHandler->HandleMouseMove(GET_X_LPARAM(lp), GET_Y_LPARAM(lp), lo, hasRec, hasFav);
-            InvalidateRect(hwnd, nullptr, FALSE);
-            return 0;
-        }
-        break;
-
-    case WM_MOUSEWHEEL:
-        if (app && app->m_inputHandler && app->m_visible) {
-            POINT pt = { GET_X_LPARAM(lp), GET_Y_LPARAM(lp) };
-            ScreenToClient(hwnd, &pt);
-            bool hasRec = app->m_recentManager && !app->m_recentManager->GetRecent().empty();
-            bool hasFav = app->m_favoritesManager && !app->m_favoritesManager->GetFavorites().empty();
-            RECT cr; GetClientRect(hwnd, &cr);
-            auto lo = ComputeLayout(static_cast<float>(cr.right), static_cast<float>(cr.bottom),
-                app->m_dpiScale, hasRec, hasFav, app->m_inputHandler->GetResults().size());
-            app->m_inputHandler->HandleMouseWheel(GET_WHEEL_DELTA_WPARAM(wp), pt.x, pt.y, lo);
-            InvalidateRect(hwnd, nullptr, FALSE);
-            return 0;
-        }
-        break;
-
-    case WM_SIZE:
-        if (app && app->m_renderer && wp != SIZE_MINIMIZED) {
-            app->m_renderer->Resize(LOWORD(lp), HIWORD(lp));
-            InvalidateRect(hwnd, nullptr, FALSE);
-        }
-        return 0;
-
-    case WM_PAINT: {
-        PAINTSTRUCT ps;
-        BeginPaint(hwnd, &ps);
-        if (app) app->RenderFrame();
-        EndPaint(hwnd, &ps);
-        return 0;
-    }
-
-    case WM_DPICHANGED:
-        if (app) app->m_dpiScale = static_cast<float>(HIWORD(wp)) / 96.0f;
-        SetWindowPos(hwnd, nullptr,
-            reinterpret_cast<RECT*>(lp)->left, reinterpret_cast<RECT*>(lp)->top,
-            reinterpret_cast<RECT*>(lp)->right - reinterpret_cast<RECT*>(lp)->left,
-            reinterpret_cast<RECT*>(lp)->bottom - reinterpret_cast<RECT*>(lp)->top,
-            SWP_NOZORDER | SWP_NOACTIVATE);
-        InvalidateRect(hwnd, nullptr, FALSE);
-        return 0;
-
-    case WM_ERASEBKGND: return 1;
-
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-    }
-    return DefWindowProcW(hwnd, msg, wp, lp);
 }
 
 } // namespace ssp

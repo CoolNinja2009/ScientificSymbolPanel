@@ -1,8 +1,6 @@
 #include "Config.h"
 #include "Log.h"
-#include <windows.h>
-#include <shlobj.h>
-#include <shlwapi.h>
+#include "Platform/Platform.h"
 #include <fstream>
 #include <sstream>
 #include <cwctype>
@@ -123,15 +121,7 @@ Config::Config() {
 }
 
 std::filesystem::path Config::DataDir() {
-    wchar_t localAppData[MAX_PATH];
-    if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_LOCAL_APPDATA, nullptr, 0, localAppData))) {
-        std::filesystem::path p(localAppData);
-        p /= kDataSubdir;
-        std::error_code ec;
-        std::filesystem::create_directories(p, ec);
-        return p;
-    }
-    return std::filesystem::current_path() / kDataSubdir;
+    return Platform::DataDir();
 }
 
 std::filesystem::path Config::SettingsPath() const  { return m_dataDir / kSettingsFile; }

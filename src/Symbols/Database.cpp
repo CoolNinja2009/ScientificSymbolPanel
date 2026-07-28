@@ -1,4 +1,5 @@
 #include <windows.h>
+#include "Platform/Platform.h"
 #include "Database.h"
 #include "Core/Log.h"
 #include <fstream>
@@ -35,18 +36,12 @@ static std::vector<std::wstring> ReadWStrVec(const uint8_t*& p) {
 // ============================================================================
 
 std::filesystem::path SymbolDatabase::DefaultPath() {
-    wchar_t buf[MAX_PATH];
-    DWORD len = GetModuleFileNameW(nullptr, buf, MAX_PATH);
+    auto exeDir = Platform::ExeDir();
     std::vector<std::filesystem::path> candidates;
-
-    if (len > 0 && len < MAX_PATH) {
-        std::filesystem::path exePath(buf);
-        auto exeDir = exePath.parent_path();
         candidates.push_back(exeDir / L"data" / L"symbols.bin");
         candidates.push_back(exeDir / L"data" / L"symbols.json");
         candidates.push_back(exeDir.parent_path().parent_path().parent_path() / L"data" / L"symbols.bin");
         candidates.push_back(exeDir.parent_path().parent_path() / L"data" / L"symbols.bin");
-    }
     candidates.push_back(std::filesystem::current_path() / L"data" / L"symbols.bin");
     candidates.push_back(std::filesystem::current_path() / L"data" / L"symbols.json");
     candidates.push_back(L"data\\symbols.bin");

@@ -1,4 +1,20 @@
-#include <windows.h>
+// Virtual key constants — platform-independent, mapped from GLFW in App.cpp
+#ifndef VK_ESCAPE
+#define VK_ESCAPE    256
+#define VK_RETURN    257
+#define VK_TAB       258
+#define VK_BACK      272
+#define VK_DELETE    271
+#define VK_LEFT      263
+#define VK_UP        264
+#define VK_RIGHT     265
+#define VK_DOWN      266
+#define VK_HOME      269
+#define VK_END       270
+#define VK_PRIOR     267
+#define VK_NEXT      268
+#endif
+
 #include "App/InputHandler.h"
 #include "Core/Log.h"
 #include "Symbols/Database.h"
@@ -136,7 +152,7 @@ void InputHandler::PerformSearch() {
 // Keyboard handling
 // ============================================================================
 
-bool InputHandler::HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
+bool InputHandler::HandleKeyDown(int vk, bool shift, bool ctrl,
                                   bool hasRecent, bool hasFavorites) {
 
     // --- Ctrl+digit: switch category ---
@@ -553,7 +569,7 @@ bool InputHandler::HandleMouseWheel(int delta, int x, int y, const PanelLayout& 
     // Only scroll if over results grid
     if (!hit(layout.resultsGrid, fx, fy)) return false;
 
-    float scrollAmount = static_cast<float>(delta) / static_cast<float>(WHEEL_DELTA) * layout.cellSize * 2.0f;
+    float scrollAmount = static_cast<float>(delta) / static_cast<float>(120 /* WHEEL_DELTA */) * layout.cellSize * 2.0f;
     ScrollBy(-scrollAmount);
     if (m_onInvalidate) m_onInvalidate();
     return true;

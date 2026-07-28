@@ -50,7 +50,7 @@ public:
     void SetInvalidateCallback(ActionCallback cb)   { m_onInvalidate = std::move(cb); }
 
     // --- Input handlers — return true if the event was consumed ---
-    bool HandleKeyDown(WPARAM vk, bool shift, bool ctrl,
+    bool HandleKeyDown(int vk, bool shift, bool ctrl,
                        bool hasRecent, bool hasFavorites);
     bool HandleChar(wchar_t ch);
     bool HandleMouseDown(int x, int y, const PanelLayout& layout,

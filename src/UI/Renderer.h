@@ -1,33 +1,26 @@
 #pragma once
-#include <windows.h>
 #include "Core/Types.h"
-#include <d2d1.h>
-#include <dwrite.h>
-#include <memory>
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <SDL.h>
 
-struct ID2D1Factory;
-struct IDWriteFactory;
-struct ID2D1HwndRenderTarget;
-struct ID2D1SolidColorBrush;
-struct IDWriteTextFormat;
+struct _TTF_Font;
+typedef struct _TTF_Font TTF_Font;
 
 namespace ssp {
 
 class Renderer {
 public:
-    Renderer(HWND hwnd, ID2D1Factory* d2dFactory, IDWriteFactory* dwriteFactory);
+    Renderer(SDL_Window* window);
     ~Renderer();
 
-    // Non-copyable
     Renderer(const Renderer&) = delete;
     Renderer& operator=(const Renderer&) = delete;
 
     // Lifecycle
-    bool Initialize();
-    void Resize(uint32_t width, uint32_t height);
+    bool Initialize(const char* fontPath, int fontSize);
+    void Resize(int width, int height);
 
     // Frame
     bool BeginDraw();
@@ -38,54 +31,35 @@ public:
 
     // Drawing
     void FillRect(const RectF& rect, uint32_t color);
-    void DrawText(std::wstring_view text, const RectF& rect,
-                  IDWriteTextFormat* format, uint32_t color);
-    void DrawTextCentered(std::wstring_view text, const RectF& rect,
-                          IDWriteTextFormat* format, uint32_t color);
+    void DrawText(std::wstring_view text, float x, float y, float fontSize, uint32_t color);
+    void DrawTextCentered(std::wstring_view text, const RectF& rect, float fontSize, uint32_t color);
     void DrawRoundedRect(const RectF& rect, float radius, uint32_t color);
-    void DrawLine(const PointF& p0, const PointF& p1, uint32_t color,
-                  float width = 1.0f);
-    // Measure text width up to a given character count (-1 = full string)
-    float MeasureTextWidth(std::wstring_view text, IDWriteTextFormat* format,
-                           int upToChars = -1) const;
+    void DrawLine(const PointF& p0, const PointF& p1, uint32_t color, float width = 1.0f);
 
-    // Text format management
-    std::wstring CreateTextFormat(const wchar_t* fontName, float fontSize,
-                                   DWRITE_FONT_WEIGHT fontWeight = DWRITE_FONT_WEIGHT_NORMAL,
-                                   DWRITE_FONT_STYLE style = DWRITE_FONT_STYLE_NORMAL);
-    IDWriteTextFormat* GetTextFormat(const std::wstring& key) const;
+    // Clip
+    void PushClip(const RectF& rect);
+    void PopClip();
+
+    // Text measurement
+    float MeasureTextWidth(std::wstring_view text, float fontSize, int upToChars = -1) const;
 
     // Accessors
-    ID2D1HwndRenderTarget* GetRenderTarget() const { return m_renderTarget.get(); }
-    uint32_t GetWidth() const { return m_width; }
-    uint32_t GetHeight() const { return m_height; }
+    int GetWidth() const  { return m_width; }
+    int GetHeight() const { return m_height; }
 
 private:
-    struct ComDeleter {
-        template<typename T>
-        void operator()(T* p) const { if (p) p->Release(); }
-    };
-    template<typename T>
-    using ComPtr = std::unique_ptr<T, ComDeleter>;
+    void SetDrawColor(uint32_t color);
+    TTF_Font* GetFont(float size);
+    static std::string ToUtf8(std::wstring_view ws);
 
-    bool CreateRenderTarget();
-    static D2D1::ColorF ToColorF(uint32_t color);
-    ID2D1SolidColorBrush* GetBrush(uint32_t color);
-    void ClearBrushes();
-    std::wstring MakeTextFormatKey(const wchar_t* fontName, float fontSize,
-                                    DWRITE_FONT_WEIGHT fontWeight,
-                                    DWRITE_FONT_STYLE style) const;
-
-    HWND m_hwnd = nullptr;
-    ID2D1Factory* m_d2dFactory = nullptr;
-    IDWriteFactory* m_dwriteFactory = nullptr;
-
-    ComPtr<ID2D1HwndRenderTarget> m_renderTarget;
-    std::unordered_map<uint32_t, ComPtr<ID2D1SolidColorBrush>> m_brushes;
-    std::unordered_map<std::wstring, ComPtr<IDWriteTextFormat>> m_textFormats;
-
-    uint32_t m_width = 0;
-    uint32_t m_height = 0;
+    SDL_Window* m_window = nullptr;
+    SDL_Renderer* m_renderer = nullptr;
+    TTF_Font* m_baseFont = nullptr;  // font at default size
+    std::unordered_map<float, TTF_Font*> m_fontCache;
+    int m_width = 0;
+    int m_height = 0;
+    std::string m_fontPath;
+    int m_baseFontSize = 14;
 };
 
 } // namespace ssp

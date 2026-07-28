@@ -5,87 +5,70 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Windows Unicode
+# ---- Dependencies (vcpkg) ----
+find_package(SDL2 CONFIG REQUIRED)
+find_package(SDL2_ttf CONFIG REQUIRED)
+
+# ---- Source files ----
+file(GLOB_RECURSE SSP_SOURCES CONFIGURE_DEPENDS src/*.cpp src/*.h)
+# Exclude platform-specific stubs and nanoVG
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/Platform/Win32\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/nanovg\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/nanovg_gl\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/nanovg_impl\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/stb_truetype\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/gl_loader\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/glcorearb\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/KHR/")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/InputHandler\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/TextEdit\\.")
+list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/stb_textedit\\.")
+
+# ---- Executable ----
 if(WIN32)
-    add_compile_definitions(UNICODE _UNICODE)
-    add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN)
+    add_executable(SSP WIN32 ${SSP_SOURCES} assets/icon.rc)
+else()
+    add_executable(SSP ${SSP_SOURCES})
 endif()
 
-# Source files
-file(GLOB_RECURSE SSP_SOURCES CONFIGURE_DEPENDS
-    src/*.cpp
-    src/*.h
-)
-list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/InputHandler\\.(cpp|h)$")
-list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/TextEdit\\.(cpp|h)$")
-list(FILTER SSP_SOURCES EXCLUDE REGEX ".*/src/UI/stb_textedit\\.h$")
-
-# Executable
-add_executable(SSP WIN32
-    ${SSP_SOURCES}
-    assets/icon.rc
-)
-
-# Copy data files to output directory
+# ---- Copy data + font files ----
 add_custom_command(TARGET SSP POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/data"
-        "$<TARGET_FILE_DIR:SSP>/data"
-    COMMENT "Copying data files..."
+        "${CMAKE_SOURCE_DIR}/data" "$<TARGET_FILE_DIR:SSP>/data"
+    COMMENT "Copying data..."
+)
+add_custom_command(TARGET SSP POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets" "$<TARGET_FILE_DIR:SSP>/assets"
+    COMMENT "Copying assets..."
 )
 
-# Link libraries
+# ---- Link ----
 target_link_libraries(SSP PRIVATE
-    d2d1
-    dwrite
-    windowscodecs
-    dwmapi
-    user32
-    gdi32
-    comctl32
-    shell32
-    shlwapi
-    ole32
+    SDL2::SDL2
+    SDL2::SDL2_ttf
 )
 
-# Include directories
+# ---- Include dirs ----
 target_include_directories(SSP PRIVATE src)
 
-# Compiler options
-target_compile_options(SSP PRIVATE
-    /W4
-    /Zi
-    /EHsc
-    /std:c++latest
-    /FS
-    /MP
-    /Zc:__cplusplus
-    /Zc:preprocessor
-)
-
-target_link_options(SSP PRIVATE /DEBUG:FULL)
-
-# Release optimizations
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_compile_options(SSP PRIVATE
-        /O2
-        /GL
-        /Gw
-        /MT
+# ---- Platform ----
+if(WIN32)
+    target_compile_definitions(SSP PRIVATE
+        UNICODE _UNICODE NOMINMAX WIN32_LEAN_AND_MEAN _CRT_SECURE_NO_WARNINGS
+        _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
     )
-    target_link_options(SSP PRIVATE
-        /LTCG
-        /OPT:REF
-        /OPT:ICF
-    )
-    # Strip debug info from release
-    target_link_options(SSP PRIVATE /DEBUG:NONE)
+    target_link_libraries(SSP PRIVATE user32 gdi32 shell32 dwmapi ole32)
+    target_compile_options(SSP PRIVATE /W3 /EHsc /std:c++latest /FS /MP /Zc:__cplusplus)
+elseif(APPLE)
+    target_compile_options(SSP PRIVATE -Wall -Wextra)
+else()
+    target_link_libraries(SSP PRIVATE dl pthread)
+    target_compile_options(SSP PRIVATE -Wall -Wextra)
 endif()
 
-# Debug defines
-target_compile_definitions(SSP PRIVATE
-    $<$<CONFIG:Debug>:SSP_DEBUG>
-)
+# ---- Debug ----
+target_compile_definitions(SSP PRIVATE $<$<CONFIG:Debug>:SSP_DEBUG>)
 
-# Installation
+# ---- Install ----
 install(TARGETS SSP RUNTIME DESTINATION .)
