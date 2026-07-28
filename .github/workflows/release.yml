@@ -7,8 +7,6 @@ on:
 jobs:
   build_and_publish:
     runs-on: windows-latest
-    env:
-      VCPKG_ROOT: ${{ github.workspace }}\vcpkg
 
     steps:
       - name: Checkout repository
@@ -17,18 +15,13 @@ jobs:
       - name: Clone vcpkg
         shell: pwsh
         run: |
-          git clone https://github.com/microsoft/vcpkg $env:VCPKG_ROOT
+          git clone https://github.com/microsoft/vcpkg vcpkg
 
-      - name: Bootstrap vcpkg
+      - name: Bootstrap and install vcpkg dependencies
         shell: pwsh
         run: |
-          Set-Location $env:VCPKG_ROOT
+          Set-Location vcpkg
           .\bootstrap-vcpkg.bat
-
-      - name: Install dependencies
-        shell: pwsh
-        run: |
-          Set-Location $env:VCPKG_ROOT
           .\vcpkg.exe install --triplet x64-windows
 
       - name: Configure CMake
@@ -36,7 +29,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path build | Out-Null
           Set-Location build
-          cmake -A x64 .. -DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT\scripts\buildsystems\vcpkg.cmake
+          cmake -A x64 .. -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake
 
       - name: Build Release
         shell: pwsh
