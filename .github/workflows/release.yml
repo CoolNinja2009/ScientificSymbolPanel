@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   build_and_publish:
     runs-on: windows-latest
@@ -47,11 +50,23 @@ jobs:
           Write-Output "Built release archive: $zip"
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
+        id: create_release
+        uses: actions/create-release@v1
         with:
           tag_name: release-${{ github.run_number }}
-          name: Release ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
           body: "Automated release for commit ${{ github.sha }}"
-          files: ${{ github.workspace }}/SSP-${{ github.run_number }}.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}\SSP-${{ github.run_number }}.zip
+          asset_name: SSP-${{ github.run_number }}.zip
+          asset_content_type: application/zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
