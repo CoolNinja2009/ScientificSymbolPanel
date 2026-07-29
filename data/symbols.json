@@ -1,0 +1,8393 @@
+[
+  {
+    "symbol": "∀",
+    "codepoint": 8704,
+    "name": "For All",
+    "aliases": [
+      "forall",
+      "universal quantifier",
+      "universal",
+      "all"
+    ],
+    "keywords": [
+      "logic",
+      "quantifier",
+      "universal",
+      "all",
+      "forall"
+    ],
+    "category": "Mathematics",
+    "latex": "\\forall",
+    "htmlEntity": "&forall;",
+    "description": "Universal quantifier — 'for all' or 'for every'"
+  },
+  {
+    "symbol": "∃",
+    "codepoint": 8707,
+    "name": "There Exists",
+    "aliases": [
+      "exists",
+      "existential quantifier",
+      "existential",
+      "some"
+    ],
+    "keywords": [
+      "logic",
+      "quantifier",
+      "existential",
+      "some",
+      "exists"
+    ],
+    "category": "Mathematics",
+    "latex": "\\exists",
+    "htmlEntity": "&exist;",
+    "description": "Existential quantifier in predicate logic"
+  },
+  {
+    "symbol": "∄",
+    "codepoint": 8708,
+    "name": "There Does Not Exist",
+    "aliases": [
+      "nexists",
+      "not exists"
+    ],
+    "keywords": [
+      "logic",
+      "quantifier",
+      "does not exist"
+    ],
+    "category": "Mathematics",
+    "latex": "\\nexists",
+    "htmlEntity": "",
+    "description": "Negated existential quantifier — 'there does not exist'"
+  },
+  {
+    "symbol": "∅",
+    "codepoint": 8709,
+    "name": "Empty Set",
+    "aliases": [
+      "empty set",
+      "null set",
+      "emptyset",
+      "null",
+      "empty",
+      "nil"
+    ],
+    "keywords": [
+      "set",
+      "empty",
+      "null",
+      "physics",
+      "vacuum"
+    ],
+    "category": "Mathematics",
+    "latex": "\\emptyset",
+    "htmlEntity": "&empty;",
+    "description": "Null/empty — often denotes vacuum or absent quantity"
+  },
+  {
+    "symbol": "∈",
+    "codepoint": 8712,
+    "name": "Element Of",
+    "aliases": [
+      "in",
+      "member of",
+      "belongs to"
+    ],
+    "keywords": [
+      "set",
+      "membership",
+      "element"
+    ],
+    "category": "Mathematics",
+    "latex": "\\in",
+    "htmlEntity": "&isin;",
+    "description": "Set membership — element of a set"
+  },
+  {
+    "symbol": "∉",
+    "codepoint": 8713,
+    "name": "Not An Element Of",
+    "aliases": [
+      "notin",
+      "not in",
+      "not element"
+    ],
+    "keywords": [
+      "set",
+      "membership",
+      "negation"
+    ],
+    "category": "Mathematics",
+    "latex": "\\notin",
+    "htmlEntity": "&notin;",
+    "description": "Negated set membership — not an element of"
+  },
+  {
+    "symbol": "∋",
+    "codepoint": 8715,
+    "name": "Contains As Member",
+    "aliases": [
+      "ni",
+      "owns",
+      "contains"
+    ],
+    "keywords": [
+      "set",
+      "membership",
+      "reverse"
+    ],
+    "category": "Mathematics",
+    "latex": "\\ni",
+    "htmlEntity": "&ni;",
+    "description": "Reverse set membership — set contains element"
+  },
+  {
+    "symbol": "⊂",
+    "codepoint": 8834,
+    "name": "Subset Of",
+    "aliases": [
+      "subset",
+      "proper subset"
+    ],
+    "keywords": [
+      "set",
+      "subset",
+      "proper"
+    ],
+    "category": "Mathematics",
+    "latex": "\\subset",
+    "htmlEntity": "&sub;",
+    "description": "Proper subset — all elements of A are in B, A ≠ B"
+  },
+  {
+    "symbol": "⊃",
+    "codepoint": 8835,
+    "name": "Superset Of",
+    "aliases": [
+      "supset",
+      "proper superset"
+    ],
+    "keywords": [
+      "set",
+      "superset",
+      "proper"
+    ],
+    "category": "Mathematics",
+    "latex": "\\supset",
+    "htmlEntity": "&sup;",
+    "description": "Proper superset — B contains all elements of A, B ≠ A"
+  },
+  {
+    "symbol": "⊆",
+    "codepoint": 8838,
+    "name": "Subset Of Or Equal To",
+    "aliases": [
+      "subseteq",
+      "subset or equal"
+    ],
+    "keywords": [
+      "set",
+      "subset",
+      "equal"
+    ],
+    "category": "Mathematics",
+    "latex": "\\subseteq",
+    "htmlEntity": "&sube;",
+    "description": "Subset or equal — A is a subset of B (may be equal)"
+  },
+  {
+    "symbol": "⊇",
+    "codepoint": 8839,
+    "name": "Superset Of Or Equal To",
+    "aliases": [
+      "supseteq",
+      "superset or equal"
+    ],
+    "keywords": [
+      "set",
+      "superset",
+      "equal"
+    ],
+    "category": "Mathematics",
+    "latex": "\\supseteq",
+    "htmlEntity": "&supe;",
+    "description": "Superset or equal — B contains or equals A"
+  },
+  {
+    "symbol": "∪",
+    "codepoint": 8746,
+    "name": "Union",
+    "aliases": [
+      "union",
+      "cup",
+      "join"
+    ],
+    "keywords": [
+      "set",
+      "union",
+      "join",
+      "or"
+    ],
+    "category": "Mathematics",
+    "latex": "\\cup",
+    "htmlEntity": "&cup;",
+    "description": "Set union — elements in A or B"
+  },
+  {
+    "symbol": "∩",
+    "codepoint": 8745,
+    "name": "Intersection",
+    "aliases": [
+      "intersection",
+      "cap",
+      "meet"
+    ],
+    "keywords": [
+      "set",
+      "intersection",
+      "meet",
+      "and"
+    ],
+    "category": "Mathematics",
+    "latex": "\\cap",
+    "htmlEntity": "&cap;",
+    "description": "Set intersection — elements in both A and B"
+  },
+  {
+    "symbol": "∖",
+    "codepoint": 8726,
+    "name": "Set Minus",
+    "aliases": [
+      "setminus",
+      "difference"
+    ],
+    "keywords": [
+      "set",
+      "difference",
+      "minus"
+    ],
+    "category": "Mathematics",
+    "latex": "\\setminus",
+    "htmlEntity": "",
+    "description": "Set difference — elements in A but not in B"
+  },
+  {
+    "symbol": "±",
+    "codepoint": 177,
+    "name": "Plus-Minus Sign",
+    "aliases": [
+      "pm",
+      "plus minus",
+      "+-"
+    ],
+    "keywords": [
+      "math",
+      "plus",
+      "minus",
+      "error",
+      "tolerance"
+    ],
+    "category": "Mathematics",
+    "latex": "\\pm",
+    "htmlEntity": "&plusmn;",
+    "description": "Plus or minus — indicates two possible values"
+  },
+  {
+    "symbol": "∓",
+    "codepoint": 8723,
+    "name": "Minus-Plus Sign",
+    "aliases": [
+      "mp",
+      "minus plus",
+      "-+"
+    ],
+    "keywords": [
+      "math",
+      "minus",
+      "plus"
+    ],
+    "category": "Mathematics",
+    "latex": "\\mp",
+    "htmlEntity": "",
+    "description": "Minus or plus — reversed plus-minus"
+  },
+  {
+    "symbol": "×",
+    "codepoint": 215,
+    "name": "Multiplication Sign",
+    "aliases": [
+      "times",
+      "multiply",
+      "cross"
+    ],
+    "keywords": [
+      "math",
+      "multiplication",
+      "cross",
+      "product"
+    ],
+    "category": "Mathematics",
+    "latex": "\\times",
+    "htmlEntity": "&times;",
+    "description": "Multiplication or cross product"
+  },
+  {
+    "symbol": "÷",
+    "codepoint": 247,
+    "name": "Division Sign",
+    "aliases": [
+      "divide",
+      "division",
+      "obelus"
+    ],
+    "keywords": [
+      "math",
+      "division",
+      "obelus"
+    ],
+    "category": "Mathematics",
+    "latex": "\\div",
+    "htmlEntity": "&divide;",
+    "description": "Division operator"
+  },
+  {
+    "symbol": "⋅",
+    "codepoint": 8901,
+    "name": "Dot Operator",
+    "aliases": [
+      "cdot",
+      "dot",
+      "multiply"
+    ],
+    "keywords": [
+      "math",
+      "multiplication",
+      "dot",
+      "product"
+    ],
+    "category": "Mathematics",
+    "latex": "\\cdot",
+    "htmlEntity": "&sdot;",
+    "description": "Dot product or multiplication dot"
+  },
+  {
+    "symbol": "∗",
+    "codepoint": 8727,
+    "name": "Asterisk Operator",
+    "aliases": [
+      "ast",
+      "star",
+      "convolution"
+    ],
+    "keywords": [
+      "math",
+      "convolution",
+      "star"
+    ],
+    "category": "Mathematics",
+    "latex": "\\ast",
+    "htmlEntity": "&lowast;",
+    "description": "Asterisk — convolution or multiplication"
+  },
+  {
+    "symbol": "≠",
+    "codepoint": 8800,
+    "name": "Not Equal To",
+    "aliases": [
+      "ne",
+      "neq",
+      "not equal",
+      "/="
+    ],
+    "keywords": [
+      "comparison",
+      "equal",
+      "negation"
+    ],
+    "category": "Mathematics",
+    "latex": "\\neq",
+    "htmlEntity": "&ne;",
+    "description": "Not equal to"
+  },
+  {
+    "symbol": "≈",
+    "codepoint": 8776,
+    "name": "Almost Equal To",
+    "aliases": [
+      "approx",
+      "approximately",
+      "~="
+    ],
+    "keywords": [
+      "comparison",
+      "approximate",
+      "equal"
+    ],
+    "category": "Mathematics",
+    "latex": "\\approx",
+    "htmlEntity": "&asymp;",
+    "description": "Approximately equal"
+  },
+  {
+    "symbol": "≤",
+    "codepoint": 8804,
+    "name": "Less-Than Or Equal To",
+    "aliases": [
+      "le",
+      "leq",
+      "less or equal",
+      "<="
+    ],
+    "keywords": [
+      "comparison",
+      "inequality",
+      "less"
+    ],
+    "category": "Mathematics",
+    "latex": "\\leq",
+    "htmlEntity": "&le;",
+    "description": "Less than or equal to"
+  },
+  {
+    "symbol": "≥",
+    "codepoint": 8805,
+    "name": "Greater-Than Or Equal To",
+    "aliases": [
+      "ge",
+      "geq",
+      "greater or equal",
+      ">="
+    ],
+    "keywords": [
+      "comparison",
+      "inequality",
+      "greater"
+    ],
+    "category": "Mathematics",
+    "latex": "\\geq",
+    "htmlEntity": "&ge;",
+    "description": "Greater than or equal to"
+  },
+  {
+    "symbol": "≪",
+    "codepoint": 8810,
+    "name": "Much Less-Than",
+    "aliases": [
+      "ll",
+      "much less"
+    ],
+    "keywords": [
+      "comparison",
+      "inequality",
+      "less"
+    ],
+    "category": "Mathematics",
+    "latex": "\\ll",
+    "htmlEntity": "",
+    "description": "Much less than"
+  },
+  {
+    "symbol": "≫",
+    "codepoint": 8811,
+    "name": "Much Greater-Than",
+    "aliases": [
+      "gg",
+      "much greater"
+    ],
+    "keywords": [
+      "comparison",
+      "inequality",
+      "greater"
+    ],
+    "category": "Mathematics",
+    "latex": "\\gg",
+    "htmlEntity": "",
+    "description": "Much greater than"
+  },
+  {
+    "symbol": "≺",
+    "codepoint": 8826,
+    "name": "Precedes",
+    "aliases": [
+      "prec",
+      "precedes"
+    ],
+    "keywords": [
+      "comparison",
+      "order",
+      "precedence"
+    ],
+    "category": "Mathematics",
+    "latex": "\\prec",
+    "htmlEntity": "&pr;",
+    "description": "Precedes in partial order"
+  },
+  {
+    "symbol": "≻",
+    "codepoint": 8827,
+    "name": "Succeeds",
+    "aliases": [
+      "succ",
+      "succeeds"
+    ],
+    "keywords": [
+      "comparison",
+      "order",
+      "succession"
+    ],
+    "category": "Mathematics",
+    "latex": "\\succ",
+    "htmlEntity": "&sc;",
+    "description": "Succeeds in partial order"
+  },
+  {
+    "symbol": "≼",
+    "codepoint": 8828,
+    "name": "Precedes Or Equal To",
+    "aliases": [
+      "preceq"
+    ],
+    "keywords": [
+      "comparison",
+      "order"
+    ],
+    "category": "Mathematics",
+    "latex": "\\preceq",
+    "htmlEntity": "",
+    "description": "Precedes or equals"
+  },
+  {
+    "symbol": "≽",
+    "codepoint": 8829,
+    "name": "Succeeds Or Equal To",
+    "aliases": [
+      "succeq"
+    ],
+    "keywords": [
+      "comparison",
+      "order"
+    ],
+    "category": "Mathematics",
+    "latex": "\\succeq",
+    "htmlEntity": "",
+    "description": "Succeeds or equals"
+  },
+  {
+    "symbol": "∞",
+    "codepoint": 8734,
+    "name": "Infinity",
+    "aliases": [
+      "infinity",
+      "inf",
+      "infinite",
+      "unbounded",
+      "endless"
+    ],
+    "keywords": [
+      "math",
+      "infinity",
+      "endless",
+      "limit",
+      "calculus",
+      "unbounded",
+      "improper"
+    ],
+    "category": "Mathematics",
+    "latex": "\\infty",
+    "htmlEntity": "&infin;",
+    "description": "Infinity — used in limits and improper integrals"
+  },
+  {
+    "symbol": "∝",
+    "codepoint": 8733,
+    "name": "Proportional To",
+    "aliases": [
+      "propto",
+      "proportional",
+      "prop"
+    ],
+    "keywords": [
+      "math",
+      "proportional",
+      "ratio"
+    ],
+    "category": "Mathematics",
+    "latex": "\\propto",
+    "htmlEntity": "&prop;",
+    "description": "Proportional to"
+  },
+  {
+    "symbol": "√",
+    "codepoint": 8730,
+    "name": "Square Root",
+    "aliases": [
+      "sqrt",
+      "root",
+      "radical"
+    ],
+    "keywords": [
+      "math",
+      "root",
+      "radical",
+      "square"
+    ],
+    "category": "Mathematics",
+    "latex": "\\sqrt{}",
+    "htmlEntity": "&radic;",
+    "description": "Square root radical"
+  },
+  {
+    "symbol": "∛",
+    "codepoint": 8731,
+    "name": "Cube Root",
+    "aliases": [
+      "cbrt",
+      "cube root"
+    ],
+    "keywords": [
+      "math",
+      "root",
+      "cube"
+    ],
+    "category": "Mathematics",
+    "latex": "\\sqrt[3]{}",
+    "htmlEntity": "",
+    "description": "Cube root"
+  },
+  {
+    "symbol": "∜",
+    "codepoint": 8732,
+    "name": "Fourth Root",
+    "aliases": [
+      "fourth root"
+    ],
+    "keywords": [
+      "math",
+      "root",
+      "fourth"
+    ],
+    "category": "Mathematics",
+    "latex": "\\sqrt[4]{}",
+    "htmlEntity": "",
+    "description": "Fourth root"
+  },
+  {
+    "symbol": "⌊",
+    "codepoint": 8970,
+    "name": "Left Floor",
+    "aliases": [
+      "lfloor",
+      "floor"
+    ],
+    "keywords": [
+      "math",
+      "floor",
+      "rounding",
+      "integer part"
+    ],
+    "category": "Mathematics",
+    "latex": "\\lfloor",
+    "htmlEntity": "&lfloor;",
+    "description": "Floor function — greatest integer less than or equal"
+  },
+  {
+    "symbol": "⌋",
+    "codepoint": 8971,
+    "name": "Right Floor",
+    "aliases": [
+      "rfloor"
+    ],
+    "keywords": [
+      "math",
+      "floor",
+      "rounding"
+    ],
+    "category": "Mathematics",
+    "latex": "\\rfloor",
+    "htmlEntity": "&rfloor;",
+    "description": "Floor function — right bracket"
+  },
+  {
+    "symbol": "⌈",
+    "codepoint": 8968,
+    "name": "Left Ceiling",
+    "aliases": [
+      "lceil",
+      "ceiling"
+    ],
+    "keywords": [
+      "math",
+      "ceiling",
+      "rounding"
+    ],
+    "category": "Mathematics",
+    "latex": "\\lceil",
+    "htmlEntity": "&lceil;",
+    "description": "Ceiling function — left bracket"
+  },
+  {
+    "symbol": "⌉",
+    "codepoint": 8969,
+    "name": "Right Ceiling",
+    "aliases": [
+      "rceil"
+    ],
+    "keywords": [
+      "math",
+      "ceiling",
+      "rounding"
+    ],
+    "category": "Mathematics",
+    "latex": "\\rceil",
+    "htmlEntity": "&rceil;",
+    "description": "Ceiling function — right bracket"
+  },
+  {
+    "symbol": "≡",
+    "codepoint": 8801,
+    "name": "Identical To",
+    "aliases": [
+      "equiv",
+      "identical",
+      "congruent",
+      "==="
+    ],
+    "keywords": [
+      "math",
+      "identity",
+      "equivalence",
+      "congruence"
+    ],
+    "category": "Mathematics",
+    "latex": "\\equiv",
+    "htmlEntity": "&equiv;",
+    "description": "Identically equal — congruence or definition"
+  },
+  {
+    "symbol": "≢",
+    "codepoint": 8802,
+    "name": "Not Identical To",
+    "aliases": [
+      "nequiv",
+      "not identical"
+    ],
+    "keywords": [
+      "math",
+      "negation",
+      "not identical"
+    ],
+    "category": "Mathematics",
+    "latex": "\\not\\equiv",
+    "htmlEntity": "",
+    "description": "Not identically equal"
+  },
+  {
+    "symbol": "∼",
+    "codepoint": 8764,
+    "name": "Tilde Operator",
+    "aliases": [
+      "sim",
+      "tilde",
+      "similar",
+      "~",
+      "AC",
+      "alternating",
+      "AC symbol"
+    ],
+    "keywords": [
+      "math",
+      "similar",
+      "tilde",
+      "distribution",
+      "electronics",
+      "AC",
+      "alternating",
+      "wave"
+    ],
+    "category": "Mathematics",
+    "latex": "\\sim",
+    "htmlEntity": "&sim;",
+    "description": "Tilde — often used to denote AC voltage in schematics"
+  },
+  {
+    "symbol": "≁",
+    "codepoint": 8769,
+    "name": "Not Tilde",
+    "aliases": [
+      "nsim",
+      "not similar"
+    ],
+    "keywords": [
+      "math",
+      "negation",
+      "similar"
+    ],
+    "category": "Mathematics",
+    "latex": "\\nsim",
+    "htmlEntity": "",
+    "description": "Not similar to"
+  },
+  {
+    "symbol": "≃",
+    "codepoint": 8771,
+    "name": "Asymptotically Equal To",
+    "aliases": [
+      "simeq",
+      "asymptotic"
+    ],
+    "keywords": [
+      "math",
+      "asymptotic",
+      "equal"
+    ],
+    "category": "Mathematics",
+    "latex": "\\simeq",
+    "htmlEntity": "",
+    "description": "Asymptotically equal"
+  },
+  {
+    "symbol": "≅",
+    "codepoint": 8773,
+    "name": "Approximately Equal To",
+    "aliases": [
+      "cong",
+      "congruent to"
+    ],
+    "keywords": [
+      "math",
+      "congruence",
+      "isomorphic"
+    ],
+    "category": "Mathematics",
+    "latex": "\\cong",
+    "htmlEntity": "&cong;",
+    "description": "Congruent or isomorphic to"
+  },
+  {
+    "symbol": "≍",
+    "codepoint": 8781,
+    "name": "Equivalent To",
+    "aliases": [
+      "asymp",
+      "equivalent"
+    ],
+    "keywords": [
+      "math",
+      "equivalence"
+    ],
+    "category": "Mathematics",
+    "latex": "\\asymp",
+    "htmlEntity": "",
+    "description": "Equivalent to — often for asymptotic equivalence"
+  },
+  {
+    "symbol": "‖",
+    "codepoint": 8214,
+    "name": "Double Vertical Line",
+    "aliases": [
+      "norm",
+      "parallel",
+      "magnitude",
+      "||"
+    ],
+    "keywords": [
+      "math",
+      "norm",
+      "magnitude",
+      "parallel"
+    ],
+    "category": "Mathematics",
+    "latex": "\\|",
+    "htmlEntity": "",
+    "description": "Norm or magnitude of a vector"
+  },
+  {
+    "symbol": "⟨",
+    "codepoint": 10216,
+    "name": "Left Angle Bracket",
+    "aliases": [
+      "langle",
+      "bra",
+      "inner",
+      "left angle"
+    ],
+    "keywords": [
+      "math",
+      "bracket",
+      "bra",
+      "inner product"
+    ],
+    "category": "Mathematics",
+    "latex": "\\langle",
+    "htmlEntity": "&lang;",
+    "description": "Left angle bracket — bra vector or inner product"
+  },
+  {
+    "symbol": "⟩",
+    "codepoint": 10217,
+    "name": "Right Angle Bracket",
+    "aliases": [
+      "rangle",
+      "ket",
+      "right angle"
+    ],
+    "keywords": [
+      "math",
+      "bracket",
+      "ket",
+      "inner product"
+    ],
+    "category": "Mathematics",
+    "latex": "\\rangle",
+    "htmlEntity": "&rang;",
+    "description": "Right angle bracket — ket vector or inner product"
+  },
+  {
+    "symbol": "∣",
+    "codepoint": 8739,
+    "name": "Divides",
+    "aliases": [
+      "mid",
+      "divides",
+      "|"
+    ],
+    "keywords": [
+      "math",
+      "divides",
+      "divisibility",
+      "pipe"
+    ],
+    "category": "Mathematics",
+    "latex": "\\mid",
+    "htmlEntity": "&mid;",
+    "description": "Divides — a ∣ b means a divides b"
+  },
+  {
+    "symbol": "∤",
+    "codepoint": 8740,
+    "name": "Does Not Divide",
+    "aliases": [
+      "nmid",
+      "not divide"
+    ],
+    "keywords": [
+      "math",
+      "divisibility",
+      "negation"
+    ],
+    "category": "Mathematics",
+    "latex": "\\nmid",
+    "htmlEntity": "",
+    "description": "Does not divide"
+  },
+  {
+    "symbol": "∥",
+    "codepoint": 8741,
+    "name": "Parallel To",
+    "aliases": [
+      "parallel",
+      "||"
+    ],
+    "keywords": [
+      "math",
+      "parallel",
+      "lines",
+      "geometry"
+    ],
+    "category": "Mathematics",
+    "latex": "\\parallel",
+    "htmlEntity": "",
+    "description": "Parallel — lines that never intersect"
+  },
+  {
+    "symbol": "∦",
+    "codepoint": 8742,
+    "name": "Not Parallel To",
+    "aliases": [
+      "nparallel",
+      "not parallel"
+    ],
+    "keywords": [
+      "math",
+      "parallel",
+      "negation"
+    ],
+    "category": "Mathematics",
+    "latex": "\\nparallel",
+    "htmlEntity": "",
+    "description": "Not parallel"
+  },
+  {
+    "symbol": "Α",
+    "codepoint": 913,
+    "name": "Greek Capital Letter Alpha",
+    "aliases": [
+      "alpha",
+      "Alpha"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "alpha"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Alpha",
+    "htmlEntity": "&Alpha;",
+    "description": "Greek capital letter Alpha"
+  },
+  {
+    "symbol": "Β",
+    "codepoint": 914,
+    "name": "Greek Capital Letter Beta",
+    "aliases": [
+      "beta",
+      "Beta"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "beta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Beta",
+    "htmlEntity": "&Beta;",
+    "description": "Greek capital letter Beta"
+  },
+  {
+    "symbol": "Γ",
+    "codepoint": 915,
+    "name": "Greek Capital Letter Gamma",
+    "aliases": [
+      "gamma",
+      "Gamma"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "gamma"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Gamma",
+    "htmlEntity": "&Gamma;",
+    "description": "Greek capital letter Gamma"
+  },
+  {
+    "symbol": "Δ",
+    "codepoint": 916,
+    "name": "Greek Capital Letter Delta",
+    "aliases": [
+      "delta",
+      "Delta"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "delta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Delta",
+    "htmlEntity": "&Delta;",
+    "description": "Greek capital letter Delta"
+  },
+  {
+    "symbol": "Ε",
+    "codepoint": 917,
+    "name": "Greek Capital Letter Epsilon",
+    "aliases": [
+      "epsilon",
+      "Epsilon"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "epsilon"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Epsilon",
+    "htmlEntity": "&Epsilon;",
+    "description": "Greek capital letter Epsilon"
+  },
+  {
+    "symbol": "Ζ",
+    "codepoint": 918,
+    "name": "Greek Capital Letter Zeta",
+    "aliases": [
+      "zeta",
+      "Zeta"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "zeta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Zeta",
+    "htmlEntity": "&Zeta;",
+    "description": "Greek capital letter Zeta"
+  },
+  {
+    "symbol": "Η",
+    "codepoint": 919,
+    "name": "Greek Capital Letter Eta",
+    "aliases": [
+      "eta",
+      "Eta"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "eta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Eta",
+    "htmlEntity": "&Eta;",
+    "description": "Greek capital letter Eta"
+  },
+  {
+    "symbol": "Θ",
+    "codepoint": 920,
+    "name": "Greek Capital Letter Theta",
+    "aliases": [
+      "theta",
+      "Theta"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "theta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Theta",
+    "htmlEntity": "&Theta;",
+    "description": "Greek capital letter Theta"
+  },
+  {
+    "symbol": "Ι",
+    "codepoint": 921,
+    "name": "Greek Capital Letter Iota",
+    "aliases": [
+      "iota",
+      "Iota"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "iota"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Iota",
+    "htmlEntity": "&Iota;",
+    "description": "Greek capital letter Iota"
+  },
+  {
+    "symbol": "Κ",
+    "codepoint": 922,
+    "name": "Greek Capital Letter Kappa",
+    "aliases": [
+      "kappa",
+      "Kappa"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "kappa"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Kappa",
+    "htmlEntity": "&Kappa;",
+    "description": "Greek capital letter Kappa"
+  },
+  {
+    "symbol": "Λ",
+    "codepoint": 923,
+    "name": "Greek Capital Letter Lambda",
+    "aliases": [
+      "lambda",
+      "Lambda"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "lambda"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Lambda",
+    "htmlEntity": "&Lambda;",
+    "description": "Greek capital letter Lambda"
+  },
+  {
+    "symbol": "Μ",
+    "codepoint": 924,
+    "name": "Greek Capital Letter Mu",
+    "aliases": [
+      "mu",
+      "Mu"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "mu"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Mu",
+    "htmlEntity": "&Mu;",
+    "description": "Greek capital letter Mu"
+  },
+  {
+    "symbol": "Ν",
+    "codepoint": 925,
+    "name": "Greek Capital Letter Nu",
+    "aliases": [
+      "nu",
+      "Nu"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "nu"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Nu",
+    "htmlEntity": "&Nu;",
+    "description": "Greek capital letter Nu"
+  },
+  {
+    "symbol": "Ξ",
+    "codepoint": 926,
+    "name": "Greek Capital Letter Xi",
+    "aliases": [
+      "xi",
+      "Xi"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "xi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Xi",
+    "htmlEntity": "&Xi;",
+    "description": "Greek capital letter Xi"
+  },
+  {
+    "symbol": "Ο",
+    "codepoint": 927,
+    "name": "Greek Capital Letter Omicron",
+    "aliases": [
+      "omicron",
+      "Omicron"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "omicron"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Omicron",
+    "htmlEntity": "&Omicron;",
+    "description": "Greek capital letter Omicron"
+  },
+  {
+    "symbol": "Π",
+    "codepoint": 928,
+    "name": "Greek Capital Letter Pi",
+    "aliases": [
+      "pi",
+      "Pi"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "pi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Pi",
+    "htmlEntity": "&Pi;",
+    "description": "Greek capital letter Pi"
+  },
+  {
+    "symbol": "Ρ",
+    "codepoint": 929,
+    "name": "Greek Capital Letter Rho",
+    "aliases": [
+      "rho",
+      "Rho"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "rho"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Rho",
+    "htmlEntity": "&Rho;",
+    "description": "Greek capital letter Rho"
+  },
+  {
+    "symbol": "Σ",
+    "codepoint": 931,
+    "name": "Greek Capital Letter Sigma",
+    "aliases": [
+      "sigma",
+      "Sigma",
+      "sum",
+      "total"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "sigma",
+      "statistics",
+      "sum",
+      "summation",
+      "total"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Sigma",
+    "htmlEntity": "&Sigma;",
+    "description": "Summation notation in statistical formulas"
+  },
+  {
+    "symbol": "Τ",
+    "codepoint": 932,
+    "name": "Greek Capital Letter Tau",
+    "aliases": [
+      "tau",
+      "Tau"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "tau"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Tau",
+    "htmlEntity": "&Tau;",
+    "description": "Greek capital letter Tau"
+  },
+  {
+    "symbol": "Υ",
+    "codepoint": 933,
+    "name": "Greek Capital Letter Upsilon",
+    "aliases": [
+      "upsilon",
+      "Upsilon"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "upsilon"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Upsilon",
+    "htmlEntity": "&Upsilon;",
+    "description": "Greek capital letter Upsilon"
+  },
+  {
+    "symbol": "Φ",
+    "codepoint": 934,
+    "name": "Greek Capital Letter Phi",
+    "aliases": [
+      "phi",
+      "Phi"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "phi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Phi",
+    "htmlEntity": "&Phi;",
+    "description": "Greek capital letter Phi"
+  },
+  {
+    "symbol": "Χ",
+    "codepoint": 935,
+    "name": "Greek Capital Letter Chi",
+    "aliases": [
+      "chi",
+      "Chi"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "chi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Chi",
+    "htmlEntity": "&Chi;",
+    "description": "Greek capital letter Chi"
+  },
+  {
+    "symbol": "Ψ",
+    "codepoint": 936,
+    "name": "Greek Capital Letter Psi",
+    "aliases": [
+      "psi",
+      "Psi"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "psi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Psi",
+    "htmlEntity": "&Psi;",
+    "description": "Greek capital letter Psi"
+  },
+  {
+    "symbol": "Ω",
+    "codepoint": 937,
+    "name": "Greek Capital Letter Omega",
+    "aliases": [
+      "omega",
+      "Omega",
+      "ohm",
+      "Ohm",
+      "resistance",
+      "impedance"
+    ],
+    "keywords": [
+      "greek",
+      "uppercase",
+      "capital",
+      "omega",
+      "electronics",
+      "resistance",
+      "ohm",
+      "impedance"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\Omega",
+    "htmlEntity": "&Omega;",
+    "description": "Ohm — unit of electrical resistance"
+  },
+  {
+    "symbol": "α",
+    "codepoint": 945,
+    "name": "Greek Small Letter Alpha",
+    "aliases": [
+      "alpha",
+      "Alpha"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "alpha"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\alpha",
+    "htmlEntity": "&alpha;",
+    "description": "Greek small letter alpha"
+  },
+  {
+    "symbol": "β",
+    "codepoint": 946,
+    "name": "Greek Small Letter Beta",
+    "aliases": [
+      "beta",
+      "Beta"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "beta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\beta",
+    "htmlEntity": "&beta;",
+    "description": "Greek small letter beta"
+  },
+  {
+    "symbol": "γ",
+    "codepoint": 947,
+    "name": "Greek Small Letter Gamma",
+    "aliases": [
+      "gamma",
+      "Gamma"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "gamma"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\gamma",
+    "htmlEntity": "&gamma;",
+    "description": "Greek small letter gamma"
+  },
+  {
+    "symbol": "δ",
+    "codepoint": 948,
+    "name": "Greek Small Letter Delta",
+    "aliases": [
+      "delta",
+      "Delta",
+      "small change",
+      "increment",
+      "infinitesimal"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "delta",
+      "calculus",
+      "change",
+      "epsilon-delta",
+      "derivative"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\delta",
+    "htmlEntity": "&delta;",
+    "description": "Infinitesimal change — δ in ε-δ limit definition"
+  },
+  {
+    "symbol": "ε",
+    "codepoint": 949,
+    "name": "Greek Small Letter Epsilon",
+    "aliases": [
+      "epsilon",
+      "Epsilon",
+      "small",
+      "infinitesimal",
+      "error"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "epsilon",
+      "calculus",
+      "limit",
+      "error bound"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\epsilon",
+    "htmlEntity": "&epsilon;",
+    "description": "Arbitrarily small positive quantity — ε in ε-δ definitions"
+  },
+  {
+    "symbol": "ζ",
+    "codepoint": 950,
+    "name": "Greek Small Letter Zeta",
+    "aliases": [
+      "zeta",
+      "Zeta"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "zeta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\zeta",
+    "htmlEntity": "&zeta;",
+    "description": "Greek small letter zeta"
+  },
+  {
+    "symbol": "η",
+    "codepoint": 951,
+    "name": "Greek Small Letter Eta",
+    "aliases": [
+      "eta",
+      "Eta"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "eta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\eta",
+    "htmlEntity": "&eta;",
+    "description": "Greek small letter eta"
+  },
+  {
+    "symbol": "θ",
+    "codepoint": 952,
+    "name": "Greek Small Letter Theta",
+    "aliases": [
+      "theta",
+      "Theta"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "theta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\theta",
+    "htmlEntity": "&theta;",
+    "description": "Greek small letter theta"
+  },
+  {
+    "symbol": "ι",
+    "codepoint": 953,
+    "name": "Greek Small Letter Iota",
+    "aliases": [
+      "iota",
+      "Iota"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "iota"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\iota",
+    "htmlEntity": "&iota;",
+    "description": "Greek small letter iota"
+  },
+  {
+    "symbol": "κ",
+    "codepoint": 954,
+    "name": "Greek Small Letter Kappa",
+    "aliases": [
+      "kappa",
+      "Kappa"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "kappa"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\kappa",
+    "htmlEntity": "&kappa;",
+    "description": "Greek small letter kappa"
+  },
+  {
+    "symbol": "λ",
+    "codepoint": 955,
+    "name": "Greek Small Letter Lambda",
+    "aliases": [
+      "lambda",
+      "Lambda"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "lambda"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\lambda",
+    "htmlEntity": "&lambda;",
+    "description": "Greek small letter lambda"
+  },
+  {
+    "symbol": "μ",
+    "codepoint": 956,
+    "name": "Greek Small Letter Mu",
+    "aliases": [
+      "mu",
+      "Mu",
+      "mean",
+      "population mean",
+      "average",
+      "expected value"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "mu",
+      "statistics",
+      "mean",
+      "average",
+      "population",
+      "center"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\mu",
+    "htmlEntity": "&mu;",
+    "description": "Population mean (expected value) in statistics"
+  },
+  {
+    "symbol": "ν",
+    "codepoint": 957,
+    "name": "Greek Small Letter Nu",
+    "aliases": [
+      "nu",
+      "Nu"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "nu"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\nu",
+    "htmlEntity": "&nu;",
+    "description": "Greek small letter nu"
+  },
+  {
+    "symbol": "ξ",
+    "codepoint": 958,
+    "name": "Greek Small Letter Xi",
+    "aliases": [
+      "xi",
+      "Xi"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "xi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\xi",
+    "htmlEntity": "&xi;",
+    "description": "Greek small letter xi"
+  },
+  {
+    "symbol": "ο",
+    "codepoint": 959,
+    "name": "Greek Small Letter Omicron",
+    "aliases": [
+      "omicron",
+      "Omicron"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "omicron"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\omicron",
+    "htmlEntity": "",
+    "description": "Greek small letter omicron"
+  },
+  {
+    "symbol": "π",
+    "codepoint": 960,
+    "name": "Greek Small Letter Pi",
+    "aliases": [
+      "pi",
+      "Pi"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "pi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\pi",
+    "htmlEntity": "&pi;",
+    "description": "Greek small letter pi"
+  },
+  {
+    "symbol": "ρ",
+    "codepoint": 961,
+    "name": "Greek Small Letter Rho",
+    "aliases": [
+      "rho",
+      "Rho",
+      "correlation",
+      "Pearson",
+      "r"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "rho",
+      "statistics",
+      "correlation",
+      "coefficient",
+      "Pearson",
+      "relationship"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\rho",
+    "htmlEntity": "&rho;",
+    "description": "Pearson product-moment correlation coefficient"
+  },
+  {
+    "symbol": "σ",
+    "codepoint": 963,
+    "name": "Greek Small Letter Sigma",
+    "aliases": [
+      "sigma",
+      "Sigma",
+      "std dev",
+      "standard deviation",
+      "sd",
+      "spread"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "sigma",
+      "statistics",
+      "standard deviation",
+      "spread",
+      "variance",
+      "dispersion"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\sigma",
+    "htmlEntity": "&sigma;",
+    "description": "Population standard deviation"
+  },
+  {
+    "symbol": "ς",
+    "codepoint": 962,
+    "name": "Greek Small Letter Final Sigma",
+    "aliases": [
+      "final sigma",
+      "Final sigma"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "final sigma"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\varsigma",
+    "htmlEntity": "&sigmaf;",
+    "description": "Greek small letter final sigma (word-final form)"
+  },
+  {
+    "symbol": "τ",
+    "codepoint": 964,
+    "name": "Greek Small Letter Tau",
+    "aliases": [
+      "tau",
+      "Tau"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "tau"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\tau",
+    "htmlEntity": "&tau;",
+    "description": "Greek small letter tau"
+  },
+  {
+    "symbol": "υ",
+    "codepoint": 965,
+    "name": "Greek Small Letter Upsilon",
+    "aliases": [
+      "upsilon",
+      "Upsilon"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "upsilon"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\upsilon",
+    "htmlEntity": "&upsilon;",
+    "description": "Greek small letter upsilon"
+  },
+  {
+    "symbol": "φ",
+    "codepoint": 966,
+    "name": "Greek Small Letter Phi",
+    "aliases": [
+      "phi",
+      "Phi",
+      "phase",
+      "power factor",
+      "phase shift"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "phi",
+      "electronics",
+      "phase",
+      "power",
+      "angle",
+      "shift"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\phi",
+    "htmlEntity": "&phi;",
+    "description": "Phase angle between voltage and current"
+  },
+  {
+    "symbol": "χ",
+    "codepoint": 967,
+    "name": "Greek Small Letter Chi",
+    "aliases": [
+      "chi",
+      "Chi"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "chi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\chi",
+    "htmlEntity": "&chi;",
+    "description": "Greek small letter chi"
+  },
+  {
+    "symbol": "ψ",
+    "codepoint": 968,
+    "name": "Greek Small Letter Psi",
+    "aliases": [
+      "psi",
+      "Psi"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "psi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\psi",
+    "htmlEntity": "&psi;",
+    "description": "Greek small letter psi"
+  },
+  {
+    "symbol": "ω",
+    "codepoint": 969,
+    "name": "Greek Small Letter Omega",
+    "aliases": [
+      "omega",
+      "Omega"
+    ],
+    "keywords": [
+      "greek",
+      "lowercase",
+      "small",
+      "omega"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\omega",
+    "htmlEntity": "&omega;",
+    "description": "Greek small letter omega"
+  },
+  {
+    "symbol": "ϑ",
+    "codepoint": 977,
+    "name": "Greek Theta Symbol",
+    "aliases": [
+      "vartheta",
+      "theta script"
+    ],
+    "keywords": [
+      "greek",
+      "variant",
+      "theta"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\vartheta",
+    "htmlEntity": "&thetav;",
+    "description": "Script/curly theta variant"
+  },
+  {
+    "symbol": "ϖ",
+    "codepoint": 982,
+    "name": "Greek Pi Symbol",
+    "aliases": [
+      "varpi",
+      "omega pi"
+    ],
+    "keywords": [
+      "greek",
+      "variant",
+      "pi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\varpi",
+    "htmlEntity": "&piv;",
+    "description": "Curly/omega-shaped pi variant"
+  },
+  {
+    "symbol": "ϕ",
+    "codepoint": 981,
+    "name": "Greek Phi Symbol",
+    "aliases": [
+      "varphi",
+      "curly phi"
+    ],
+    "keywords": [
+      "greek",
+      "variant",
+      "phi"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\varphi",
+    "htmlEntity": "&phiv;",
+    "description": "Curly/loopy phi variant"
+  },
+  {
+    "symbol": "ϵ",
+    "codepoint": 1013,
+    "name": "Greek Lunate Epsilon Symbol",
+    "aliases": [
+      "varepsilon",
+      "lunate epsilon"
+    ],
+    "keywords": [
+      "greek",
+      "variant",
+      "epsilon"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\varepsilon",
+    "htmlEntity": "&epsi;",
+    "description": "Lunate epsilon variant"
+  },
+  {
+    "symbol": "ϱ",
+    "codepoint": 1009,
+    "name": "Greek Rho Symbol",
+    "aliases": [
+      "varrho",
+      "curly rho"
+    ],
+    "keywords": [
+      "greek",
+      "variant",
+      "rho"
+    ],
+    "category": "Greek Letters",
+    "latex": "\\varrho",
+    "htmlEntity": "&rhov;",
+    "description": "Curly/tailed rho variant"
+  },
+  {
+    "symbol": "ℏ",
+    "codepoint": 8463,
+    "name": "Planck Constant Over Two Pi",
+    "aliases": [
+      "hbar",
+      "h-bar",
+      "planck",
+      "dirac constant"
+    ],
+    "keywords": [
+      "physics",
+      "quantum",
+      "planck",
+      "dirac"
+    ],
+    "category": "Physics",
+    "latex": "\\hbar",
+    "htmlEntity": "&hbar;",
+    "description": "Reduced Planck constant — h/2π"
+  },
+  {
+    "symbol": "ℓ",
+    "codepoint": 8467,
+    "name": "Script Small L",
+    "aliases": [
+      "ell",
+      "script l",
+      "angular momentum"
+    ],
+    "keywords": [
+      "physics",
+      "angular momentum",
+      "length",
+      "quantum"
+    ],
+    "category": "Physics",
+    "latex": "\\ell",
+    "htmlEntity": "&ell;",
+    "description": "Script l — often used for length or angular momentum quantum number"
+  },
+  {
+    "symbol": "ε₀",
+    "codepoint": 949,
+    "name": "Epsilon Naught (Vacuum Permittivity)",
+    "aliases": [
+      "epsilon0",
+      "epsilon naught",
+      "vacuum permittivity"
+    ],
+    "keywords": [
+      "physics",
+      "electromagnetism",
+      "permittivity",
+      "constant"
+    ],
+    "category": "Physics",
+    "latex": "\\varepsilon_0",
+    "htmlEntity": "",
+    "description": "Vacuum permittivity constant ε₀ ≈ 8.854×10⁻¹² F/m"
+  },
+  {
+    "symbol": "μ₀",
+    "codepoint": 956,
+    "name": "Mu Naught (Vacuum Permeability)",
+    "aliases": [
+      "mu0",
+      "mu naught",
+      "vacuum permeability"
+    ],
+    "keywords": [
+      "physics",
+      "electromagnetism",
+      "permeability",
+      "constant"
+    ],
+    "category": "Physics",
+    "latex": "\\mu_0",
+    "htmlEntity": "",
+    "description": "Vacuum permeability constant μ₀ = 4π×10⁻⁷ N/A²"
+  },
+  {
+    "symbol": "℃",
+    "codepoint": 8451,
+    "name": "Degree Celsius",
+    "aliases": [
+      "degree Celsius",
+      "Celsius",
+      "centigrade"
+    ],
+    "keywords": [
+      "physics",
+      "temperature",
+      "celsius",
+      "metric"
+    ],
+    "category": "Physics",
+    "latex": "{}^{\\circ}\\mathrm{C}",
+    "htmlEntity": "",
+    "description": "Temperature in degrees Celsius"
+  },
+  {
+    "symbol": "℉",
+    "codepoint": 8457,
+    "name": "Degree Fahrenheit",
+    "aliases": [
+      "degree Fahrenheit",
+      "Fahrenheit"
+    ],
+    "keywords": [
+      "physics",
+      "temperature",
+      "fahrenheit",
+      "imperial"
+    ],
+    "category": "Physics",
+    "latex": "{}^{\\circ}\\mathrm{F}",
+    "htmlEntity": "",
+    "description": "Temperature in degrees Fahrenheit"
+  },
+  {
+    "symbol": "ħ",
+    "codepoint": 295,
+    "name": "H Bar (Reduced Planck Constant)",
+    "aliases": [
+      "hbar",
+      "reduced planck"
+    ],
+    "keywords": [
+      "physics",
+      "quantum",
+      "planck"
+    ],
+    "category": "Physics",
+    "latex": "\\hbar",
+    "htmlEntity": "",
+    "description": "Reduced Planck constant ħ = h/2π (alternative glyph)"
+  },
+  {
+    "symbol": "①",
+    "codepoint": 9312,
+    "name": "Circled Digit One",
+    "aliases": [
+      "(1)",
+      "circle 1"
+    ],
+    "keywords": [
+      "physics",
+      "label",
+      "number",
+      "circled",
+      "particle"
+    ],
+    "category": "Physics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Circled digit one — labeling states/particles"
+  },
+  {
+    "symbol": "②",
+    "codepoint": 9313,
+    "name": "Circled Digit Two",
+    "aliases": [
+      "(2)",
+      "circle 2"
+    ],
+    "keywords": [
+      "physics",
+      "label",
+      "number",
+      "circled"
+    ],
+    "category": "Physics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Circled digit two"
+  },
+  {
+    "symbol": "③",
+    "codepoint": 9314,
+    "name": "Circled Digit Three",
+    "aliases": [
+      "(3)",
+      "circle 3"
+    ],
+    "keywords": [
+      "physics",
+      "label",
+      "number",
+      "circled"
+    ],
+    "category": "Physics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Circled digit three"
+  },
+  {
+    "symbol": "④",
+    "codepoint": 9315,
+    "name": "Circled Digit Four",
+    "aliases": [
+      "(4)",
+      "circle 4"
+    ],
+    "keywords": [
+      "physics",
+      "label",
+      "number",
+      "circled"
+    ],
+    "category": "Physics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Circled digit four"
+  },
+  {
+    "symbol": "⑤",
+    "codepoint": 9316,
+    "name": "Circled Digit Five",
+    "aliases": [
+      "(5)",
+      "circle 5"
+    ],
+    "keywords": [
+      "physics",
+      "label",
+      "number",
+      "circled"
+    ],
+    "category": "Physics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Circled digit five"
+  },
+  {
+    "symbol": "c",
+    "codepoint": 99,
+    "name": "Speed of Light",
+    "aliases": [
+      "c",
+      "speed of light",
+      "light speed",
+      "c0"
+    ],
+    "keywords": [
+      "physics",
+      "constant",
+      "light",
+      "speed",
+      "relativity"
+    ],
+    "category": "Physics",
+    "latex": "c",
+    "htmlEntity": "",
+    "description": "Speed of light in vacuum c = 299,792,458 m/s"
+  },
+  {
+    "symbol": "G",
+    "codepoint": 71,
+    "name": "Gravitational Constant",
+    "aliases": [
+      "G",
+      "big G",
+      "Newton constant"
+    ],
+    "keywords": [
+      "physics",
+      "constant",
+      "gravity",
+      "Newton"
+    ],
+    "category": "Physics",
+    "latex": "G",
+    "htmlEntity": "",
+    "description": "Newtonian gravitational constant G ≈ 6.674×10⁻¹¹ N⋅m²/kg²"
+  },
+  {
+    "symbol": "g",
+    "codepoint": 103,
+    "name": "Acceleration of Gravity",
+    "aliases": [
+      "g",
+      "little g",
+      "gravity",
+      "gramme"
+    ],
+    "keywords": [
+      "physics",
+      "acceleration",
+      "gravity",
+      "Earth",
+      "SI",
+      "unit",
+      "mass"
+    ],
+    "category": "SI Units",
+    "latex": "g",
+    "htmlEntity": "",
+    "description": "Standard acceleration due to gravity g ≈ 9.81 m/s²"
+  },
+  {
+    "symbol": "k",
+    "codepoint": 107,
+    "name": "Boltzmann Constant",
+    "aliases": [
+      "k",
+      "k_B",
+      "Boltzmann"
+    ],
+    "keywords": [
+      "physics",
+      "constant",
+      "Boltzmann",
+      "thermodynamics"
+    ],
+    "category": "Physics",
+    "latex": "k_B",
+    "htmlEntity": "",
+    "description": "Boltzmann constant k = 1.380649×10⁻²³ J/K"
+  },
+  {
+    "symbol": "N_A",
+    "codepoint": 78,
+    "name": "Avogadro Constant",
+    "aliases": [
+      "NA",
+      "Avogadro",
+      "Avogadro number"
+    ],
+    "keywords": [
+      "physics",
+      "constant",
+      "Avogadro",
+      "chemistry",
+      "mole"
+    ],
+    "category": "Physics",
+    "latex": "N_A",
+    "htmlEntity": "",
+    "description": "Avogadro constant N_A = 6.02214076×10²³ mol⁻¹"
+  },
+  {
+    "symbol": "h",
+    "codepoint": 104,
+    "name": "Planck Constant",
+    "aliases": [
+      "h",
+      "Planck",
+      "Planck constant"
+    ],
+    "keywords": [
+      "physics",
+      "constant",
+      "Planck",
+      "quantum",
+      "action"
+    ],
+    "category": "Physics",
+    "latex": "h",
+    "htmlEntity": "",
+    "description": "Planck constant h = 6.62607015×10⁻³⁴ J⋅s"
+  },
+  {
+    "symbol": "eV",
+    "codepoint": 101,
+    "name": "Electronvolt",
+    "aliases": [
+      "eV",
+      "electron volt",
+      "electronvolt"
+    ],
+    "keywords": [
+      "physics",
+      "energy",
+      "electron",
+      "unit"
+    ],
+    "category": "Physics",
+    "latex": "\\mathrm{eV}",
+    "htmlEntity": "",
+    "description": "Electronvolt — energy unit, 1 eV ≈ 1.602×10⁻¹⁹ J"
+  },
+  {
+    "symbol": "Å",
+    "codepoint": 197,
+    "name": "Angstrom",
+    "aliases": [
+      "Angstrom",
+      "angstrom",
+      "A ring"
+    ],
+    "keywords": [
+      "physics",
+      "length",
+      "atomic",
+      "crystal"
+    ],
+    "category": "Physics",
+    "latex": "\\AA",
+    "htmlEntity": "&Aring;",
+    "description": "Angstrom — 10⁻¹⁰ m, used for atomic/crystal distances"
+  },
+  {
+    "symbol": "°",
+    "codepoint": 176,
+    "name": "Degree Sign",
+    "aliases": [
+      "degree",
+      "degrees",
+      "deg",
+      "arcdegree"
+    ],
+    "keywords": [
+      "physics",
+      "temperature",
+      "angle",
+      "unit",
+      "misc",
+      "degree",
+      "geometry"
+    ],
+    "category": "Physics",
+    "latex": "{}^{\\circ}",
+    "htmlEntity": "&deg;",
+    "description": "Degree symbol — arc measure or temperature unit"
+  },
+  {
+    "symbol": "Ω",
+    "codepoint": 8486,
+    "name": "Ohm Sign",
+    "aliases": [
+      "Ohm",
+      "ohm",
+      "resistance"
+    ],
+    "keywords": [
+      "physics",
+      "electricity",
+      "resistance",
+      "impedance"
+    ],
+    "category": "Physics",
+    "latex": "\\Omega",
+    "htmlEntity": "&Omega;",
+    "description": "Unit of electrical resistance — Ohm (separate from Greek Omega)"
+  },
+  {
+    "symbol": "⇌",
+    "codepoint": 8652,
+    "name": "Equilibrium",
+    "aliases": [
+      "equilibrium",
+      "reversible",
+      "harpoon"
+    ],
+    "keywords": [
+      "chemistry",
+      "reaction",
+      "equilibrium",
+      "reversible"
+    ],
+    "category": "Chemistry",
+    "latex": "\\rightleftharpoons",
+    "htmlEntity": "",
+    "description": "Chemical equilibrium — reversible reaction"
+  },
+  {
+    "symbol": "→",
+    "codepoint": 8594,
+    "name": "Rightwards Arrow (Reaction)",
+    "aliases": [
+      "->",
+      "to",
+      "yields",
+      "produces",
+      "rarr",
+      "right",
+      "east"
+    ],
+    "keywords": [
+      "chemistry",
+      "reaction",
+      "arrow",
+      "yields",
+      "right",
+      "direction",
+      "east"
+    ],
+    "category": "Arrows",
+    "latex": "\\rightarrow",
+    "htmlEntity": "&rarr;",
+    "description": "Reaction arrow — reactants yield products"
+  },
+  {
+    "symbol": "←",
+    "codepoint": 8592,
+    "name": "Leftwards Arrow (Reverse)",
+    "aliases": [
+      "<-",
+      "from",
+      "reverse reaction",
+      "larr",
+      "left",
+      "west"
+    ],
+    "keywords": [
+      "chemistry",
+      "reaction",
+      "arrow",
+      "reverse",
+      "left",
+      "direction",
+      "west"
+    ],
+    "category": "Arrows",
+    "latex": "\\leftarrow",
+    "htmlEntity": "&larr;",
+    "description": "Reverse reaction arrow"
+  },
+  {
+    "symbol": "↑",
+    "codepoint": 8593,
+    "name": "Upwards Arrow (Gas)",
+    "aliases": [
+      "up",
+      "gas",
+      "evolved",
+      "escape",
+      "uarr",
+      "north"
+    ],
+    "keywords": [
+      "chemistry",
+      "gas",
+      "evolved",
+      "precipitate",
+      "arrow",
+      "up",
+      "direction",
+      "north"
+    ],
+    "category": "Arrows",
+    "latex": "\\uparrow",
+    "htmlEntity": "&uarr;",
+    "description": "Gas evolution in a chemical reaction"
+  },
+  {
+    "symbol": "↓",
+    "codepoint": 8595,
+    "name": "Downwards Arrow (Precipitate)",
+    "aliases": [
+      "down",
+      "precipitate",
+      "solid",
+      "ppt",
+      "darr",
+      "south"
+    ],
+    "keywords": [
+      "chemistry",
+      "precipitate",
+      "solid",
+      "deposit",
+      "arrow",
+      "down",
+      "direction",
+      "south"
+    ],
+    "category": "Arrows",
+    "latex": "\\downarrow",
+    "htmlEntity": "&darr;",
+    "description": "Precipitate formation in a reaction"
+  },
+  {
+    "symbol": "⚗",
+    "codepoint": 9879,
+    "name": "Alembic",
+    "aliases": [
+      "alembic",
+      "distillation",
+      "chemistry apparatus"
+    ],
+    "keywords": [
+      "chemistry",
+      "apparatus",
+      "distillation",
+      "lab"
+    ],
+    "category": "Chemistry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Alembic / distillation apparatus"
+  },
+  {
+    "symbol": "☠",
+    "codepoint": 9760,
+    "name": "Skull And Crossbones",
+    "aliases": [
+      "toxic",
+      "poison",
+      "skull",
+      "hazard",
+      "toxicity"
+    ],
+    "keywords": [
+      "chemistry",
+      "toxic",
+      "poison",
+      "hazard",
+      "warning"
+    ],
+    "category": "Chemistry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Toxic / poisonous substance warning"
+  },
+  {
+    "symbol": "☢",
+    "codepoint": 9762,
+    "name": "Radioactive Sign",
+    "aliases": [
+      "radioactive",
+      "radiation",
+      "nuclear",
+      "hazard"
+    ],
+    "keywords": [
+      "chemistry",
+      "radioactive",
+      "nuclear",
+      "hazard",
+      "warning"
+    ],
+    "category": "Chemistry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Radioactive material warning"
+  },
+  {
+    "symbol": "☣",
+    "codepoint": 9763,
+    "name": "Biohazard Sign",
+    "aliases": [
+      "biohazard",
+      "biological hazard",
+      "bio"
+    ],
+    "keywords": [
+      "chemistry",
+      "biological",
+      "hazard",
+      "biohazard",
+      "warning"
+    ],
+    "category": "Chemistry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Biological hazard warning"
+  },
+  {
+    "symbol": "⦵",
+    "codepoint": 10677,
+    "name": "Circle With Horizontal Bar",
+    "aliases": [
+      "standard state",
+      "plimsoll",
+      "standard"
+    ],
+    "keywords": [
+      "chemistry",
+      "standard",
+      "state",
+      "thermodynamics"
+    ],
+    "category": "Chemistry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Indicates standard state (Plimsoll symbol)"
+  },
+  {
+    "symbol": "⇀",
+    "codepoint": 8640,
+    "name": "Rightwards Harpoon With Barb Upwards",
+    "aliases": [
+      "harpoon up",
+      "half arrow up"
+    ],
+    "keywords": [
+      "chemistry",
+      "mechanism",
+      "electron",
+      "single"
+    ],
+    "category": "Chemistry",
+    "latex": "\\rightharpoonup",
+    "htmlEntity": "",
+    "description": "Single-electron movement in reaction mechanism"
+  },
+  {
+    "symbol": "⇁",
+    "codepoint": 8641,
+    "name": "Rightwards Harpoon With Barb Downwards",
+    "aliases": [
+      "harpoon down",
+      "half arrow down"
+    ],
+    "keywords": [
+      "chemistry",
+      "mechanism",
+      "electron pair"
+    ],
+    "category": "Chemistry",
+    "latex": "\\rightharpoondown",
+    "htmlEntity": "",
+    "description": "Electron pair movement in mechanism"
+  },
+  {
+    "symbol": "⚛",
+    "codepoint": 9883,
+    "name": "Atom Symbol",
+    "aliases": [
+      "atom",
+      "atomic",
+      "nuclear",
+      "science symbol"
+    ],
+    "keywords": [
+      "chemistry",
+      "atom",
+      "nuclear",
+      "science"
+    ],
+    "category": "Chemistry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Atom symbol — represents atomic/nuclear science"
+  },
+  {
+    "symbol": "pH",
+    "codepoint": 112,
+    "name": "pH (Acidity)",
+    "aliases": [
+      "pH",
+      "acidity",
+      "alkalinity",
+      "hydrogen"
+    ],
+    "keywords": [
+      "chemistry",
+      "pH",
+      "acidity",
+      "base",
+      "acid"
+    ],
+    "category": "Chemistry",
+    "latex": "\\mathrm{pH}",
+    "htmlEntity": "",
+    "description": "Measure of acidity/alkalinity — negative log of H⁺ concentration"
+  },
+  {
+    "symbol": "ΔH",
+    "codepoint": 916,
+    "name": "Enthalpy Change",
+    "aliases": [
+      "delta H",
+      "enthalpy",
+      "heat of reaction"
+    ],
+    "keywords": [
+      "chemistry",
+      "enthalpy",
+      "thermodynamics",
+      "heat"
+    ],
+    "category": "Chemistry",
+    "latex": "\\Delta H",
+    "htmlEntity": "",
+    "description": "Change in enthalpy of a chemical reaction"
+  },
+  {
+    "symbol": "ΔG",
+    "codepoint": 916,
+    "name": "Gibbs Free Energy",
+    "aliases": [
+      "delta G",
+      "Gibbs",
+      "free energy"
+    ],
+    "keywords": [
+      "chemistry",
+      "Gibbs",
+      "free energy",
+      "spontaneity"
+    ],
+    "category": "Chemistry",
+    "latex": "\\Delta G",
+    "htmlEntity": "",
+    "description": "Change in Gibbs free energy — determines reaction spontaneity"
+  },
+  {
+    "symbol": "M",
+    "codepoint": 77,
+    "name": "Molar (Concentration)",
+    "aliases": [
+      "molar",
+      "M",
+      "mol/L",
+      "molarity"
+    ],
+    "keywords": [
+      "chemistry",
+      "concentration",
+      "molar",
+      "solution"
+    ],
+    "category": "Chemistry",
+    "latex": "\\mathrm{M}",
+    "htmlEntity": "",
+    "description": "Molar concentration — mol/L"
+  },
+  {
+    "symbol": "kΩ",
+    "codepoint": 107,
+    "name": "Kiloohm",
+    "aliases": [
+      "kohm",
+      "kiloohm",
+      "kilo ohm"
+    ],
+    "keywords": [
+      "electronics",
+      "resistance",
+      "kilo",
+      "ohm"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{k}\\Omega",
+    "htmlEntity": "",
+    "description": "Kilohm — 10³ ohms"
+  },
+  {
+    "symbol": "MΩ",
+    "codepoint": 77,
+    "name": "Megaohm",
+    "aliases": [
+      "Mohm",
+      "megaohm",
+      "mega ohm"
+    ],
+    "keywords": [
+      "electronics",
+      "resistance",
+      "mega",
+      "ohm"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{M}\\Omega",
+    "htmlEntity": "",
+    "description": "Megohm — 10⁶ ohms"
+  },
+  {
+    "symbol": "µF",
+    "codepoint": 181,
+    "name": "Microfarad",
+    "aliases": [
+      "uF",
+      "microfarad",
+      "micro farad"
+    ],
+    "keywords": [
+      "electronics",
+      "capacitance",
+      "micro",
+      "farad"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{\\mu F}",
+    "htmlEntity": "",
+    "description": "Microfarad — 10⁻⁶ farads"
+  },
+  {
+    "symbol": "pF",
+    "codepoint": 112,
+    "name": "Picofarad",
+    "aliases": [
+      "picofarad",
+      "pico farad"
+    ],
+    "keywords": [
+      "electronics",
+      "capacitance",
+      "pico",
+      "farad"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{pF}",
+    "htmlEntity": "",
+    "description": "Picofarad — 10⁻¹² farads"
+  },
+  {
+    "symbol": "nF",
+    "codepoint": 110,
+    "name": "Nanofarad",
+    "aliases": [
+      "nanofarad",
+      "nano farad"
+    ],
+    "keywords": [
+      "electronics",
+      "capacitance",
+      "nano",
+      "farad"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{nF}",
+    "htmlEntity": "",
+    "description": "Nanofarad — 10⁻⁹ farads"
+  },
+  {
+    "symbol": "µH",
+    "codepoint": 181,
+    "name": "Microhenry",
+    "aliases": [
+      "uH",
+      "microhenry",
+      "micro henry"
+    ],
+    "keywords": [
+      "electronics",
+      "inductance",
+      "micro",
+      "henry"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{\\mu H}",
+    "htmlEntity": "",
+    "description": "Microhenry — 10⁻⁶ henries"
+  },
+  {
+    "symbol": "mH",
+    "codepoint": 109,
+    "name": "Millihenry",
+    "aliases": [
+      "millihenry",
+      "milli henry"
+    ],
+    "keywords": [
+      "electronics",
+      "inductance",
+      "milli",
+      "henry"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{mH}",
+    "htmlEntity": "",
+    "description": "Millihenry — 10⁻³ henries"
+  },
+  {
+    "symbol": "⏚",
+    "codepoint": 9178,
+    "name": "Earth Ground",
+    "aliases": [
+      "ground",
+      "GND",
+      "earth",
+      "earth ground"
+    ],
+    "keywords": [
+      "electronics",
+      "ground",
+      "GND",
+      "earth"
+    ],
+    "category": "Electronics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Earth ground symbol"
+  },
+  {
+    "symbol": "⏛",
+    "codepoint": 9179,
+    "name": "Fuse",
+    "aliases": [
+      "fuse",
+      "protection"
+    ],
+    "keywords": [
+      "electronics",
+      "fuse",
+      "protection",
+      "safety"
+    ],
+    "category": "Electronics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Fuse symbol — circuit protection"
+  },
+  {
+    "symbol": "⎓",
+    "codepoint": 9107,
+    "name": "Alternating Current",
+    "aliases": [
+      "AC",
+      "alternating current",
+      "~"
+    ],
+    "keywords": [
+      "electronics",
+      "AC",
+      "current",
+      "power",
+      "alternating"
+    ],
+    "category": "Electronics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Alternating current symbol"
+  },
+  {
+    "symbol": "⎏",
+    "codepoint": 9103,
+    "name": "Direct Current",
+    "aliases": [
+      "DC",
+      "direct current"
+    ],
+    "keywords": [
+      "electronics",
+      "DC",
+      "current",
+      "power",
+      "direct"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{DC}",
+    "htmlEntity": "",
+    "description": "Direct current symbol — unidirectional flow"
+  },
+  {
+    "symbol": "⚡",
+    "codepoint": 9889,
+    "name": "High Voltage Sign",
+    "aliases": [
+      "high voltage",
+      "lightning",
+      "electric shock",
+      "danger"
+    ],
+    "keywords": [
+      "electronics",
+      "voltage",
+      "danger",
+      "warning",
+      "hazard"
+    ],
+    "category": "Electronics",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "High voltage / electrical hazard warning"
+  },
+  {
+    "symbol": "⊕",
+    "codepoint": 8853,
+    "name": "Positive Terminal",
+    "aliases": [
+      "positive",
+      "plus",
+      "anode",
+      "+"
+    ],
+    "keywords": [
+      "electronics",
+      "positive",
+      "terminal",
+      "anode"
+    ],
+    "category": "Electronics",
+    "latex": "\\oplus",
+    "htmlEntity": "&oplus;",
+    "description": "Positive terminal / anode"
+  },
+  {
+    "symbol": "⊖",
+    "codepoint": 8854,
+    "name": "Negative Terminal",
+    "aliases": [
+      "negative",
+      "minus",
+      "cathode",
+      "-"
+    ],
+    "keywords": [
+      "electronics",
+      "negative",
+      "terminal",
+      "cathode"
+    ],
+    "category": "Electronics",
+    "latex": "\\ominus",
+    "htmlEntity": "",
+    "description": "Negative terminal / cathode"
+  },
+  {
+    "symbol": "V",
+    "codepoint": 86,
+    "name": "Volt",
+    "aliases": [
+      "volt",
+      "V",
+      "voltage",
+      "potential"
+    ],
+    "keywords": [
+      "electronics",
+      "voltage",
+      "potential",
+      "unit",
+      "volt"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{V}",
+    "htmlEntity": "",
+    "description": "Volt — unit of electric potential"
+  },
+  {
+    "symbol": "A",
+    "codepoint": 65,
+    "name": "Ampere",
+    "aliases": [
+      "amp",
+      "ampere",
+      "current",
+      "amps"
+    ],
+    "keywords": [
+      "electronics",
+      "current",
+      "ampere",
+      "unit",
+      "amp"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{A}",
+    "htmlEntity": "",
+    "description": "Ampere — unit of electric current"
+  },
+  {
+    "symbol": "W",
+    "codepoint": 87,
+    "name": "Watt",
+    "aliases": [
+      "watt",
+      "power"
+    ],
+    "keywords": [
+      "electronics",
+      "power",
+      "watt",
+      "unit"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{W}",
+    "htmlEntity": "",
+    "description": "Watt — unit of power"
+  },
+  {
+    "symbol": "Hz",
+    "codepoint": 72,
+    "name": "Hertz",
+    "aliases": [
+      "hertz",
+      "frequency",
+      "cycles per second"
+    ],
+    "keywords": [
+      "electronics",
+      "frequency",
+      "hertz",
+      "unit"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{Hz}",
+    "htmlEntity": "",
+    "description": "Hertz — unit of frequency"
+  },
+  {
+    "symbol": "dB",
+    "codepoint": 100,
+    "name": "Decibel",
+    "aliases": [
+      "decibel",
+      "dB",
+      "attenuation"
+    ],
+    "keywords": [
+      "electronics",
+      "decibel",
+      "gain",
+      "ratio"
+    ],
+    "category": "Electronics",
+    "latex": "\\mathrm{dB}",
+    "htmlEntity": "",
+    "description": "Decibel — logarithmic ratio unit"
+  },
+  {
+    "symbol": "Z",
+    "codepoint": 90,
+    "name": "Impedance",
+    "aliases": [
+      "impedance",
+      "Z",
+      "reactance"
+    ],
+    "keywords": [
+      "electronics",
+      "impedance",
+      "complex",
+      "resistance"
+    ],
+    "category": "Electronics",
+    "latex": "Z",
+    "htmlEntity": "",
+    "description": "Electrical impedance (complex quantity)"
+  },
+  {
+    "symbol": "j",
+    "codepoint": 106,
+    "name": "Imaginary Unit (j)",
+    "aliases": [
+      "j",
+      "sqrt(-1)",
+      "imaginary"
+    ],
+    "keywords": [
+      "electronics",
+      "imaginary",
+      "complex",
+      "reactance",
+      "phase"
+    ],
+    "category": "Electronics",
+    "latex": "j",
+    "htmlEntity": "",
+    "description": "Imaginary unit — used in EE instead of i (i = current)"
+  },
+  {
+    "symbol": "⊥",
+    "codepoint": 8869,
+    "name": "Logic Ground",
+    "aliases": [
+      "ground",
+      "logic ground",
+      "digital ground",
+      "bot",
+      "false",
+      "falsum",
+      "contradiction"
+    ],
+    "keywords": [
+      "electronics",
+      "ground",
+      "logic",
+      "digital",
+      "reference",
+      "falsity",
+      "contradiction",
+      "false"
+    ],
+    "category": "Logic",
+    "latex": "\\bot",
+    "htmlEntity": "&perp;",
+    "description": "Logical falsity constant — always false"
+  },
+  {
+    "symbol": "m",
+    "codepoint": 109,
+    "name": "Meter",
+    "aliases": [
+      "metre"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "length"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{m}",
+    "htmlEntity": "",
+    "description": "Base unit of length"
+  },
+  {
+    "symbol": "km",
+    "codepoint": 107,
+    "name": "Kilometer",
+    "aliases": [
+      "kilometre"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "length"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{km}",
+    "htmlEntity": "",
+    "description": "Kilometer — 10³ meters"
+  },
+  {
+    "symbol": "cm",
+    "codepoint": 99,
+    "name": "Centimeter",
+    "aliases": [
+      "centimetre"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "length"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{cm}",
+    "htmlEntity": "",
+    "description": "Centimeter — 10⁻² meters"
+  },
+  {
+    "symbol": "mm",
+    "codepoint": 109,
+    "name": "Millimeter",
+    "aliases": [
+      "millimetre"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "length"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{mm}",
+    "htmlEntity": "",
+    "description": "Millimeter — 10⁻³ meters"
+  },
+  {
+    "symbol": "µm",
+    "codepoint": 181,
+    "name": "Micrometer",
+    "aliases": [
+      "micrometre",
+      "micron"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "length"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{\\mu m}",
+    "htmlEntity": "",
+    "description": "Micrometer — 10⁻⁶ meters"
+  },
+  {
+    "symbol": "nm",
+    "codepoint": 110,
+    "name": "Nanometer",
+    "aliases": [
+      "nanometre"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "length"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{nm}",
+    "htmlEntity": "",
+    "description": "Nanometer — 10⁻⁹ meters"
+  },
+  {
+    "symbol": "pm",
+    "codepoint": 112,
+    "name": "Picometer",
+    "aliases": [
+      "picometre"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "length"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{pm}",
+    "htmlEntity": "",
+    "description": "Picometer — 10⁻¹² meters"
+  },
+  {
+    "symbol": "kg",
+    "codepoint": 107,
+    "name": "Kilogram",
+    "aliases": [
+      "kilogramme"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "mass"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kg}",
+    "htmlEntity": "",
+    "description": "Base unit of mass"
+  },
+  {
+    "symbol": "mg",
+    "codepoint": 109,
+    "name": "Milligram",
+    "aliases": [
+      "milligramme"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "mass"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{mg}",
+    "htmlEntity": "",
+    "description": "Milligram — 10⁻⁶ kilograms"
+  },
+  {
+    "symbol": "µg",
+    "codepoint": 181,
+    "name": "Microgram",
+    "aliases": [
+      "microgramme"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "mass"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{\\mu g}",
+    "htmlEntity": "",
+    "description": "Microgram — 10⁻⁹ kilograms"
+  },
+  {
+    "symbol": "s",
+    "codepoint": 115,
+    "name": "Second",
+    "aliases": [
+      "sec"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "time"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{s}",
+    "htmlEntity": "",
+    "description": "Base unit of time"
+  },
+  {
+    "symbol": "ms",
+    "codepoint": 109,
+    "name": "Millisecond",
+    "aliases": [
+      "millisec"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "time"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{ms}",
+    "htmlEntity": "",
+    "description": "Millisecond — 10⁻³ seconds"
+  },
+  {
+    "symbol": "µs",
+    "codepoint": 181,
+    "name": "Microsecond",
+    "aliases": [
+      "microsec"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "time"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{\\mu s}",
+    "htmlEntity": "",
+    "description": "Microsecond — 10⁻⁶ seconds"
+  },
+  {
+    "symbol": "ns",
+    "codepoint": 110,
+    "name": "Nanosecond",
+    "aliases": [
+      "nanosec"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "time"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{ns}",
+    "htmlEntity": "",
+    "description": "Nanosecond — 10⁻⁹ seconds"
+  },
+  {
+    "symbol": "K",
+    "codepoint": 75,
+    "name": "Kelvin",
+    "aliases": [
+      "kelvin"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "temperature"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{K}",
+    "htmlEntity": "",
+    "description": "Base unit of thermodynamic temperature"
+  },
+  {
+    "symbol": "mol",
+    "codepoint": 109,
+    "name": "Mole",
+    "aliases": [
+      "mole"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "amount"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{mol}",
+    "htmlEntity": "",
+    "description": "Base unit of amount of substance"
+  },
+  {
+    "symbol": "cd",
+    "codepoint": 99,
+    "name": "Candela",
+    "aliases": [
+      "candela"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "luminous"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{cd}",
+    "htmlEntity": "",
+    "description": "Base unit of luminous intensity"
+  },
+  {
+    "symbol": "kHz",
+    "codepoint": 107,
+    "name": "Kilohertz",
+    "aliases": [
+      "kilohertz"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "frequency"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kHz}",
+    "htmlEntity": "",
+    "description": "Kilohertz — 10³ Hz"
+  },
+  {
+    "symbol": "MHz",
+    "codepoint": 77,
+    "name": "Megahertz",
+    "aliases": [
+      "megahertz"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "frequency"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{MHz}",
+    "htmlEntity": "",
+    "description": "Megahertz — 10⁶ Hz"
+  },
+  {
+    "symbol": "GHz",
+    "codepoint": 71,
+    "name": "Gigahertz",
+    "aliases": [
+      "gigahertz"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "frequency"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{GHz}",
+    "htmlEntity": "",
+    "description": "Gigahertz — 10⁹ Hz"
+  },
+  {
+    "symbol": "N",
+    "codepoint": 78,
+    "name": "Newton",
+    "aliases": [
+      "newton"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "force"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{N}",
+    "htmlEntity": "",
+    "description": "Unit of force — kg⋅m/s²"
+  },
+  {
+    "symbol": "kN",
+    "codepoint": 107,
+    "name": "Kilonewton",
+    "aliases": [
+      "kilonewton"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "force"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kN}",
+    "htmlEntity": "",
+    "description": "Kilonewton — 10³ newtons"
+  },
+  {
+    "symbol": "Pa",
+    "codepoint": 80,
+    "name": "Pascal",
+    "aliases": [
+      "pascal"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "pressure"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{Pa}",
+    "htmlEntity": "",
+    "description": "Unit of pressure — N/m²"
+  },
+  {
+    "symbol": "kPa",
+    "codepoint": 107,
+    "name": "Kilopascal",
+    "aliases": [
+      "kilopascal"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "pressure"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kPa}",
+    "htmlEntity": "",
+    "description": "Kilopascal — 10³ pascals"
+  },
+  {
+    "symbol": "MPa",
+    "codepoint": 77,
+    "name": "Megapascal",
+    "aliases": [
+      "megapascal"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "pressure"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{MPa}",
+    "htmlEntity": "",
+    "description": "Megapascal — 10⁶ pascals"
+  },
+  {
+    "symbol": "GPa",
+    "codepoint": 71,
+    "name": "Gigapascal",
+    "aliases": [
+      "gigapascal"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "pressure"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{GPa}",
+    "htmlEntity": "",
+    "description": "Gigapascal — 10⁹ pascals"
+  },
+  {
+    "symbol": "J",
+    "codepoint": 74,
+    "name": "Joule",
+    "aliases": [
+      "joule"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "energy"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{J}",
+    "htmlEntity": "",
+    "description": "Unit of energy — N⋅m"
+  },
+  {
+    "symbol": "kJ",
+    "codepoint": 107,
+    "name": "Kilojoule",
+    "aliases": [
+      "kilojoule"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "energy"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kJ}",
+    "htmlEntity": "",
+    "description": "Kilojoule — 10³ joules"
+  },
+  {
+    "symbol": "kW",
+    "codepoint": 107,
+    "name": "Kilowatt",
+    "aliases": [
+      "kilowatt"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "power"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kW}",
+    "htmlEntity": "",
+    "description": "Kilowatt — 10³ watts"
+  },
+  {
+    "symbol": "MW",
+    "codepoint": 77,
+    "name": "Megawatt",
+    "aliases": [
+      "megawatt"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "power"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{MW}",
+    "htmlEntity": "",
+    "description": "Megawatt — 10⁶ watts"
+  },
+  {
+    "symbol": "C",
+    "codepoint": 67,
+    "name": "Coulomb",
+    "aliases": [
+      "coulomb"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "charge"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{C}",
+    "htmlEntity": "",
+    "description": "Unit of electric charge — A⋅s"
+  },
+  {
+    "symbol": "kV",
+    "codepoint": 107,
+    "name": "Kilovolt",
+    "aliases": [
+      "kilovolt"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "voltage"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kV}",
+    "htmlEntity": "",
+    "description": "Kilovolt — 10³ volts"
+  },
+  {
+    "symbol": "mV",
+    "codepoint": 109,
+    "name": "Millivolt",
+    "aliases": [
+      "millivolt"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "voltage"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{mV}",
+    "htmlEntity": "",
+    "description": "Millivolt — 10⁻³ volts"
+  },
+  {
+    "symbol": "F",
+    "codepoint": 70,
+    "name": "Farad",
+    "aliases": [
+      "farad"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "capacitance"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{F}",
+    "htmlEntity": "",
+    "description": "Unit of capacitance — C/V"
+  },
+  {
+    "symbol": "S",
+    "codepoint": 83,
+    "name": "Siemens",
+    "aliases": [
+      "siemens"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "conductance"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{S}",
+    "htmlEntity": "",
+    "description": "Unit of electric conductance — A/V"
+  },
+  {
+    "symbol": "Wb",
+    "codepoint": 87,
+    "name": "Weber",
+    "aliases": [
+      "weber"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "flux"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{Wb}",
+    "htmlEntity": "",
+    "description": "Unit of magnetic flux — V⋅s"
+  },
+  {
+    "symbol": "T",
+    "codepoint": 84,
+    "name": "Tesla",
+    "aliases": [
+      "tesla"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "flux density"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{T}",
+    "htmlEntity": "",
+    "description": "Unit of magnetic flux density — Wb/m²"
+  },
+  {
+    "symbol": "H",
+    "codepoint": 72,
+    "name": "Henry",
+    "aliases": [
+      "henry"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "inductance"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{H}",
+    "htmlEntity": "",
+    "description": "Unit of inductance — Wb/A"
+  },
+  {
+    "symbol": "lm",
+    "codepoint": 108,
+    "name": "Lumen",
+    "aliases": [
+      "lumen"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "luminous flux"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{lm}",
+    "htmlEntity": "",
+    "description": "Unit of luminous flux — cd⋅sr"
+  },
+  {
+    "symbol": "lx",
+    "codepoint": 108,
+    "name": "Lux",
+    "aliases": [
+      "lux"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "illuminance"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{lx}",
+    "htmlEntity": "",
+    "description": "Unit of illuminance — lm/m²"
+  },
+  {
+    "symbol": "Bq",
+    "codepoint": 66,
+    "name": "Becquerel",
+    "aliases": [
+      "becquerel"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "radioactivity"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{Bq}",
+    "htmlEntity": "",
+    "description": "Unit of radioactivity — s⁻¹"
+  },
+  {
+    "symbol": "Gy",
+    "codepoint": 71,
+    "name": "Gray",
+    "aliases": [
+      "gray"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "absorbed dose"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{Gy}",
+    "htmlEntity": "",
+    "description": "Unit of absorbed radiation dose — J/kg"
+  },
+  {
+    "symbol": "Sv",
+    "codepoint": 83,
+    "name": "Sievert",
+    "aliases": [
+      "sievert"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "dose equivalent"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{Sv}",
+    "htmlEntity": "",
+    "description": "Unit of equivalent radiation dose — J/kg"
+  },
+  {
+    "symbol": "kat",
+    "codepoint": 107,
+    "name": "Katal",
+    "aliases": [
+      "katal"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "catalytic activity"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{kat}",
+    "htmlEntity": "",
+    "description": "Unit of catalytic activity — mol/s"
+  },
+  {
+    "symbol": "L",
+    "codepoint": 76,
+    "name": "Liter",
+    "aliases": [
+      "litre",
+      "liter",
+      "dm3"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "volume"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{L}",
+    "htmlEntity": "",
+    "description": "Liter — 10⁻³ m³ (non-SI but accepted)"
+  },
+  {
+    "symbol": "mL",
+    "codepoint": 109,
+    "name": "Milliliter",
+    "aliases": [
+      "millilitre",
+      "ml",
+      "cc"
+    ],
+    "keywords": [
+      "SI",
+      "unit",
+      "volume"
+    ],
+    "category": "SI Units",
+    "latex": "\\mathrm{mL}",
+    "htmlEntity": "",
+    "description": "Milliliter — 10⁻⁶ m³"
+  },
+  {
+    "symbol": "¬",
+    "codepoint": 172,
+    "name": "Not Sign",
+    "aliases": [
+      "neg",
+      "lnot",
+      "not",
+      "~",
+      "negation"
+    ],
+    "keywords": [
+      "logic",
+      "not",
+      "negation",
+      "literal"
+    ],
+    "category": "Logic",
+    "latex": "\\neg",
+    "htmlEntity": "&not;",
+    "description": "Logical negation — NOT"
+  },
+  {
+    "symbol": "∧",
+    "codepoint": 8743,
+    "name": "Logical And",
+    "aliases": [
+      "land",
+      "and",
+      "wedge",
+      "conjunction",
+      "&&"
+    ],
+    "keywords": [
+      "logic",
+      "and",
+      "conjunction",
+      "wedge"
+    ],
+    "category": "Logic",
+    "latex": "\\land",
+    "htmlEntity": "&and;",
+    "description": "Logical conjunction — AND"
+  },
+  {
+    "symbol": "∨",
+    "codepoint": 8744,
+    "name": "Logical Or",
+    "aliases": [
+      "lor",
+      "or",
+      "vee",
+      "disjunction",
+      "||"
+    ],
+    "keywords": [
+      "logic",
+      "or",
+      "disjunction",
+      "vee"
+    ],
+    "category": "Logic",
+    "latex": "\\lor",
+    "htmlEntity": "&or;",
+    "description": "Logical disjunction — OR"
+  },
+  {
+    "symbol": "⊤",
+    "codepoint": 8868,
+    "name": "True (Top)",
+    "aliases": [
+      "top",
+      "true",
+      "verum",
+      "tautology"
+    ],
+    "keywords": [
+      "logic",
+      "truth",
+      "tautology",
+      "true"
+    ],
+    "category": "Logic",
+    "latex": "\\top",
+    "htmlEntity": "&top;",
+    "description": "Logical truth constant — always true"
+  },
+  {
+    "symbol": "⊢",
+    "codepoint": 8866,
+    "name": "Provable (Turnstile)",
+    "aliases": [
+      "vdash",
+      "proves",
+      "entails",
+      "turnstile"
+    ],
+    "keywords": [
+      "logic",
+      "proof",
+      "syntax",
+      "entailment"
+    ],
+    "category": "Logic",
+    "latex": "\\vdash",
+    "htmlEntity": "&vdash;",
+    "description": "Syntactic consequence — provable in a system"
+  },
+  {
+    "symbol": "⊨",
+    "codepoint": 8872,
+    "name": "Entails (Double Turnstile)",
+    "aliases": [
+      "models",
+      "entails",
+      "double turnstile"
+    ],
+    "keywords": [
+      "logic",
+      "semantics",
+      "entailment",
+      "valid"
+    ],
+    "category": "Logic",
+    "latex": "\\models",
+    "htmlEntity": "",
+    "description": "Semantic consequence — logically entails"
+  },
+  {
+    "symbol": "⊭",
+    "codepoint": 8877,
+    "name": "Does Not Entail",
+    "aliases": [
+      "nmodels",
+      "not entail"
+    ],
+    "keywords": [
+      "logic",
+      "semantics",
+      "negation"
+    ],
+    "category": "Logic",
+    "latex": "\\not\\models",
+    "htmlEntity": "",
+    "description": "Does not semantically entail"
+  },
+  {
+    "symbol": "∴",
+    "codepoint": 8756,
+    "name": "Therefore",
+    "aliases": [
+      "therefore",
+      "thus",
+      "hence",
+      "ergo",
+      "so"
+    ],
+    "keywords": [
+      "logic",
+      "therefore",
+      "conclusion",
+      "deduction"
+    ],
+    "category": "Logic",
+    "latex": "\\therefore",
+    "htmlEntity": "&there4;",
+    "description": "Therefore — introduces logical conclusion"
+  },
+  {
+    "symbol": "∵",
+    "codepoint": 8757,
+    "name": "Because",
+    "aliases": [
+      "because",
+      "since",
+      "due to",
+      "reason"
+    ],
+    "keywords": [
+      "logic",
+      "because",
+      "reason",
+      "premise"
+    ],
+    "category": "Logic",
+    "latex": "\\because",
+    "htmlEntity": "&becaus;",
+    "description": "Because — introduces a reason or premise"
+  },
+  {
+    "symbol": "⊻",
+    "codepoint": 8891,
+    "name": "Exclusive Or (XOR Symbol)",
+    "aliases": [
+      "xor",
+      "veebar",
+      "exclusive or"
+    ],
+    "keywords": [
+      "logic",
+      "xor",
+      "exclusive",
+      "parity"
+    ],
+    "category": "Logic",
+    "latex": "\\veebar",
+    "htmlEntity": "",
+    "description": "Exclusive OR — one or the other, not both (logic-specific glyph)"
+  },
+  {
+    "symbol": "↮",
+    "codepoint": 8622,
+    "name": "Not Biconditional",
+    "aliases": [
+      "nleftrightarrow",
+      "not iff",
+      "xor"
+    ],
+    "keywords": [
+      "logic",
+      "negation",
+      "biconditional",
+      "xor"
+    ],
+    "category": "Logic",
+    "latex": "\\nleftrightarrow",
+    "htmlEntity": "",
+    "description": "Negated biconditional / exclusive OR"
+  },
+  {
+    "symbol": "□",
+    "codepoint": 9633,
+    "name": "Necessarily",
+    "aliases": [
+      "Box",
+      "necessarily",
+      "necessity",
+      "always",
+      "square",
+      "quadrilateral",
+      "box",
+      "rect"
+    ],
+    "keywords": [
+      "logic",
+      "modal",
+      "necessity",
+      "box",
+      "geometry",
+      "square",
+      "quadrilateral",
+      "shape",
+      "four sides"
+    ],
+    "category": "Geometry",
+    "latex": "\\Box",
+    "htmlEntity": "",
+    "description": "Modal operator — necessarily / always"
+  },
+  {
+    "symbol": "◇",
+    "codepoint": 9671,
+    "name": "Possibly",
+    "aliases": [
+      "Diamond",
+      "possibly",
+      "possibility",
+      "eventually",
+      "diamond",
+      "rhombus",
+      "lozenge",
+      "rhomb"
+    ],
+    "keywords": [
+      "logic",
+      "modal",
+      "possibility",
+      "diamond",
+      "geometry",
+      "rhombus",
+      "shape",
+      "four sides"
+    ],
+    "category": "Geometry",
+    "latex": "\\Diamond",
+    "htmlEntity": "",
+    "description": "Modal operator — possibly / eventually"
+  },
+  {
+    "symbol": "{",
+    "codepoint": 123,
+    "name": "Left Curly Bracket",
+    "aliases": [
+      "lbrace",
+      "open brace",
+      "{",
+      "curly open"
+    ],
+    "keywords": [
+      "programming",
+      "brace",
+      "curly",
+      "block",
+      "object"
+    ],
+    "category": "Programming",
+    "latex": "\\{",
+    "htmlEntity": "&lcub;",
+    "description": "Opening curly brace — code block or object delimiter"
+  },
+  {
+    "symbol": "}",
+    "codepoint": 125,
+    "name": "Right Curly Bracket",
+    "aliases": [
+      "rbrace",
+      "close brace",
+      "}",
+      "curly close"
+    ],
+    "keywords": [
+      "programming",
+      "brace",
+      "curly",
+      "block",
+      "object"
+    ],
+    "category": "Programming",
+    "latex": "\\}",
+    "htmlEntity": "&rcub;",
+    "description": "Closing curly brace"
+  },
+  {
+    "symbol": "[",
+    "codepoint": 91,
+    "name": "Left Square Bracket",
+    "aliases": [
+      "lbracket",
+      "open bracket",
+      "[",
+      "square open"
+    ],
+    "keywords": [
+      "programming",
+      "bracket",
+      "square",
+      "array",
+      "index"
+    ],
+    "category": "Programming",
+    "latex": "[",
+    "htmlEntity": "&lsqb;",
+    "description": "Opening square bracket — array index or list"
+  },
+  {
+    "symbol": "]",
+    "codepoint": 93,
+    "name": "Right Square Bracket",
+    "aliases": [
+      "rbracket",
+      "close bracket",
+      "]",
+      "square close"
+    ],
+    "keywords": [
+      "programming",
+      "bracket",
+      "square",
+      "array",
+      "index"
+    ],
+    "category": "Programming",
+    "latex": "]",
+    "htmlEntity": "&rsqb;",
+    "description": "Closing square bracket"
+  },
+  {
+    "symbol": "(",
+    "codepoint": 40,
+    "name": "Left Parenthesis",
+    "aliases": [
+      "lparen",
+      "open paren",
+      "(",
+      "round open"
+    ],
+    "keywords": [
+      "programming",
+      "paren",
+      "function",
+      "grouping",
+      "call"
+    ],
+    "category": "Programming",
+    "latex": "(",
+    "htmlEntity": "&lpar;",
+    "description": "Opening parenthesis — function call or grouping"
+  },
+  {
+    "symbol": ")",
+    "codepoint": 41,
+    "name": "Right Parenthesis",
+    "aliases": [
+      "rparen",
+      "close paren",
+      ")",
+      "round close"
+    ],
+    "keywords": [
+      "programming",
+      "paren",
+      "function",
+      "grouping",
+      "call"
+    ],
+    "category": "Programming",
+    "latex": ")",
+    "htmlEntity": "&rpar;",
+    "description": "Closing parenthesis"
+  },
+  {
+    "symbol": "<",
+    "codepoint": 60,
+    "name": "Less-Than Sign",
+    "aliases": [
+      "lt",
+      "less",
+      "open angle",
+      "<"
+    ],
+    "keywords": [
+      "programming",
+      "angle",
+      "comparison",
+      "template",
+      "generic"
+    ],
+    "category": "Programming",
+    "latex": "<",
+    "htmlEntity": "&lt;",
+    "description": "Less-than sign — comparison or template/generic bracket"
+  },
+  {
+    "symbol": ">",
+    "codepoint": 62,
+    "name": "Greater-Than Sign",
+    "aliases": [
+      "gt",
+      "greater",
+      "close angle",
+      ">"
+    ],
+    "keywords": [
+      "programming",
+      "angle",
+      "comparison",
+      "template",
+      "generic"
+    ],
+    "category": "Programming",
+    "latex": ">",
+    "htmlEntity": "&gt;",
+    "description": "Greater-than sign — comparison or template/generic bracket"
+  },
+  {
+    "symbol": "&",
+    "codepoint": 38,
+    "name": "Ampersand",
+    "aliases": [
+      "amp",
+      "ampersand",
+      "address",
+      "bitand",
+      "and"
+    ],
+    "keywords": [
+      "programming",
+      "ampersand",
+      "reference",
+      "and",
+      "bitwise"
+    ],
+    "category": "Programming",
+    "latex": "\\&",
+    "htmlEntity": "&amp;",
+    "description": "Ampersand — bitwise AND, address-of, or reference operator"
+  },
+  {
+    "symbol": "|",
+    "codepoint": 124,
+    "name": "Vertical Bar",
+    "aliases": [
+      "pipe",
+      "or",
+      "bitor",
+      "|",
+      "pipe"
+    ],
+    "keywords": [
+      "programming",
+      "pipe",
+      "bitwise or",
+      "union"
+    ],
+    "category": "Programming",
+    "latex": "|",
+    "htmlEntity": "&verbar;",
+    "description": "Vertical bar — bitwise OR or pipe operator"
+  },
+  {
+    "symbol": "^",
+    "codepoint": 94,
+    "name": "Circumflex Accent",
+    "aliases": [
+      "caret",
+      "hat",
+      "xor",
+      "power",
+      "bitxor"
+    ],
+    "keywords": [
+      "programming",
+      "xor",
+      "power",
+      "caret",
+      "bitwise"
+    ],
+    "category": "Programming",
+    "latex": "\\^{}",
+    "htmlEntity": "",
+    "description": "Circumflex — bitwise XOR or exponentiation"
+  },
+  {
+    "symbol": "~",
+    "codepoint": 126,
+    "name": "Tilde",
+    "aliases": [
+      "tilde",
+      "not",
+      "bitnot",
+      "~",
+      "complement"
+    ],
+    "keywords": [
+      "programming",
+      "bitwise not",
+      "tilde",
+      "complement",
+      "destructor"
+    ],
+    "category": "Programming",
+    "latex": "\\~{}",
+    "htmlEntity": "",
+    "description": "Tilde — bitwise NOT or destructor/approximation"
+  },
+  {
+    "symbol": "#",
+    "codepoint": 35,
+    "name": "Number Sign",
+    "aliases": [
+      "hash",
+      "pound",
+      "sharp",
+      "comment",
+      "preprocessor"
+    ],
+    "keywords": [
+      "programming",
+      "hash",
+      "comment",
+      "preprocessor",
+      "directive"
+    ],
+    "category": "Programming",
+    "latex": "\\#",
+    "htmlEntity": "&num;",
+    "description": "Number sign / hash — preprocessor directive or comment"
+  },
+  {
+    "symbol": "@",
+    "codepoint": 64,
+    "name": "Commercial At",
+    "aliases": [
+      "at",
+      "at sign",
+      "decorator",
+      "annotation"
+    ],
+    "keywords": [
+      "programming",
+      "at",
+      "annotation",
+      "decorator",
+      "attribute"
+    ],
+    "category": "Programming",
+    "latex": "@",
+    "htmlEntity": "&commat;",
+    "description": "At sign — decorator/annotation in many languages"
+  },
+  {
+    "symbol": "$",
+    "codepoint": 36,
+    "name": "Dollar Sign",
+    "aliases": [
+      "dollar",
+      "$",
+      "variable prefix",
+      "string interpolation",
+      "USD",
+      "buck",
+      "money"
+    ],
+    "keywords": [
+      "programming",
+      "dollar",
+      "variable",
+      "prefix",
+      "interpolation",
+      "currency",
+      "money",
+      "US"
+    ],
+    "category": "Currency",
+    "latex": "\\$",
+    "htmlEntity": "&dollar;",
+    "description": "Dollar sign — variable prefix in PHP/shell/template literals"
+  },
+  {
+    "symbol": "%",
+    "codepoint": 37,
+    "name": "Percent Sign",
+    "aliases": [
+      "percent",
+      "mod",
+      "modulo",
+      "%",
+      "remainder"
+    ],
+    "keywords": [
+      "programming",
+      "percent",
+      "modulo",
+      "format",
+      "placeholder"
+    ],
+    "category": "Programming",
+    "latex": "\\%",
+    "htmlEntity": "&percnt;",
+    "description": "Percent sign — modulo operator or format specifier"
+  },
+  {
+    "symbol": "!",
+    "codepoint": 33,
+    "name": "Exclamation Mark",
+    "aliases": [
+      "bang",
+      "exclamation",
+      "not",
+      "!",
+      "logical not"
+    ],
+    "keywords": [
+      "programming",
+      "not",
+      "bang",
+      "exclamation",
+      "negation"
+    ],
+    "category": "Programming",
+    "latex": "!",
+    "htmlEntity": "&excl;",
+    "description": "Exclamation mark — logical NOT or assertion"
+  },
+  {
+    "symbol": ":",
+    "codepoint": 58,
+    "name": "Colon",
+    "aliases": [
+      "colon",
+      ":",
+      "key-value"
+    ],
+    "keywords": [
+      "programming",
+      "colon",
+      "type",
+      "key-value",
+      "label"
+    ],
+    "category": "Programming",
+    "latex": ":",
+    "htmlEntity": "&colon;",
+    "description": "Colon — key-value separator, type annotation, or label"
+  },
+  {
+    "symbol": ";",
+    "codepoint": 59,
+    "name": "Semicolon",
+    "aliases": [
+      "semicolon",
+      ";",
+      "terminator",
+      "end"
+    ],
+    "keywords": [
+      "programming",
+      "semicolon",
+      "terminator",
+      "statement",
+      "end"
+    ],
+    "category": "Programming",
+    "latex": ";",
+    "htmlEntity": "&semi;",
+    "description": "Semicolon — statement terminator"
+  },
+  {
+    "symbol": "_",
+    "codepoint": 95,
+    "name": "Low Line (Underscore)",
+    "aliases": [
+      "underscore",
+      "_",
+      "low line",
+      "underline"
+    ],
+    "keywords": [
+      "programming",
+      "underscore",
+      "placeholder",
+      "ignore",
+      "separator"
+    ],
+    "category": "Programming",
+    "latex": "\\_",
+    "htmlEntity": "&lowbar;",
+    "description": "Underscore — identifier separator, placeholder, or unused binding"
+  },
+  {
+    "symbol": "\\",
+    "codepoint": 92,
+    "name": "Reverse Solidus (Backslash)",
+    "aliases": [
+      "backslash",
+      "escape",
+      "path",
+      "\\\\"
+    ],
+    "keywords": [
+      "programming",
+      "backslash",
+      "escape",
+      "path",
+      "separator"
+    ],
+    "category": "Programming",
+    "latex": "\\textbackslash",
+    "htmlEntity": "&bsol;",
+    "description": "Backslash — escape character or Windows path separator"
+  },
+  {
+    "symbol": "`",
+    "codepoint": 96,
+    "name": "Grave Accent (Backtick)",
+    "aliases": [
+      "backtick",
+      "backquote",
+      "grave",
+      "template"
+    ],
+    "keywords": [
+      "programming",
+      "backtick",
+      "template",
+      "literal",
+      "shell"
+    ],
+    "category": "Programming",
+    "latex": "\\grave{}",
+    "htmlEntity": "",
+    "description": "Backtick — template literal (JS) or command substitution (shell)"
+  },
+  {
+    "symbol": "'",
+    "codepoint": 39,
+    "name": "Apostrophe (Single Quote)",
+    "aliases": [
+      "single quote",
+      "apostrophe",
+      "tick"
+    ],
+    "keywords": [
+      "programming",
+      "quote",
+      "string",
+      "character",
+      "literal"
+    ],
+    "category": "Programming",
+    "latex": "'",
+    "htmlEntity": "&apos;",
+    "description": "Single quote — character or string literal in many languages"
+  },
+  {
+    "symbol": "\"",
+    "codepoint": 34,
+    "name": "Quotation Mark (Double Quote)",
+    "aliases": [
+      "double quote",
+      "quote",
+      "dquote"
+    ],
+    "keywords": [
+      "programming",
+      "quote",
+      "string",
+      "literal",
+      "double"
+    ],
+    "category": "Programming",
+    "latex": "\"",
+    "htmlEntity": "&quot;",
+    "description": "Double quote — string literal delimiter"
+  },
+  {
+    "symbol": "↔",
+    "codepoint": 8596,
+    "name": "Left Right Arrow",
+    "aliases": [
+      "harr",
+      "left right",
+      "<->",
+      "horizontal"
+    ],
+    "keywords": [
+      "arrow",
+      "both",
+      "bidirectional",
+      "horizontal"
+    ],
+    "category": "Arrows",
+    "latex": "\\leftrightarrow",
+    "htmlEntity": "&harr;",
+    "description": "Horizontal bidirectional arrow"
+  },
+  {
+    "symbol": "↕",
+    "codepoint": 8597,
+    "name": "Up Down Arrow",
+    "aliases": [
+      "updown",
+      "vertical",
+      "up down"
+    ],
+    "keywords": [
+      "arrow",
+      "both",
+      "vertical",
+      "bidirectional"
+    ],
+    "category": "Arrows",
+    "latex": "\\updownarrow",
+    "htmlEntity": "",
+    "description": "Vertical bidirectional arrow"
+  },
+  {
+    "symbol": "↖",
+    "codepoint": 8598,
+    "name": "North West Arrow",
+    "aliases": [
+      "nwarrow",
+      "north west",
+      "upper left",
+      "diagonal"
+    ],
+    "keywords": [
+      "arrow",
+      "diagonal",
+      "northwest"
+    ],
+    "category": "Arrows",
+    "latex": "\\nwarrow",
+    "htmlEntity": "",
+    "description": "Diagonal arrow — upper left"
+  },
+  {
+    "symbol": "↗",
+    "codepoint": 8599,
+    "name": "North East Arrow",
+    "aliases": [
+      "nearrow",
+      "north east",
+      "upper right",
+      "diagonal"
+    ],
+    "keywords": [
+      "arrow",
+      "diagonal",
+      "northeast"
+    ],
+    "category": "Arrows",
+    "latex": "\\nearrow",
+    "htmlEntity": "",
+    "description": "Diagonal arrow — upper right"
+  },
+  {
+    "symbol": "↘",
+    "codepoint": 8600,
+    "name": "South East Arrow",
+    "aliases": [
+      "searrow",
+      "south east",
+      "lower right",
+      "diagonal"
+    ],
+    "keywords": [
+      "arrow",
+      "diagonal",
+      "southeast"
+    ],
+    "category": "Arrows",
+    "latex": "\\searrow",
+    "htmlEntity": "",
+    "description": "Diagonal arrow — lower right"
+  },
+  {
+    "symbol": "↙",
+    "codepoint": 8601,
+    "name": "South West Arrow",
+    "aliases": [
+      "swarrow",
+      "south west",
+      "lower left",
+      "diagonal"
+    ],
+    "keywords": [
+      "arrow",
+      "diagonal",
+      "southwest"
+    ],
+    "category": "Arrows",
+    "latex": "\\swarrow",
+    "htmlEntity": "",
+    "description": "Diagonal arrow — lower left"
+  },
+  {
+    "symbol": "↩",
+    "codepoint": 8617,
+    "name": "Leftwards Arrow With Hook",
+    "aliases": [
+      "hookleft",
+      "return",
+      "carriage return"
+    ],
+    "keywords": [
+      "arrow",
+      "hook",
+      "return",
+      "left"
+    ],
+    "category": "Arrows",
+    "latex": "\\hookleftarrow",
+    "htmlEntity": "",
+    "description": "Arrow with left hook — carriage return symbol"
+  },
+  {
+    "symbol": "↪",
+    "codepoint": 8618,
+    "name": "Rightwards Arrow With Hook",
+    "aliases": [
+      "hookright",
+      "hook right"
+    ],
+    "keywords": [
+      "arrow",
+      "hook",
+      "right"
+    ],
+    "category": "Arrows",
+    "latex": "\\hookrightarrow",
+    "htmlEntity": "",
+    "description": "Arrow with right hook"
+  },
+  {
+    "symbol": "↺",
+    "codepoint": 8634,
+    "name": "Anticlockwise Open Circle Arrow",
+    "aliases": [
+      "circlearrowleft",
+      "ccw",
+      "counterclockwise",
+      "rotate"
+    ],
+    "keywords": [
+      "arrow",
+      "circle",
+      "rotate",
+      "counterclockwise"
+    ],
+    "category": "Arrows",
+    "latex": "\\circlearrowleft",
+    "htmlEntity": "",
+    "description": "Counterclockwise circular arrow"
+  },
+  {
+    "symbol": "↻",
+    "codepoint": 8635,
+    "name": "Clockwise Open Circle Arrow",
+    "aliases": [
+      "circlearrowright",
+      "cw",
+      "clockwise",
+      "rotate"
+    ],
+    "keywords": [
+      "arrow",
+      "circle",
+      "rotate",
+      "clockwise"
+    ],
+    "category": "Arrows",
+    "latex": "\\circlearrowright",
+    "htmlEntity": "",
+    "description": "Clockwise circular arrow"
+  },
+  {
+    "symbol": "⇒",
+    "codepoint": 8658,
+    "name": "Rightwards Double Arrow",
+    "aliases": [
+      "implies",
+      "Rightarrow",
+      "=>",
+      "double right"
+    ],
+    "keywords": [
+      "arrow",
+      "double",
+      "implies",
+      "math",
+      "logical"
+    ],
+    "category": "Arrows",
+    "latex": "\\Rightarrow",
+    "htmlEntity": "&rArr;",
+    "description": "Logical implication / double right arrow"
+  },
+  {
+    "symbol": "⇐",
+    "codepoint": 8656,
+    "name": "Leftwards Double Arrow",
+    "aliases": [
+      "Leftarrow",
+      "implied by",
+      "<=",
+      "double left"
+    ],
+    "keywords": [
+      "arrow",
+      "double",
+      "left",
+      "math"
+    ],
+    "category": "Arrows",
+    "latex": "\\Leftarrow",
+    "htmlEntity": "&lArr;",
+    "description": "Double leftwards arrow — implied by"
+  },
+  {
+    "symbol": "⇑",
+    "codepoint": 8657,
+    "name": "Upwards Double Arrow",
+    "aliases": [
+      "Uparrow",
+      "double up"
+    ],
+    "keywords": [
+      "arrow",
+      "double",
+      "up"
+    ],
+    "category": "Arrows",
+    "latex": "\\Uparrow",
+    "htmlEntity": "&uArr;",
+    "description": "Double upwards arrow"
+  },
+  {
+    "symbol": "⇓",
+    "codepoint": 8659,
+    "name": "Downwards Double Arrow",
+    "aliases": [
+      "Downarrow",
+      "double down"
+    ],
+    "keywords": [
+      "arrow",
+      "double",
+      "down"
+    ],
+    "category": "Arrows",
+    "latex": "\\Downarrow",
+    "htmlEntity": "&dArr;",
+    "description": "Double downwards arrow"
+  },
+  {
+    "symbol": "⇔",
+    "codepoint": 8660,
+    "name": "Left Right Double Arrow",
+    "aliases": [
+      "Leftrightarrow",
+      "iff",
+      "<=>",
+      "double both"
+    ],
+    "keywords": [
+      "arrow",
+      "double",
+      "bidirectional",
+      "iff",
+      "equivalence"
+    ],
+    "category": "Arrows",
+    "latex": "\\Leftrightarrow",
+    "htmlEntity": "&hArr;",
+    "description": "If and only if / biconditional arrow"
+  },
+  {
+    "symbol": "↦",
+    "codepoint": 8614,
+    "name": "Rightwards Arrow From Bar",
+    "aliases": [
+      "mapsto",
+      "maps to",
+      "function mapping"
+    ],
+    "keywords": [
+      "arrow",
+      "map",
+      "function",
+      "relates"
+    ],
+    "category": "Arrows",
+    "latex": "\\mapsto",
+    "htmlEntity": "&map;",
+    "description": "Maps to — function mapping notation"
+  },
+  {
+    "symbol": "⟶",
+    "codepoint": 10230,
+    "name": "Long Rightwards Arrow",
+    "aliases": [
+      "longrightarrow",
+      "long right",
+      "long arrow"
+    ],
+    "keywords": [
+      "arrow",
+      "long",
+      "right",
+      "extended"
+    ],
+    "category": "Arrows",
+    "latex": "\\longrightarrow",
+    "htmlEntity": "",
+    "description": "Long rightwards arrow — used in limits and reactions"
+  },
+  {
+    "symbol": "¢",
+    "codepoint": 162,
+    "name": "Cent Sign",
+    "aliases": [
+      "cent",
+      "penny",
+      "cents",
+      "subunit"
+    ],
+    "keywords": [
+      "currency",
+      "cent",
+      "money",
+      "subunit",
+      "fraction"
+    ],
+    "category": "Currency",
+    "latex": "\\cent",
+    "htmlEntity": "&cent;",
+    "description": "Cent — 1/100 of a dollar or euro"
+  },
+  {
+    "symbol": "€",
+    "codepoint": 8364,
+    "name": "Euro Sign",
+    "aliases": [
+      "euro",
+      "EUR",
+      "eur",
+      "europe money"
+    ],
+    "keywords": [
+      "currency",
+      "euro",
+      "money",
+      "europe",
+      "EU"
+    ],
+    "category": "Currency",
+    "latex": "\\euro",
+    "htmlEntity": "&euro;",
+    "description": "Euro — currency of the Eurozone"
+  },
+  {
+    "symbol": "£",
+    "codepoint": 163,
+    "name": "Pound Sign",
+    "aliases": [
+      "pound",
+      "GBP",
+      "sterling",
+      "pounds",
+      "quid"
+    ],
+    "keywords": [
+      "currency",
+      "pound",
+      "money",
+      "UK",
+      "sterling",
+      "GB"
+    ],
+    "category": "Currency",
+    "latex": "\\pounds",
+    "htmlEntity": "&pound;",
+    "description": "Pound sterling — currency of the United Kingdom"
+  },
+  {
+    "symbol": "¥",
+    "codepoint": 165,
+    "name": "Yen Sign",
+    "aliases": [
+      "yen",
+      "JPY",
+      "yuan",
+      "CNY",
+      "renminbi"
+    ],
+    "keywords": [
+      "currency",
+      "yen",
+      "yuan",
+      "money",
+      "Japan",
+      "China"
+    ],
+    "category": "Currency",
+    "latex": "\\yen",
+    "htmlEntity": "&yen;",
+    "description": "Japanese yen or Chinese yuan/renminbi"
+  },
+  {
+    "symbol": "₩",
+    "codepoint": 8361,
+    "name": "Won Sign",
+    "aliases": [
+      "won",
+      "KRW",
+      "korean won"
+    ],
+    "keywords": [
+      "currency",
+      "won",
+      "money",
+      "Korea",
+      "South Korea"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "South Korean won currency symbol"
+  },
+  {
+    "symbol": "₪",
+    "codepoint": 8362,
+    "name": "New Sheqel Sign",
+    "aliases": [
+      "shekel",
+      "ILS",
+      "sheqel",
+      "israel"
+    ],
+    "keywords": [
+      "currency",
+      "shekel",
+      "money",
+      "Israel"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Israeli new shekel"
+  },
+  {
+    "symbol": "₹",
+    "codepoint": 8377,
+    "name": "Indian Rupee Sign",
+    "aliases": [
+      "rupee",
+      "INR",
+      "indian rupee",
+      "india"
+    ],
+    "keywords": [
+      "currency",
+      "rupee",
+      "money",
+      "India"
+    ],
+    "category": "Currency",
+    "latex": "\\rupee",
+    "htmlEntity": "",
+    "description": "Indian rupee — currency of India"
+  },
+  {
+    "symbol": "₽",
+    "codepoint": 8381,
+    "name": "Ruble Sign",
+    "aliases": [
+      "ruble",
+      "RUB",
+      "rouble",
+      "russia"
+    ],
+    "keywords": [
+      "currency",
+      "ruble",
+      "money",
+      "Russia"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Russian ruble currency symbol"
+  },
+  {
+    "symbol": "₿",
+    "codepoint": 8383,
+    "name": "Bitcoin Sign",
+    "aliases": [
+      "bitcoin",
+      "BTC",
+      "crypto",
+      "satoshi",
+      "digital currency"
+    ],
+    "keywords": [
+      "currency",
+      "bitcoin",
+      "crypto",
+      "digital",
+      "blockchain"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Bitcoin cryptocurrency symbol"
+  },
+  {
+    "symbol": "₫",
+    "codepoint": 8363,
+    "name": "Dong Sign",
+    "aliases": [
+      "dong",
+      "VND",
+      "vietnam"
+    ],
+    "keywords": [
+      "currency",
+      "dong",
+      "money",
+      "Vietnam"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Vietnamese dong currency symbol"
+  },
+  {
+    "symbol": "₱",
+    "codepoint": 8369,
+    "name": "Peso Sign",
+    "aliases": [
+      "peso",
+      "PHP",
+      "philippines"
+    ],
+    "keywords": [
+      "currency",
+      "peso",
+      "money",
+      "Philippines"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Philippine peso currency symbol"
+  },
+  {
+    "symbol": "₴",
+    "codepoint": 8372,
+    "name": "Hryvnia Sign",
+    "aliases": [
+      "hryvnia",
+      "UAH",
+      "grivna",
+      "ukraine"
+    ],
+    "keywords": [
+      "currency",
+      "hryvnia",
+      "money",
+      "Ukraine"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Ukrainian hryvnia currency symbol"
+  },
+  {
+    "symbol": "₮",
+    "codepoint": 8366,
+    "name": "Tugrik Sign",
+    "aliases": [
+      "tugrik",
+      "MNT",
+      "mongolia"
+    ],
+    "keywords": [
+      "currency",
+      "tugrik",
+      "money",
+      "Mongolia"
+    ],
+    "category": "Currency",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Mongolian tugrik currency symbol"
+  },
+  {
+    "symbol": "½",
+    "codepoint": 189,
+    "name": "Vulgar Fraction One Half",
+    "aliases": [
+      "1/2",
+      "half",
+      "one half",
+      ".5",
+      "0.5"
+    ],
+    "keywords": [
+      "fraction",
+      "half",
+      "one half",
+      "common"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{1}{2}",
+    "htmlEntity": "&half;",
+    "description": "One half"
+  },
+  {
+    "symbol": "⅓",
+    "codepoint": 8531,
+    "name": "Vulgar Fraction One Third",
+    "aliases": [
+      "1/3",
+      "one third",
+      ".333"
+    ],
+    "keywords": [
+      "fraction",
+      "third",
+      "one third"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{1}{3}",
+    "htmlEntity": "&frac13;",
+    "description": "One third"
+  },
+  {
+    "symbol": "⅔",
+    "codepoint": 8532,
+    "name": "Vulgar Fraction Two Thirds",
+    "aliases": [
+      "2/3",
+      "two thirds",
+      ".667"
+    ],
+    "keywords": [
+      "fraction",
+      "two thirds",
+      "third"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{2}{3}",
+    "htmlEntity": "&frac23;",
+    "description": "Two thirds"
+  },
+  {
+    "symbol": "¼",
+    "codepoint": 188,
+    "name": "Vulgar Fraction One Quarter",
+    "aliases": [
+      "1/4",
+      "one quarter",
+      "one fourth",
+      ".25"
+    ],
+    "keywords": [
+      "fraction",
+      "quarter",
+      "one fourth",
+      "common"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{1}{4}",
+    "htmlEntity": "&frac14;",
+    "description": "One quarter"
+  },
+  {
+    "symbol": "¾",
+    "codepoint": 190,
+    "name": "Vulgar Fraction Three Quarters",
+    "aliases": [
+      "3/4",
+      "three quarters",
+      "three fourths",
+      ".75"
+    ],
+    "keywords": [
+      "fraction",
+      "three quarters",
+      "three fourths",
+      "common"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{3}{4}",
+    "htmlEntity": "&frac34;",
+    "description": "Three quarters"
+  },
+  {
+    "symbol": "⅕",
+    "codepoint": 8533,
+    "name": "Vulgar Fraction One Fifth",
+    "aliases": [
+      "1/5",
+      "one fifth",
+      ".2"
+    ],
+    "keywords": [
+      "fraction",
+      "fifth",
+      "one fifth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{1}{5}",
+    "htmlEntity": "&frac15;",
+    "description": "One fifth"
+  },
+  {
+    "symbol": "⅖",
+    "codepoint": 8534,
+    "name": "Vulgar Fraction Two Fifths",
+    "aliases": [
+      "2/5",
+      "two fifths",
+      ".4"
+    ],
+    "keywords": [
+      "fraction",
+      "two fifths",
+      "fifth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{2}{5}",
+    "htmlEntity": "&frac25;",
+    "description": "Two fifths"
+  },
+  {
+    "symbol": "⅗",
+    "codepoint": 8535,
+    "name": "Vulgar Fraction Three Fifths",
+    "aliases": [
+      "3/5",
+      "three fifths",
+      ".6"
+    ],
+    "keywords": [
+      "fraction",
+      "three fifths",
+      "fifth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{3}{5}",
+    "htmlEntity": "&frac35;",
+    "description": "Three fifths"
+  },
+  {
+    "symbol": "⅘",
+    "codepoint": 8536,
+    "name": "Vulgar Fraction Four Fifths",
+    "aliases": [
+      "4/5",
+      "four fifths",
+      ".8"
+    ],
+    "keywords": [
+      "fraction",
+      "four fifths",
+      "fifth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{4}{5}",
+    "htmlEntity": "&frac45;",
+    "description": "Four fifths"
+  },
+  {
+    "symbol": "⅙",
+    "codepoint": 8537,
+    "name": "Vulgar Fraction One Sixth",
+    "aliases": [
+      "1/6",
+      "one sixth"
+    ],
+    "keywords": [
+      "fraction",
+      "sixth",
+      "one sixth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{1}{6}",
+    "htmlEntity": "",
+    "description": "One sixth"
+  },
+  {
+    "symbol": "⅚",
+    "codepoint": 8538,
+    "name": "Vulgar Fraction Five Sixths",
+    "aliases": [
+      "5/6",
+      "five sixths"
+    ],
+    "keywords": [
+      "fraction",
+      "five sixths",
+      "sixth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{5}{6}",
+    "htmlEntity": "",
+    "description": "Five sixths"
+  },
+  {
+    "symbol": "⅛",
+    "codepoint": 8539,
+    "name": "Vulgar Fraction One Eighth",
+    "aliases": [
+      "1/8",
+      "one eighth",
+      ".125"
+    ],
+    "keywords": [
+      "fraction",
+      "eighth",
+      "one eighth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{1}{8}",
+    "htmlEntity": "",
+    "description": "One eighth"
+  },
+  {
+    "symbol": "⅜",
+    "codepoint": 8540,
+    "name": "Vulgar Fraction Three Eighths",
+    "aliases": [
+      "3/8",
+      "three eighths",
+      ".375"
+    ],
+    "keywords": [
+      "fraction",
+      "three eighths",
+      "eighth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{3}{8}",
+    "htmlEntity": "",
+    "description": "Three eighths"
+  },
+  {
+    "symbol": "⅝",
+    "codepoint": 8541,
+    "name": "Vulgar Fraction Five Eighths",
+    "aliases": [
+      "5/8",
+      "five eighths",
+      ".625"
+    ],
+    "keywords": [
+      "fraction",
+      "five eighths",
+      "eighth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{5}{8}",
+    "htmlEntity": "",
+    "description": "Five eighths"
+  },
+  {
+    "symbol": "⅞",
+    "codepoint": 8542,
+    "name": "Vulgar Fraction Seven Eighths",
+    "aliases": [
+      "7/8",
+      "seven eighths",
+      ".875"
+    ],
+    "keywords": [
+      "fraction",
+      "seven eighths",
+      "eighth"
+    ],
+    "category": "Fractions",
+    "latex": "\\frac{7}{8}",
+    "htmlEntity": "",
+    "description": "Seven eighths"
+  },
+  {
+    "symbol": "⁰",
+    "codepoint": 8304,
+    "name": "Superscript Zero",
+    "aliases": [
+      "^0",
+      "super 0",
+      "superscript zero"
+    ],
+    "keywords": [
+      "superscript",
+      "zero",
+      "exponent",
+      "power",
+      "degree"
+    ],
+    "category": "Superscripts",
+    "latex": "^{0}",
+    "htmlEntity": "",
+    "description": "Superscript digit zero"
+  },
+  {
+    "symbol": "¹",
+    "codepoint": 185,
+    "name": "Superscript One",
+    "aliases": [
+      "^1",
+      "super 1",
+      "superscript one"
+    ],
+    "keywords": [
+      "superscript",
+      "one",
+      "exponent",
+      "power"
+    ],
+    "category": "Superscripts",
+    "latex": "^{1}",
+    "htmlEntity": "&sup1;",
+    "description": "Superscript digit one"
+  },
+  {
+    "symbol": "²",
+    "codepoint": 178,
+    "name": "Superscript Two",
+    "aliases": [
+      "^2",
+      "super 2",
+      "squared",
+      "superscript two"
+    ],
+    "keywords": [
+      "superscript",
+      "two",
+      "squared",
+      "exponent",
+      "square"
+    ],
+    "category": "Superscripts",
+    "latex": "^{2}",
+    "htmlEntity": "&sup2;",
+    "description": "Superscript two — squared"
+  },
+  {
+    "symbol": "³",
+    "codepoint": 179,
+    "name": "Superscript Three",
+    "aliases": [
+      "^3",
+      "super 3",
+      "cubed",
+      "superscript three"
+    ],
+    "keywords": [
+      "superscript",
+      "three",
+      "cubed",
+      "exponent",
+      "cube"
+    ],
+    "category": "Superscripts",
+    "latex": "^{3}",
+    "htmlEntity": "&sup3;",
+    "description": "Superscript three — cubed"
+  },
+  {
+    "symbol": "⁴",
+    "codepoint": 8308,
+    "name": "Superscript Four",
+    "aliases": [
+      "^4",
+      "super 4"
+    ],
+    "keywords": [
+      "superscript",
+      "four",
+      "exponent",
+      "power"
+    ],
+    "category": "Superscripts",
+    "latex": "^{4}",
+    "htmlEntity": "",
+    "description": "Superscript digit four"
+  },
+  {
+    "symbol": "⁵",
+    "codepoint": 8309,
+    "name": "Superscript Five",
+    "aliases": [
+      "^5",
+      "super 5"
+    ],
+    "keywords": [
+      "superscript",
+      "five",
+      "exponent",
+      "power"
+    ],
+    "category": "Superscripts",
+    "latex": "^{5}",
+    "htmlEntity": "",
+    "description": "Superscript digit five"
+  },
+  {
+    "symbol": "⁶",
+    "codepoint": 8310,
+    "name": "Superscript Six",
+    "aliases": [
+      "^6",
+      "super 6"
+    ],
+    "keywords": [
+      "superscript",
+      "six",
+      "exponent",
+      "power"
+    ],
+    "category": "Superscripts",
+    "latex": "^{6}",
+    "htmlEntity": "",
+    "description": "Superscript digit six"
+  },
+  {
+    "symbol": "⁷",
+    "codepoint": 8311,
+    "name": "Superscript Seven",
+    "aliases": [
+      "^7",
+      "super 7"
+    ],
+    "keywords": [
+      "superscript",
+      "seven",
+      "exponent",
+      "power"
+    ],
+    "category": "Superscripts",
+    "latex": "^{7}",
+    "htmlEntity": "",
+    "description": "Superscript digit seven"
+  },
+  {
+    "symbol": "⁸",
+    "codepoint": 8312,
+    "name": "Superscript Eight",
+    "aliases": [
+      "^8",
+      "super 8"
+    ],
+    "keywords": [
+      "superscript",
+      "eight",
+      "exponent",
+      "power"
+    ],
+    "category": "Superscripts",
+    "latex": "^{8}",
+    "htmlEntity": "",
+    "description": "Superscript digit eight"
+  },
+  {
+    "symbol": "⁹",
+    "codepoint": 8313,
+    "name": "Superscript Nine",
+    "aliases": [
+      "^9",
+      "super 9"
+    ],
+    "keywords": [
+      "superscript",
+      "nine",
+      "exponent",
+      "power"
+    ],
+    "category": "Superscripts",
+    "latex": "^{9}",
+    "htmlEntity": "",
+    "description": "Superscript digit nine"
+  },
+  {
+    "symbol": "⁺",
+    "codepoint": 8314,
+    "name": "Superscript Plus Sign",
+    "aliases": [
+      "^+",
+      "super plus",
+      "superscript plus"
+    ],
+    "keywords": [
+      "superscript",
+      "plus",
+      "cation",
+      "positive"
+    ],
+    "category": "Superscripts",
+    "latex": "^{+}",
+    "htmlEntity": "",
+    "description": "Superscript plus sign — positive ion/cation"
+  },
+  {
+    "symbol": "⁻",
+    "codepoint": 8315,
+    "name": "Superscript Minus",
+    "aliases": [
+      "^-",
+      "super minus",
+      "superscript minus"
+    ],
+    "keywords": [
+      "superscript",
+      "minus",
+      "anion",
+      "negative"
+    ],
+    "category": "Superscripts",
+    "latex": "^{-}",
+    "htmlEntity": "",
+    "description": "Superscript minus sign — negative ion/anion"
+  },
+  {
+    "symbol": "⁼",
+    "codepoint": 8316,
+    "name": "Superscript Equals Sign",
+    "aliases": [
+      "^=",
+      "super equals"
+    ],
+    "keywords": [
+      "superscript",
+      "equals"
+    ],
+    "category": "Superscripts",
+    "latex": "^{=}",
+    "htmlEntity": "",
+    "description": "Superscript equals sign"
+  },
+  {
+    "symbol": "⁽",
+    "codepoint": 8317,
+    "name": "Superscript Left Parenthesis",
+    "aliases": [
+      "^(",
+      "super lparen"
+    ],
+    "keywords": [
+      "superscript",
+      "paren",
+      "open"
+    ],
+    "category": "Superscripts",
+    "latex": "^{(}",
+    "htmlEntity": "",
+    "description": "Superscript opening parenthesis"
+  },
+  {
+    "symbol": "⁾",
+    "codepoint": 8318,
+    "name": "Superscript Right Parenthesis",
+    "aliases": [
+      "^)",
+      "super rparen"
+    ],
+    "keywords": [
+      "superscript",
+      "paren",
+      "close"
+    ],
+    "category": "Superscripts",
+    "latex": "^{)}",
+    "htmlEntity": "",
+    "description": "Superscript closing parenthesis"
+  },
+  {
+    "symbol": "ⁿ",
+    "codepoint": 8319,
+    "name": "Superscript Latin Small Letter N",
+    "aliases": [
+      "^n",
+      "super n",
+      "superscript n"
+    ],
+    "keywords": [
+      "superscript",
+      "n",
+      "exponent",
+      "variable"
+    ],
+    "category": "Superscripts",
+    "latex": "^{n}",
+    "htmlEntity": "",
+    "description": "Superscript letter n — common exponent variable"
+  },
+  {
+    "symbol": "ⁱ",
+    "codepoint": 8305,
+    "name": "Superscript Latin Small Letter I",
+    "aliases": [
+      "^i",
+      "super i",
+      "superscript i"
+    ],
+    "keywords": [
+      "superscript",
+      "i",
+      "index"
+    ],
+    "category": "Superscripts",
+    "latex": "^{i}",
+    "htmlEntity": "",
+    "description": "Superscript letter i"
+  },
+  {
+    "symbol": "₀",
+    "codepoint": 8320,
+    "name": "Subscript Zero",
+    "aliases": [
+      "_0",
+      "sub 0"
+    ],
+    "keywords": [
+      "subscript",
+      "zero",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{0}",
+    "htmlEntity": "",
+    "description": "Subscript digit zero"
+  },
+  {
+    "symbol": "₁",
+    "codepoint": 8321,
+    "name": "Subscript One",
+    "aliases": [
+      "_1",
+      "sub 1"
+    ],
+    "keywords": [
+      "subscript",
+      "one",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{1}",
+    "htmlEntity": "",
+    "description": "Subscript digit one"
+  },
+  {
+    "symbol": "₂",
+    "codepoint": 8322,
+    "name": "Subscript Two",
+    "aliases": [
+      "_2",
+      "sub 2"
+    ],
+    "keywords": [
+      "subscript",
+      "two",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{2}",
+    "htmlEntity": "&sub2;",
+    "description": "Subscript digit two"
+  },
+  {
+    "symbol": "₃",
+    "codepoint": 8323,
+    "name": "Subscript Three",
+    "aliases": [
+      "_3",
+      "sub 3"
+    ],
+    "keywords": [
+      "subscript",
+      "three",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{3}",
+    "htmlEntity": "",
+    "description": "Subscript digit three"
+  },
+  {
+    "symbol": "₄",
+    "codepoint": 8324,
+    "name": "Subscript Four",
+    "aliases": [
+      "_4",
+      "sub 4"
+    ],
+    "keywords": [
+      "subscript",
+      "four",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{4}",
+    "htmlEntity": "",
+    "description": "Subscript digit four"
+  },
+  {
+    "symbol": "₅",
+    "codepoint": 8325,
+    "name": "Subscript Five",
+    "aliases": [
+      "_5",
+      "sub 5"
+    ],
+    "keywords": [
+      "subscript",
+      "five",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{5}",
+    "htmlEntity": "",
+    "description": "Subscript digit five"
+  },
+  {
+    "symbol": "₆",
+    "codepoint": 8326,
+    "name": "Subscript Six",
+    "aliases": [
+      "_6",
+      "sub 6"
+    ],
+    "keywords": [
+      "subscript",
+      "six",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{6}",
+    "htmlEntity": "",
+    "description": "Subscript digit six"
+  },
+  {
+    "symbol": "₇",
+    "codepoint": 8327,
+    "name": "Subscript Seven",
+    "aliases": [
+      "_7",
+      "sub 7"
+    ],
+    "keywords": [
+      "subscript",
+      "seven",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{7}",
+    "htmlEntity": "",
+    "description": "Subscript digit seven"
+  },
+  {
+    "symbol": "₈",
+    "codepoint": 8328,
+    "name": "Subscript Eight",
+    "aliases": [
+      "_8",
+      "sub 8"
+    ],
+    "keywords": [
+      "subscript",
+      "eight",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{8}",
+    "htmlEntity": "",
+    "description": "Subscript digit eight"
+  },
+  {
+    "symbol": "₉",
+    "codepoint": 8329,
+    "name": "Subscript Nine",
+    "aliases": [
+      "_9",
+      "sub 9"
+    ],
+    "keywords": [
+      "subscript",
+      "nine",
+      "index",
+      "base"
+    ],
+    "category": "Subscripts",
+    "latex": "_{9}",
+    "htmlEntity": "",
+    "description": "Subscript digit nine"
+  },
+  {
+    "symbol": "₊",
+    "codepoint": 8330,
+    "name": "Subscript Plus Sign",
+    "aliases": [
+      "_+",
+      "sub plus"
+    ],
+    "keywords": [
+      "subscript",
+      "plus",
+      "sign"
+    ],
+    "category": "Subscripts",
+    "latex": "_{+}",
+    "htmlEntity": "",
+    "description": "Subscript plus sign"
+  },
+  {
+    "symbol": "₋",
+    "codepoint": 8331,
+    "name": "Subscript Minus",
+    "aliases": [
+      "_-",
+      "sub minus"
+    ],
+    "keywords": [
+      "subscript",
+      "minus",
+      "sign"
+    ],
+    "category": "Subscripts",
+    "latex": "_{-}",
+    "htmlEntity": "",
+    "description": "Subscript minus sign"
+  },
+  {
+    "symbol": "ₐ",
+    "codepoint": 8336,
+    "name": "Subscript Latin Small Letter A",
+    "aliases": [
+      "_a",
+      "sub a"
+    ],
+    "keywords": [
+      "subscript",
+      "a",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{a}",
+    "htmlEntity": "",
+    "description": "Subscript letter a"
+  },
+  {
+    "symbol": "ₑ",
+    "codepoint": 8337,
+    "name": "Subscript Latin Small Letter E",
+    "aliases": [
+      "_e",
+      "sub e"
+    ],
+    "keywords": [
+      "subscript",
+      "e",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{e}",
+    "htmlEntity": "",
+    "description": "Subscript letter e"
+  },
+  {
+    "symbol": "ₒ",
+    "codepoint": 8338,
+    "name": "Subscript Latin Small Letter O",
+    "aliases": [
+      "_o",
+      "sub o"
+    ],
+    "keywords": [
+      "subscript",
+      "o",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{o}",
+    "htmlEntity": "",
+    "description": "Subscript letter o"
+  },
+  {
+    "symbol": "ₓ",
+    "codepoint": 8339,
+    "name": "Subscript Latin Small Letter X",
+    "aliases": [
+      "_x",
+      "sub x"
+    ],
+    "keywords": [
+      "subscript",
+      "x",
+      "letter",
+      "variable"
+    ],
+    "category": "Subscripts",
+    "latex": "_{x}",
+    "htmlEntity": "",
+    "description": "Subscript letter x"
+  },
+  {
+    "symbol": "ₕ",
+    "codepoint": 8341,
+    "name": "Subscript Latin Small Letter H",
+    "aliases": [
+      "_h",
+      "sub h"
+    ],
+    "keywords": [
+      "subscript",
+      "h",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{h}",
+    "htmlEntity": "",
+    "description": "Subscript letter h"
+  },
+  {
+    "symbol": "ₖ",
+    "codepoint": 8342,
+    "name": "Subscript Latin Small Letter K",
+    "aliases": [
+      "_k",
+      "sub k"
+    ],
+    "keywords": [
+      "subscript",
+      "k",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{k}",
+    "htmlEntity": "",
+    "description": "Subscript letter k"
+  },
+  {
+    "symbol": "ₗ",
+    "codepoint": 8343,
+    "name": "Subscript Latin Small Letter L",
+    "aliases": [
+      "_l",
+      "sub l"
+    ],
+    "keywords": [
+      "subscript",
+      "l",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{l}",
+    "htmlEntity": "",
+    "description": "Subscript letter l"
+  },
+  {
+    "symbol": "ₘ",
+    "codepoint": 8344,
+    "name": "Subscript Latin Small Letter M",
+    "aliases": [
+      "_m",
+      "sub m"
+    ],
+    "keywords": [
+      "subscript",
+      "m",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{m}",
+    "htmlEntity": "",
+    "description": "Subscript letter m"
+  },
+  {
+    "symbol": "ₙ",
+    "codepoint": 8345,
+    "name": "Subscript Latin Small Letter N",
+    "aliases": [
+      "_n",
+      "sub n"
+    ],
+    "keywords": [
+      "subscript",
+      "n",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{n}",
+    "htmlEntity": "",
+    "description": "Subscript letter n"
+  },
+  {
+    "symbol": "ₚ",
+    "codepoint": 8346,
+    "name": "Subscript Latin Small Letter P",
+    "aliases": [
+      "_p",
+      "sub p"
+    ],
+    "keywords": [
+      "subscript",
+      "p",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{p}",
+    "htmlEntity": "",
+    "description": "Subscript letter p"
+  },
+  {
+    "symbol": "ₛ",
+    "codepoint": 8347,
+    "name": "Subscript Latin Small Letter S",
+    "aliases": [
+      "_s",
+      "sub s"
+    ],
+    "keywords": [
+      "subscript",
+      "s",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{s}",
+    "htmlEntity": "",
+    "description": "Subscript letter s"
+  },
+  {
+    "symbol": "ₜ",
+    "codepoint": 8348,
+    "name": "Subscript Latin Small Letter T",
+    "aliases": [
+      "_t",
+      "sub t"
+    ],
+    "keywords": [
+      "subscript",
+      "t",
+      "letter"
+    ],
+    "category": "Subscripts",
+    "latex": "_{t}",
+    "htmlEntity": "",
+    "description": "Subscript letter t"
+  },
+  {
+    "symbol": "x̄",
+    "codepoint": 120,
+    "name": "X Bar (Sample Mean)",
+    "aliases": [
+      "xbar",
+      "x-bar",
+      "sample mean",
+      "x average"
+    ],
+    "keywords": [
+      "statistics",
+      "mean",
+      "sample",
+      "average",
+      "estimate"
+    ],
+    "category": "Statistics",
+    "latex": "\\bar{x}",
+    "htmlEntity": "",
+    "description": "Sample mean of variable x"
+  },
+  {
+    "symbol": "p̂",
+    "codepoint": 112,
+    "name": "P Hat (Sample Proportion)",
+    "aliases": [
+      "phat",
+      "p-hat",
+      "sample proportion",
+      "p estimate"
+    ],
+    "keywords": [
+      "statistics",
+      "proportion",
+      "estimate",
+      "sample",
+      "inference"
+    ],
+    "category": "Statistics",
+    "latex": "\\hat{p}",
+    "htmlEntity": "",
+    "description": "Sample proportion estimate"
+  },
+  {
+    "symbol": "χ²",
+    "codepoint": 967,
+    "name": "Chi Squared",
+    "aliases": [
+      "chi2",
+      "chi-squared",
+      "chi square",
+      "chisq",
+      "chi squared test"
+    ],
+    "keywords": [
+      "statistics",
+      "chi-squared",
+      "test",
+      "distribution",
+      "goodness"
+    ],
+    "category": "Statistics",
+    "latex": "\\chi^2",
+    "htmlEntity": "",
+    "description": "Chi-squared statistic for goodness-of-fit and independence tests"
+  },
+  {
+    "symbol": "E",
+    "codepoint": 69,
+    "name": "Expected Value",
+    "aliases": [
+      "E(X)",
+      "expectation",
+      "expected value",
+      "mean"
+    ],
+    "keywords": [
+      "statistics",
+      "expected value",
+      "expectation",
+      "mean",
+      "first moment"
+    ],
+    "category": "Statistics",
+    "latex": "\\mathbb{E}",
+    "htmlEntity": "",
+    "description": "Expected value / expectation operator E[X]"
+  },
+  {
+    "symbol": "Var",
+    "codepoint": 86,
+    "name": "Variance",
+    "aliases": [
+      "Var(X)",
+      "variance",
+      "var",
+      "sigma squared"
+    ],
+    "keywords": [
+      "statistics",
+      "variance",
+      "variability",
+      "second moment"
+    ],
+    "category": "Statistics",
+    "latex": "\\mathrm{Var}",
+    "htmlEntity": "",
+    "description": "Variance of a random variable Var(X) = E[(X-μ)²]"
+  },
+  {
+    "symbol": "Cov",
+    "codepoint": 67,
+    "name": "Covariance",
+    "aliases": [
+      "Cov(X,Y)",
+      "covariance",
+      "joint variability"
+    ],
+    "keywords": [
+      "statistics",
+      "covariance",
+      "joint",
+      "relationship"
+    ],
+    "category": "Statistics",
+    "latex": "\\mathrm{Cov}",
+    "htmlEntity": "",
+    "description": "Covariance between two random variables"
+  },
+  {
+    "symbol": "P",
+    "codepoint": 80,
+    "name": "Probability",
+    "aliases": [
+      "P(A)",
+      "probability",
+      "Pr",
+      "chance"
+    ],
+    "keywords": [
+      "statistics",
+      "probability",
+      "chance",
+      "likelihood"
+    ],
+    "category": "Statistics",
+    "latex": "\\mathbb{P}",
+    "htmlEntity": "",
+    "description": "Probability of an event — P(A)"
+  },
+  {
+    "symbol": "R²",
+    "codepoint": 82,
+    "name": "R Squared (Coefficient of Determination)",
+    "aliases": [
+      "R2",
+      "R-squared",
+      "r square",
+      "r squared"
+    ],
+    "keywords": [
+      "statistics",
+      "regression",
+      "determination",
+      "fit",
+      "goodness"
+    ],
+    "category": "Statistics",
+    "latex": "R^2",
+    "htmlEntity": "",
+    "description": "Coefficient of determination — proportion of variance explained"
+  },
+  {
+    "symbol": "n",
+    "codepoint": 110,
+    "name": "Sample Size",
+    "aliases": [
+      "n",
+      "sample size",
+      "N",
+      "observations"
+    ],
+    "keywords": [
+      "statistics",
+      "sample",
+      "size",
+      "count",
+      "observations"
+    ],
+    "category": "Statistics",
+    "latex": "n",
+    "htmlEntity": "",
+    "description": "Sample size — number of observations"
+  },
+  {
+    "symbol": "H₀",
+    "codepoint": 72,
+    "name": "Null Hypothesis",
+    "aliases": [
+      "H0",
+      "null hypothesis",
+      "H naught",
+      "null"
+    ],
+    "keywords": [
+      "statistics",
+      "hypothesis",
+      "null",
+      "test",
+      "testing"
+    ],
+    "category": "Statistics",
+    "latex": "H_0",
+    "htmlEntity": "",
+    "description": "Null hypothesis in statistical testing — H₀"
+  },
+  {
+    "symbol": "H₁",
+    "codepoint": 72,
+    "name": "Alternative Hypothesis",
+    "aliases": [
+      "H1",
+      "alternative hypothesis",
+      "alternate",
+      "HA"
+    ],
+    "keywords": [
+      "statistics",
+      "hypothesis",
+      "alternative",
+      "test",
+      "research"
+    ],
+    "category": "Statistics",
+    "latex": "H_1",
+    "htmlEntity": "",
+    "description": "Alternative hypothesis in statistical testing — H₁"
+  },
+  {
+    "symbol": "∠",
+    "codepoint": 8736,
+    "name": "Angle",
+    "aliases": [
+      "angle",
+      "ang",
+      "corner"
+    ],
+    "keywords": [
+      "geometry",
+      "angle",
+      "measure",
+      "corner"
+    ],
+    "category": "Geometry",
+    "latex": "\\angle",
+    "htmlEntity": "&ang;",
+    "description": "Angle — geometric angle measure"
+  },
+  {
+    "symbol": "∟",
+    "codepoint": 8735,
+    "name": "Right Angle",
+    "aliases": [
+      "right angle",
+      "90 degrees",
+      "90 deg"
+    ],
+    "keywords": [
+      "geometry",
+      "right angle",
+      "perpendicular",
+      "90",
+      "square"
+    ],
+    "category": "Geometry",
+    "latex": "\\rightangle",
+    "htmlEntity": "",
+    "description": "Right angle — 90 degrees"
+  },
+  {
+    "symbol": "△",
+    "codepoint": 9651,
+    "name": "White Up-Pointing Triangle",
+    "aliases": [
+      "triangle",
+      "Delta",
+      "trig",
+      "tri"
+    ],
+    "keywords": [
+      "geometry",
+      "triangle",
+      "shape",
+      "polygon",
+      "three sides"
+    ],
+    "category": "Geometry",
+    "latex": "\\triangle",
+    "htmlEntity": "",
+    "description": "Triangle — three-sided polygon"
+  },
+  {
+    "symbol": "○",
+    "codepoint": 9675,
+    "name": "White Circle",
+    "aliases": [
+      "circle",
+      "ring",
+      "round",
+      "circ"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "shape",
+      "round",
+      "disk"
+    ],
+    "category": "Geometry",
+    "latex": "\\circ",
+    "htmlEntity": "",
+    "description": "Circle — points equidistant from center"
+  },
+  {
+    "symbol": "◎",
+    "codepoint": 9678,
+    "name": "Bullseye",
+    "aliases": [
+      "bullseye",
+      "concentric",
+      "target",
+      "nested circles"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "concentric",
+      "target"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Bullseye — concentric circles"
+  },
+  {
+    "symbol": "●",
+    "codepoint": 9679,
+    "name": "Black Circle",
+    "aliases": [
+      "blackcircle",
+      "filled circle",
+      "dot",
+      "disk"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "filled",
+      "point",
+      "solid"
+    ],
+    "category": "Geometry",
+    "latex": "\\bullet",
+    "htmlEntity": "",
+    "description": "Black/filled circle — often used for points"
+  },
+  {
+    "symbol": "◐",
+    "codepoint": 9680,
+    "name": "Circle With Left Half Black",
+    "aliases": [
+      "half circle",
+      "semicircle filled",
+      "left half"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "half",
+      "left"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Half-filled circle — left half black"
+  },
+  {
+    "symbol": "◑",
+    "codepoint": 9681,
+    "name": "Circle With Right Half Black",
+    "aliases": [
+      "half circle right",
+      "right half"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "half",
+      "right"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Half-filled circle — right half black"
+  },
+  {
+    "symbol": "◒",
+    "codepoint": 9682,
+    "name": "Circle With Lower Half Black",
+    "aliases": [
+      "half circle bottom",
+      "lower half"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "half",
+      "bottom"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Half-filled circle — lower half black"
+  },
+  {
+    "symbol": "◓",
+    "codepoint": 9683,
+    "name": "Circle With Upper Half Black",
+    "aliases": [
+      "half circle top",
+      "upper half"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "half",
+      "top"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Half-filled circle — upper half black"
+  },
+  {
+    "symbol": "◔",
+    "codepoint": 9684,
+    "name": "Circle With Upper Right Quadrant Black",
+    "aliases": [
+      "quadrant circle",
+      "upper right"
+    ],
+    "keywords": [
+      "geometry",
+      "circle",
+      "quadrant",
+      "sector"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Circle with upper right quadrant filled"
+  },
+  {
+    "symbol": "⬠",
+    "codepoint": 11040,
+    "name": "White Pentagon",
+    "aliases": [
+      "pentagon"
+    ],
+    "keywords": [
+      "geometry",
+      "pentagon",
+      "polygon",
+      "five sides"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Regular pentagon — five-sided polygon"
+  },
+  {
+    "symbol": "⬡",
+    "codepoint": 11041,
+    "name": "White Hexagon",
+    "aliases": [
+      "hexagon"
+    ],
+    "keywords": [
+      "geometry",
+      "hexagon",
+      "polygon",
+      "six sides"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Regular hexagon — six-sided polygon"
+  },
+  {
+    "symbol": "⬢",
+    "codepoint": 11042,
+    "name": "White Hexagon (Horizontal)",
+    "aliases": [
+      "hexagon horizontal"
+    ],
+    "keywords": [
+      "geometry",
+      "hexagon",
+      "polygon"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Horizontally oriented white hexagon"
+  },
+  {
+    "symbol": "⊿",
+    "codepoint": 8895,
+    "name": "Right Triangle",
+    "aliases": [
+      "right triangle",
+      "rtri"
+    ],
+    "keywords": [
+      "geometry",
+      "triangle",
+      "right",
+      "90"
+    ],
+    "category": "Geometry",
+    "latex": "\\righttriangle",
+    "htmlEntity": "",
+    "description": "Right triangle symbol"
+  },
+  {
+    "symbol": "▱",
+    "codepoint": 9649,
+    "name": "White Parallelogram",
+    "aliases": [
+      "parallelogram",
+      "para"
+    ],
+    "keywords": [
+      "geometry",
+      "parallelogram",
+      "quadrilateral"
+    ],
+    "category": "Geometry",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Parallelogram shape"
+  },
+  {
+    "symbol": "∫",
+    "codepoint": 8747,
+    "name": "Integral",
+    "aliases": [
+      "int",
+      "integral",
+      "antiderivative",
+      "antidiff"
+    ],
+    "keywords": [
+      "calculus",
+      "integral",
+      "antiderivative",
+      "area"
+    ],
+    "category": "Calculus",
+    "latex": "\\int",
+    "htmlEntity": "&int;",
+    "description": "Indefinite or definite integral"
+  },
+  {
+    "symbol": "∬",
+    "codepoint": 8748,
+    "name": "Double Integral",
+    "aliases": [
+      "iint",
+      "double integral",
+      "surface integral"
+    ],
+    "keywords": [
+      "calculus",
+      "integral",
+      "double",
+      "multivariable",
+      "surface"
+    ],
+    "category": "Calculus",
+    "latex": "\\iint",
+    "htmlEntity": "",
+    "description": "Double integral — surface/area integral"
+  },
+  {
+    "symbol": "∭",
+    "codepoint": 8749,
+    "name": "Triple Integral",
+    "aliases": [
+      "iiint",
+      "triple integral",
+      "volume integral"
+    ],
+    "keywords": [
+      "calculus",
+      "integral",
+      "triple",
+      "multivariable",
+      "volume"
+    ],
+    "category": "Calculus",
+    "latex": "\\iiint",
+    "htmlEntity": "",
+    "description": "Triple integral — volume integral"
+  },
+  {
+    "symbol": "∮",
+    "codepoint": 8750,
+    "name": "Contour Integral",
+    "aliases": [
+      "oint",
+      "closed integral",
+      "loop integral",
+      "circulation"
+    ],
+    "keywords": [
+      "calculus",
+      "integral",
+      "contour",
+      "closed",
+      "circulation"
+    ],
+    "category": "Calculus",
+    "latex": "\\oint",
+    "htmlEntity": "&conint;",
+    "description": "Contour/closed line integral"
+  },
+  {
+    "symbol": "∂",
+    "codepoint": 8706,
+    "name": "Partial Derivative",
+    "aliases": [
+      "partial",
+      "del",
+      "partial d",
+      "partial diff"
+    ],
+    "keywords": [
+      "calculus",
+      "derivative",
+      "partial",
+      "multivariable",
+      "jacobian"
+    ],
+    "category": "Calculus",
+    "latex": "\\partial",
+    "htmlEntity": "&part;",
+    "description": "Partial derivative operator for multivariable functions"
+  },
+  {
+    "symbol": "∇",
+    "codepoint": 8711,
+    "name": "Nabla (Del Operator)",
+    "aliases": [
+      "nabla",
+      "del",
+      "grad",
+      "gradient",
+      "div",
+      "curl"
+    ],
+    "keywords": [
+      "calculus",
+      "gradient",
+      "divergence",
+      "vector",
+      "curl",
+      "del"
+    ],
+    "category": "Calculus",
+    "latex": "\\nabla",
+    "htmlEntity": "&nabla;",
+    "description": "Del/nabla — gradient (∇f), divergence (∇·F), or curl (∇×F)"
+  },
+  {
+    "symbol": "∆",
+    "codepoint": 8710,
+    "name": "Laplace Operator",
+    "aliases": [
+      "Delta",
+      "laplacian",
+      "laplace",
+      "div grad"
+    ],
+    "keywords": [
+      "calculus",
+      "laplacian",
+      "second derivative",
+      "diffusion"
+    ],
+    "category": "Calculus",
+    "latex": "\\Delta",
+    "htmlEntity": "",
+    "description": "Laplacian — divergence of gradient (Δ = ∇² = ∇·∇)"
+  },
+  {
+    "symbol": "lim",
+    "codepoint": 108,
+    "name": "Limit",
+    "aliases": [
+      "limit",
+      "lim",
+      "approaches"
+    ],
+    "keywords": [
+      "calculus",
+      "limit",
+      "approach",
+      "tends to",
+      "convergence"
+    ],
+    "category": "Calculus",
+    "latex": "\\lim",
+    "htmlEntity": "",
+    "description": "Limit — value a function approaches as variable tends to a point"
+  },
+  {
+    "symbol": "∑",
+    "codepoint": 8721,
+    "name": "Summation (Series)",
+    "aliases": [
+      "sum",
+      "series",
+      "sigma",
+      "infinite sum"
+    ],
+    "keywords": [
+      "calculus",
+      "series",
+      "sum",
+      "infinite",
+      "convergence"
+    ],
+    "category": "Calculus",
+    "latex": "\\sum",
+    "htmlEntity": "&sum;",
+    "description": "Summation — finite or infinite series"
+  },
+  {
+    "symbol": "∏",
+    "codepoint": 8719,
+    "name": "Product (Series)",
+    "aliases": [
+      "prod",
+      "product series",
+      "infinite product"
+    ],
+    "keywords": [
+      "calculus",
+      "product",
+      "series",
+      "infinite"
+    ],
+    "category": "Calculus",
+    "latex": "\\prod",
+    "htmlEntity": "&prod;",
+    "description": "Product notation for series/products"
+  },
+  {
+    "symbol": "O",
+    "codepoint": 79,
+    "name": "Big O Notation",
+    "aliases": [
+      "big O",
+      "big oh",
+      "order",
+      "asymptotic"
+    ],
+    "keywords": [
+      "calculus",
+      "asymptotic",
+      "order",
+      "bound",
+      "complexity"
+    ],
+    "category": "Calculus",
+    "latex": "\\mathcal{O}",
+    "htmlEntity": "",
+    "description": "Big O — asymptotic upper bound (Landau notation)"
+  },
+  {
+    "symbol": "e",
+    "codepoint": 101,
+    "name": "Euler's Number",
+    "aliases": [
+      "e",
+      "Euler",
+      "2.718",
+      "exponential",
+      "natural base",
+      "Napier"
+    ],
+    "keywords": [
+      "calculus",
+      "constant",
+      "exponential",
+      "natural log",
+      "Euler"
+    ],
+    "category": "Calculus",
+    "latex": "e",
+    "htmlEntity": "",
+    "description": "Euler's number — base of natural logarithm (≈ 2.718281828)"
+  },
+  {
+    "symbol": "i",
+    "codepoint": 105,
+    "name": "Imaginary Unit",
+    "aliases": [
+      "i",
+      "sqrt(-1)",
+      "imaginary",
+      "complex",
+      "i unit"
+    ],
+    "keywords": [
+      "calculus",
+      "complex",
+      "imaginary",
+      "complex number"
+    ],
+    "category": "Calculus",
+    "latex": "i",
+    "htmlEntity": "",
+    "description": "Imaginary unit — i² = −1, basis of complex numbers"
+  },
+  {
+    "symbol": "d/dx",
+    "codepoint": 100,
+    "name": "Derivative Notation (d/dx)",
+    "aliases": [
+      "d/dx",
+      "derivative",
+      "diff",
+      "Leibniz derivative"
+    ],
+    "keywords": [
+      "calculus",
+      "derivative",
+      "Leibniz",
+      "notation",
+      "rate of change"
+    ],
+    "category": "Calculus",
+    "latex": "\\frac{d}{dx}",
+    "htmlEntity": "",
+    "description": "Derivative with respect to x — Leibniz notation"
+  },
+  {
+    "symbol": "∂/∂x",
+    "codepoint": 8706,
+    "name": "Partial Derivative Notation",
+    "aliases": [
+      "partial x",
+      "partial derivative notation"
+    ],
+    "keywords": [
+      "calculus",
+      "partial",
+      "multivariable",
+      "derivative"
+    ],
+    "category": "Calculus",
+    "latex": "\\frac{\\partial}{\\partial x}",
+    "htmlEntity": "",
+    "description": "Partial derivative with respect to x"
+  },
+  {
+    "symbol": "f'(x)",
+    "codepoint": 102,
+    "name": "Derivative (Prime Notation)",
+    "aliases": [
+      "f'(x)",
+      "prime",
+      "derivative",
+      "first derivative"
+    ],
+    "keywords": [
+      "calculus",
+      "derivative",
+      "prime",
+      "Lagrange",
+      "notation"
+    ],
+    "category": "Calculus",
+    "latex": "f'(x)",
+    "htmlEntity": "",
+    "description": "First derivative in Lagrange prime notation f'"
+  },
+  {
+    "symbol": "f''(x)",
+    "codepoint": 102,
+    "name": "Second Derivative (Double Prime)",
+    "aliases": [
+      "f''(x)",
+      "double prime",
+      "second derivative",
+      "acceleration"
+    ],
+    "keywords": [
+      "calculus",
+      "derivative",
+      "second",
+      "acceleration",
+      "concavity"
+    ],
+    "category": "Calculus",
+    "latex": "f''(x)",
+    "htmlEntity": "",
+    "description": "Second derivative in Lagrange notation f''"
+  },
+  {
+    "symbol": "☉",
+    "codepoint": 9737,
+    "name": "Sun",
+    "aliases": [
+      "Sun",
+      "solar",
+      "star",
+      "sol"
+    ],
+    "keywords": [
+      "astronomy",
+      "sun",
+      "solar",
+      "star",
+      "center"
+    ],
+    "category": "Astronomy",
+    "latex": "\\astrosun",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for the Sun"
+  },
+  {
+    "symbol": "☿",
+    "codepoint": 9791,
+    "name": "Mercury",
+    "aliases": [
+      "Mercury",
+      "planet",
+      "messenger"
+    ],
+    "keywords": [
+      "astronomy",
+      "Mercury",
+      "planet",
+      "solar",
+      "inner"
+    ],
+    "category": "Astronomy",
+    "latex": "\\mercury",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for planet Mercury"
+  },
+  {
+    "symbol": "♀",
+    "codepoint": 9792,
+    "name": "Venus",
+    "aliases": [
+      "Venus",
+      "planet",
+      "female",
+      "morning star"
+    ],
+    "keywords": [
+      "astronomy",
+      "Venus",
+      "planet",
+      "solar",
+      "inner"
+    ],
+    "category": "Astronomy",
+    "latex": "\\venus",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for planet Venus"
+  },
+  {
+    "symbol": "♁",
+    "codepoint": 9793,
+    "name": "Earth",
+    "aliases": [
+      "Earth",
+      "planet",
+      "globe",
+      "world",
+      "terra"
+    ],
+    "keywords": [
+      "astronomy",
+      "Earth",
+      "planet",
+      "solar",
+      "home"
+    ],
+    "category": "Astronomy",
+    "latex": "\\earth",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for Earth"
+  },
+  {
+    "symbol": "♂",
+    "codepoint": 9794,
+    "name": "Mars",
+    "aliases": [
+      "Mars",
+      "planet",
+      "male",
+      "red planet"
+    ],
+    "keywords": [
+      "astronomy",
+      "Mars",
+      "planet",
+      "solar",
+      "inner"
+    ],
+    "category": "Astronomy",
+    "latex": "\\mars",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for planet Mars"
+  },
+  {
+    "symbol": "♃",
+    "codepoint": 9795,
+    "name": "Jupiter",
+    "aliases": [
+      "Jupiter",
+      "planet",
+      "jove",
+      "gas giant"
+    ],
+    "keywords": [
+      "astronomy",
+      "Jupiter",
+      "planet",
+      "solar",
+      "outer"
+    ],
+    "category": "Astronomy",
+    "latex": "\\jupiter",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for planet Jupiter"
+  },
+  {
+    "symbol": "♄",
+    "codepoint": 9796,
+    "name": "Saturn",
+    "aliases": [
+      "Saturn",
+      "planet",
+      "ringed",
+      "gas giant"
+    ],
+    "keywords": [
+      "astronomy",
+      "Saturn",
+      "planet",
+      "solar",
+      "outer",
+      "ringed"
+    ],
+    "category": "Astronomy",
+    "latex": "\\saturn",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for planet Saturn"
+  },
+  {
+    "symbol": "♅",
+    "codepoint": 9797,
+    "name": "Uranus",
+    "aliases": [
+      "Uranus",
+      "planet",
+      "ice giant"
+    ],
+    "keywords": [
+      "astronomy",
+      "Uranus",
+      "planet",
+      "solar",
+      "outer"
+    ],
+    "category": "Astronomy",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for planet Uranus"
+  },
+  {
+    "symbol": "♆",
+    "codepoint": 9798,
+    "name": "Neptune",
+    "aliases": [
+      "Neptune",
+      "planet",
+      "trident",
+      "ice giant"
+    ],
+    "keywords": [
+      "astronomy",
+      "Neptune",
+      "planet",
+      "solar",
+      "outer"
+    ],
+    "category": "Astronomy",
+    "latex": "\\neptune",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for planet Neptune"
+  },
+  {
+    "symbol": "♇",
+    "codepoint": 9799,
+    "name": "Pluto",
+    "aliases": [
+      "Pluto",
+      "dwarf planet",
+      "plutoid"
+    ],
+    "keywords": [
+      "astronomy",
+      "Pluto",
+      "dwarf",
+      "solar",
+      "kuiper"
+    ],
+    "category": "Astronomy",
+    "latex": "\\pluto",
+    "htmlEntity": "",
+    "description": "Astronomical symbol for dwarf planet Pluto"
+  },
+  {
+    "symbol": "☀",
+    "codepoint": 9728,
+    "name": "Black Sun With Rays",
+    "aliases": [
+      "sun rays",
+      "sunlight",
+      "sunny",
+      "solar"
+    ],
+    "keywords": [
+      "astronomy",
+      "sun",
+      "weather",
+      "light",
+      "clear"
+    ],
+    "category": "Astronomy",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Sun with rays — indicates clear/sunny conditions"
+  },
+  {
+    "symbol": "☁",
+    "codepoint": 9729,
+    "name": "Cloud",
+    "aliases": [
+      "cloud",
+      "cloudy",
+      "overcast"
+    ],
+    "keywords": [
+      "astronomy",
+      "weather",
+      "cloud",
+      "sky",
+      "overcast"
+    ],
+    "category": "Astronomy",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Cloud symbol — weather notation"
+  },
+  {
+    "symbol": "☽",
+    "codepoint": 9789,
+    "name": "First Quarter Moon",
+    "aliases": [
+      "moon",
+      "crescent",
+      "first quarter",
+      "waxing"
+    ],
+    "keywords": [
+      "astronomy",
+      "moon",
+      "lunar",
+      "phase",
+      "crescent"
+    ],
+    "category": "Astronomy",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "First quarter moon — waxing crescent"
+  },
+  {
+    "symbol": "☾",
+    "codepoint": 9790,
+    "name": "Last Quarter Moon",
+    "aliases": [
+      "moon",
+      "crescent",
+      "last quarter",
+      "waning"
+    ],
+    "keywords": [
+      "astronomy",
+      "moon",
+      "lunar",
+      "phase",
+      "crescent"
+    ],
+    "category": "Astronomy",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Last quarter moon — waning crescent"
+  },
+  {
+    "symbol": "★",
+    "codepoint": 9733,
+    "name": "Black Star",
+    "aliases": [
+      "star",
+      "filled star",
+      "black star",
+      "stellar"
+    ],
+    "keywords": [
+      "astronomy",
+      "star",
+      "stellar",
+      "night"
+    ],
+    "category": "Astronomy",
+    "latex": "\\bigstar",
+    "htmlEntity": "",
+    "description": "Filled/black star"
+  },
+  {
+    "symbol": "☆",
+    "codepoint": 9734,
+    "name": "White Star",
+    "aliases": [
+      "star",
+      "outline star",
+      "white star",
+      "stellar"
+    ],
+    "keywords": [
+      "astronomy",
+      "star",
+      "stellar",
+      "outline"
+    ],
+    "category": "Astronomy",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Outline/white star"
+  },
+  {
+    "symbol": "✓",
+    "codepoint": 10003,
+    "name": "Check Mark",
+    "aliases": [
+      "check",
+      "tick",
+      "yes",
+      "done",
+      "correct",
+      "ok"
+    ],
+    "keywords": [
+      "misc",
+      "check",
+      "mark",
+      "yes",
+      "done",
+      "verified"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\checkmark",
+    "htmlEntity": "&check;",
+    "description": "Check mark — correct, done, or verified"
+  },
+  {
+    "symbol": "✗",
+    "codepoint": 10007,
+    "name": "Ballot X",
+    "aliases": [
+      "x mark",
+      "cross",
+      "wrong",
+      "fail",
+      "no",
+      "incorrect"
+    ],
+    "keywords": [
+      "misc",
+      "x",
+      "cross",
+      "no",
+      "wrong",
+      "fail"
+    ],
+    "category": "Miscellaneous",
+    "latex": "",
+    "htmlEntity": "&cross;",
+    "description": "X mark — incorrect, fail, or no"
+  },
+  {
+    "symbol": "☐",
+    "codepoint": 9744,
+    "name": "Ballot Box (Unchecked)",
+    "aliases": [
+      "checkbox",
+      "empty box",
+      "unchecked",
+      "todo",
+      "incomplete"
+    ],
+    "keywords": [
+      "misc",
+      "checkbox",
+      "empty",
+      "todo",
+      "task"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\square",
+    "htmlEntity": "",
+    "description": "Empty checkbox — unchecked item"
+  },
+  {
+    "symbol": "☑",
+    "codepoint": 9745,
+    "name": "Ballot Box With Check",
+    "aliases": [
+      "checked",
+      "checkbox checked",
+      "done",
+      "completed"
+    ],
+    "keywords": [
+      "misc",
+      "checkbox",
+      "checked",
+      "done",
+      "complete"
+    ],
+    "category": "Miscellaneous",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Checked checkbox — completed item"
+  },
+  {
+    "symbol": "☒",
+    "codepoint": 9746,
+    "name": "Ballot Box With X",
+    "aliases": [
+      "x checked",
+      "checkbox x",
+      "cancelled",
+      "rejected"
+    ],
+    "keywords": [
+      "misc",
+      "checkbox",
+      "x",
+      "cancelled",
+      "rejected"
+    ],
+    "category": "Miscellaneous",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Checkbox with X — cancelled or rejected"
+  },
+  {
+    "symbol": "♥",
+    "codepoint": 9829,
+    "name": "Black Heart Suit",
+    "aliases": [
+      "heart",
+      "hearts",
+      "love",
+      "suit",
+      "card"
+    ],
+    "keywords": [
+      "misc",
+      "heart",
+      "card",
+      "suit",
+      "love",
+      "game"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\heartsuit",
+    "htmlEntity": "&hearts;",
+    "description": "Heart suit symbol (playing cards)"
+  },
+  {
+    "symbol": "♦",
+    "codepoint": 9830,
+    "name": "Black Diamond Suit",
+    "aliases": [
+      "diamond",
+      "diamonds",
+      "suit",
+      "card"
+    ],
+    "keywords": [
+      "misc",
+      "diamond",
+      "card",
+      "suit",
+      "game"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\diamondsuit",
+    "htmlEntity": "&diams;",
+    "description": "Diamond suit symbol (playing cards)"
+  },
+  {
+    "symbol": "♣",
+    "codepoint": 9827,
+    "name": "Black Club Suit",
+    "aliases": [
+      "club",
+      "clubs",
+      "clover",
+      "suit",
+      "card"
+    ],
+    "keywords": [
+      "misc",
+      "club",
+      "card",
+      "suit",
+      "game"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\clubsuit",
+    "htmlEntity": "&clubs;",
+    "description": "Club suit symbol (playing cards)"
+  },
+  {
+    "symbol": "♠",
+    "codepoint": 9824,
+    "name": "Black Spade Suit",
+    "aliases": [
+      "spade",
+      "spades",
+      "suit",
+      "card"
+    ],
+    "keywords": [
+      "misc",
+      "spade",
+      "card",
+      "suit",
+      "game"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\spadesuit",
+    "htmlEntity": "&spades;",
+    "description": "Spade suit symbol (playing cards)"
+  },
+  {
+    "symbol": "♪",
+    "codepoint": 9834,
+    "name": "Eighth Note",
+    "aliases": [
+      "eighth note",
+      "music note",
+      "quaver",
+      "note"
+    ],
+    "keywords": [
+      "misc",
+      "music",
+      "note",
+      "eighth",
+      "quaver"
+    ],
+    "category": "Miscellaneous",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Eighth note — musical notation"
+  },
+  {
+    "symbol": "♫",
+    "codepoint": 9835,
+    "name": "Beamed Eighth Notes",
+    "aliases": [
+      "beamed notes",
+      "music notes",
+      "two notes",
+      "beamed"
+    ],
+    "keywords": [
+      "misc",
+      "music",
+      "notes",
+      "beamed",
+      "eighth"
+    ],
+    "category": "Miscellaneous",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Two beamed eighth notes"
+  },
+  {
+    "symbol": "♬",
+    "codepoint": 9836,
+    "name": "Beamed Sixteenth Notes",
+    "aliases": [
+      "beamed sixteenths",
+      "music",
+      "sixteenth notes"
+    ],
+    "keywords": [
+      "misc",
+      "music",
+      "notes",
+      "sixteenth",
+      "beamed"
+    ],
+    "category": "Miscellaneous",
+    "latex": "",
+    "htmlEntity": "",
+    "description": "Two beamed sixteenth notes"
+  },
+  {
+    "symbol": "♭",
+    "codepoint": 9837,
+    "name": "Music Flat Sign",
+    "aliases": [
+      "flat",
+      "bemolle",
+      "half tone down",
+      "b"
+    ],
+    "keywords": [
+      "misc",
+      "music",
+      "flat",
+      "accidental",
+      "lower"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\flat",
+    "htmlEntity": "",
+    "description": "Flat — lowers pitch by one semitone"
+  },
+  {
+    "symbol": "♮",
+    "codepoint": 9838,
+    "name": "Music Natural Sign",
+    "aliases": [
+      "natural",
+      "becuadro",
+      "natural sign",
+      "cancel"
+    ],
+    "keywords": [
+      "misc",
+      "music",
+      "natural",
+      "accidental",
+      "cancel"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\natural",
+    "htmlEntity": "",
+    "description": "Natural — cancels previous accidental"
+  },
+  {
+    "symbol": "♯",
+    "codepoint": 9839,
+    "name": "Music Sharp Sign",
+    "aliases": [
+      "sharp",
+      "diesis",
+      "half tone up",
+      "#"
+    ],
+    "keywords": [
+      "misc",
+      "music",
+      "sharp",
+      "accidental",
+      "raise"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\sharp",
+    "htmlEntity": "",
+    "description": "Sharp — raises pitch by one semitone"
+  },
+  {
+    "symbol": "™",
+    "codepoint": 8482,
+    "name": "Trade Mark Sign",
+    "aliases": [
+      "TM",
+      "trademark",
+      "trade mark",
+      "brand"
+    ],
+    "keywords": [
+      "misc",
+      "trademark",
+      "legal",
+      "brand",
+      "mark"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\texttrademark",
+    "htmlEntity": "&trade;",
+    "description": "Trademark symbol — unregistered mark"
+  },
+  {
+    "symbol": "®",
+    "codepoint": 174,
+    "name": "Registered Sign",
+    "aliases": [
+      "registered",
+      "R",
+      "registered trademark",
+      "reg"
+    ],
+    "keywords": [
+      "misc",
+      "registered",
+      "legal",
+      "trademark",
+      "mark"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\textregistered",
+    "htmlEntity": "&reg;",
+    "description": "Registered trademark symbol"
+  },
+  {
+    "symbol": "©",
+    "codepoint": 169,
+    "name": "Copyright Sign",
+    "aliases": [
+      "copyright",
+      "(c)",
+      "copy",
+      "all rights reserved"
+    ],
+    "keywords": [
+      "misc",
+      "copyright",
+      "legal",
+      "rights",
+      "intellectual"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\textcopyright",
+    "htmlEntity": "&copy;",
+    "description": "Copyright symbol"
+  },
+  {
+    "symbol": "µ",
+    "codepoint": 181,
+    "name": "Micro Sign",
+    "aliases": [
+      "micro",
+      "mu",
+      "u",
+      "10^-6"
+    ],
+    "keywords": [
+      "misc",
+      "micro",
+      "prefix",
+      "millionth",
+      "mu"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\mu",
+    "htmlEntity": "&micro;",
+    "description": "Micro sign — SI prefix for 10⁻⁶"
+  },
+  {
+    "symbol": "‰",
+    "codepoint": 8240,
+    "name": "Per Mille Sign",
+    "aliases": [
+      "permille",
+      "per mille",
+      "per thousand",
+      "0.1%"
+    ],
+    "keywords": [
+      "misc",
+      "per mille",
+      "per thousand",
+      "ratio"
+    ],
+    "category": "Miscellaneous",
+    "latex": "\\textperthousand",
+    "htmlEntity": "&permil;",
+    "description": "Per mille — per thousand, 1/10 of a percent"
+  }
+]

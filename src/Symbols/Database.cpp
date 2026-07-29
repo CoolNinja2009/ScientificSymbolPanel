@@ -1,0 +1,278 @@
+#include "Database.h"
+#include "Core/Log.h"
+#include "Platform/Platform.h"
+#include <fstream>
+#include <cstring>
+#include <vector>
+
+namespace ssp {
+
+// ============================================================================
+// Binary reader helpers
+// ============================================================================
+
+static uint32_t ReadU32(const uint8_t*& p) { uint32_t v = *reinterpret_cast<const uint32_t*>(p); p += 4; return v; }
+static uint16_t ReadU16(const uint8_t*& p) { uint16_t v = *reinterpret_cast<const uint16_t*>(p); p += 2; return v; }
+static uint8_t  ReadU8 (const uint8_t*& p) { uint8_t  v = *p; p += 1; return v; }
+
+static std::wstring ReadWStr(const uint8_t*& p) {
+    uint16_t len = ReadU16(p);
+    std::wstring s(reinterpret_cast<const wchar_t*>(p), len);
+    p += len * 2;
+    return s;
+}
+
+static std::vector<std::wstring> ReadWStrVec(const uint8_t*& p) {
+    uint16_t count = ReadU16(p);
+    std::vector<std::wstring> vec;
+    vec.reserve(count);
+    for (uint16_t i = 0; i < count; i++)
+        vec.push_back(ReadWStr(p));
+    return vec;
+}
+
+// ============================================================================
+// Path resolution
+// ============================================================================
+
+namespace {
+    std::filesystem::path GetExeDir() { return Platform::GetExecutableDir(); }
+}
+
+std::filesystem::path SymbolDatabase::DefaultPath() {
+    // Use JSON path (portable)
+    std::vector<std::filesystem::path> candidates;
+    auto exeDir = GetExeDir();
+    candidates.push_back(exeDir / L"data" / L"symbols.json");
+    candidates.push_back(exeDir / L"data" / L"symbols.bin");
+    candidates.push_back(std::filesystem::current_path() / L"data" / L"symbols.json");
+    candidates.push_back(std::filesystem::current_path() / L"data" / L"symbols.bin");
+    candidates.push_back(L"data/symbols.json");
+    candidates.push_back(L"data/symbols.bin");
+    for (auto& p : candidates) {
+        if (std::filesystem::exists(p)) return p;
+    }
+    return candidates[0];
+}
+
+// ============================================================================
+// Load
+// ============================================================================
+
+bool SymbolDatabase::Load() {
+    auto path = DefaultPath();
+    SSP_LOG_DEBUG("SymbolDatabase: loading from %ls", path.c_str());
+
+    // Read entire file
+    std::ifstream file(path, std::ios::binary | std::ios::ate);
+    if (!file.is_open()) {
+        SSP_LOG_DEBUG("SymbolDatabase: failed to open %ls", path.c_str());
+        return false;
+    }
+
+    auto size = file.tellg();
+    if (size <= 0) return false;
+
+    std::vector<uint8_t> data(static_cast<size_t>(size));
+    file.seekg(0);
+    file.read(reinterpret_cast<char*>(data.data()), size);
+    file.close();
+
+    // Detect format: binary starts with "SSPD" magic
+    bool isBinary = (data.size() >= 4 &&
+        data[0] == 'S' && data[1] == 'S' && data[2] == 'P' && data[3] == 'D');
+
+    if (isBinary) {
+        return LoadBinary(data);
+    } else {
+        return LoadJson(data);
+    }
+}
+
+// ============================================================================
+// Binary format loader
+// ============================================================================
+
+bool SymbolDatabase::LoadBinary(const std::vector<uint8_t>& data) {
+    const uint8_t* p = data.data();
+    const uint8_t* end = p + data.size();
+
+    // Skip magic (4 bytes)
+    p += 4;
+
+    // Version
+    uint16_t version = ReadU16(p);
+    (void)version;
+
+    // Symbol count
+    uint32_t count = ReadU32(p);
+    m_symbols.reserve(count);
+
+    for (uint32_t i = 0; i < count && p < end; i++) {
+        Symbol sym;
+        sym.symbol = ReadWStr(p);
+        sym.codepoint = ReadU32(p);
+        sym.name = ReadWStr(p);
+        sym.aliases = ReadWStrVec(p);
+        sym.keywords = ReadWStrVec(p);
+        sym.category = static_cast<Category>(ReadU8(p));
+        sym.latex = ReadWStr(p);
+        sym.htmlEntity = ReadWStr(p);
+        sym.description = ReadWStr(p);
+        m_symbols.push_back(std::move(sym));
+    }
+
+    BuildIndices();
+    SSP_LOG_DEBUG("SymbolDatabase: loaded %zu symbols (binary)", m_symbols.size());
+    return true;
+}
+
+
+// ============================================================================
+// JSON format loader (using original simple parser)
+// ============================================================================
+
+// Simple UTF-8 to wstring conversion for the JSON parser
+static std::wstring Utf8ToWstr(const std::string& u8) {
+    std::wstring result;
+    result.reserve(u8.size());
+    for (size_t i = 0; i < u8.size(); ) {
+        char32_t cp;
+        uint8_t b = static_cast<uint8_t>(u8[i]);
+        if (b < 0x80) { cp = b; i += 1; }
+        else if ((b & 0xE0) == 0xC0 && i + 1 < u8.size()) { cp = ((b & 0x1F) << 6) | (u8[i+1] & 0x3F); i += 2; }
+        else if ((b & 0xF0) == 0xE0 && i + 2 < u8.size()) { cp = ((b & 0x0F) << 12) | ((u8[i+1] & 0x3F) << 6) | (u8[i+2] & 0x3F); i += 3; }
+        else if ((b & 0xF8) == 0xF0 && i + 3 < u8.size()) { cp = ((b & 0x07) << 18) | ((u8[i+1] & 0x3F) << 12) | ((u8[i+2] & 0x3F) << 6) | (u8[i+3] & 0x3F); i += 4; }
+        else { i++; continue; }
+        if (cp <= 0xFFFF) {
+            result += static_cast<wchar_t>(cp);
+        } else {
+            cp -= 0x10000;
+            result += static_cast<wchar_t>(0xD800 | (cp >> 10));
+            result += static_cast<wchar_t>(0xDC00 | (cp & 0x3FF));
+        }
+    }
+    return result;
+}
+bool SymbolDatabase::LoadJson(const std::vector<uint8_t>& data) {
+    SSP_LOG_DEBUG("SymbolDatabase: parsing JSON (%zu bytes)", data.size());
+
+    std::string_view json(reinterpret_cast<const char*>(data.data()), data.size());
+
+    // Skip to first '['
+    auto pos = json.find('[');
+    if (pos == std::string_view::npos) return false;
+    pos++;
+
+    m_symbols.clear();
+
+    // Parse each symbol object
+    while (pos < json.size()) {
+        // Skip whitespace
+        while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\n' || json[pos] == '\r' || json[pos] == '\t'))
+            pos++;
+        if (pos >= json.size() || json[pos] == ']') break;
+        if (json[pos] == ',') { pos++; continue; }
+        if (json[pos] != '{') break;
+
+        Symbol sym;
+        pos++; // skip '{'
+
+        while (pos < json.size()) {
+            while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\n' || json[pos] == '\r' || json[pos] == '\t' || json[pos] == ','))
+                pos++;
+            if (pos >= json.size() || json[pos] == '}') { pos++; break; }
+            if (json[pos] != '"') break;
+            pos++;
+            auto keyEnd = json.find('"', pos);
+            if (keyEnd == std::string_view::npos) break;
+            std::string_view key(json.data() + pos, keyEnd - pos);
+            pos = keyEnd + 1;
+
+            // Skip ':'
+            while (pos < json.size() && (json[pos] == ' ' || json[pos] == ':')) pos++;
+
+            if (key == "codepoint") {
+                auto end = json.find_first_of(",}\n\r \t", pos);
+                sym.codepoint = static_cast<char32_t>(strtoul(json.data() + pos, nullptr, 10));
+                pos = (end != std::string_view::npos) ? end : json.size();
+            } else if (key == "category") {
+                auto end = json.find('"', pos + 1);
+                std::string cat(json.data() + pos + 1, end - pos - 1);
+                for (int i = 0; i < static_cast<int>(Category::COUNT); i++)
+                    if (cat == CategoryNames[i]) { sym.category = static_cast<Category>(i); break; }
+                pos = end + 1;
+            } else if (key == "symbol" || key == "name" || key == "latex" || key == "htmlEntity" || key == "description") {
+                auto end = json.find('"', pos + 1);
+                std::string val(json.data() + pos + 1, end - pos - 1);
+                std::wstring wval = Utf8ToWstr(val);
+                if (key == "symbol") sym.symbol = wval;
+                else if (key == "name") sym.name = wval;
+                else if (key == "latex") sym.latex = wval;
+                else if (key == "htmlEntity") sym.htmlEntity = wval;
+                else sym.description = wval;
+                pos = end + 1;
+            } else if (key == "aliases" || key == "keywords") {
+                while (pos < json.size() && json[pos] != '[') pos++;
+                pos++; // skip '['
+                std::vector<std::wstring> vec;
+                while (pos < json.size()) {
+                    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\n' || json[pos] == '\r' || json[pos] == '\t' || json[pos] == ','))
+                        pos++;
+                    if (pos >= json.size() || json[pos] == ']') { pos++; break; }
+                    if (json[pos] != '"') break;
+                    auto end = json.find('"', pos + 1);
+                    std::string val(json.data() + pos + 1, end - pos - 1);
+                    vec.push_back(Utf8ToWstr(val));
+                    pos = end + 1;
+                }
+                if (key == "aliases") sym.aliases = std::move(vec);
+                else sym.keywords = std::move(vec);
+            } else {
+                // Skip unknown value
+                if (json[pos] == '"') { pos = json.find('"', pos + 1) + 1; }
+                else if (json[pos] == '[') { int depth = 1; pos++; while (pos < json.size() && depth > 0) { if (json[pos] == '[') depth++; if (json[pos] == ']') depth--; pos++; } }
+                else if (json[pos] == '{') { int depth = 1; pos++; while (pos < json.size() && depth > 0) { if (json[pos] == '{') depth++; if (json[pos] == '}') depth--; pos++; } }
+                else { while (pos < json.size() && json[pos] != ',' && json[pos] != '}' && json[pos] != '\n') pos++; }
+            }
+        }
+
+        m_symbols.push_back(std::move(sym));
+    }
+
+    SSP_LOG_DEBUG("SymbolDatabase: loaded %zu symbols (json)", m_symbols.size());
+    BuildIndices();
+    return !m_symbols.empty();
+}
+
+// ============================================================================
+// Indices
+// ============================================================================
+
+void SymbolDatabase::BuildIndices() {
+    m_categoryIndex.clear();
+    m_codepointIndex.clear();
+    for (size_t i = 0; i < m_symbols.size(); i++) {
+        m_categoryIndex[m_symbols[i].category].push_back(i);
+        m_codepointIndex[m_symbols[i].codepoint] = i;
+    }
+}
+
+std::vector<const Symbol*> SymbolDatabase::GetByCategory(Category cat) const {
+    std::vector<const Symbol*> result;
+    auto it = m_categoryIndex.find(cat);
+    if (it != m_categoryIndex.end()) {
+        result.reserve(it->second.size());
+        for (size_t idx : it->second) {
+            result.push_back(&m_symbols[idx]);
+        }
+    }
+    return result;
+}
+
+const Symbol* SymbolDatabase::FindByCodepoint(char32_t cp) const {
+    auto it = m_codepointIndex.find(cp);
+    return (it != m_codepointIndex.end()) ? &m_symbols[it->second] : nullptr;
+}
+
+} // namespace ssp
