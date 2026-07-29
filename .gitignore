@@ -1,0 +1,25 @@
+# Build
+build/
+out/
+cmake-build-*/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# vcpkg
+vcpkg_installed/
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.app
