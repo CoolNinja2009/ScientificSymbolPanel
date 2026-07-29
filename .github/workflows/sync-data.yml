@@ -1,0 +1,46 @@
+name: Sync Data to Cross-Platform
+
+on:
+  push:
+    branches: [ windows ]
+    paths:
+      - 'data/symbols.json'
+      - 'data/snippets.json'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout windows branch
+        uses: actions/checkout@v4
+        with:
+          ref: windows
+          path: windows-src
+
+      - name: Checkout cross-platform branch
+        uses: actions/checkout@v4
+        with:
+          ref: cross-platform
+          path: cross-platform-src
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync data files
+        run: |
+          cp windows-src/data/symbols.json cross-platform-src/data/
+          cp windows-src/data/snippets.json cross-platform-src/data/
+
+      - name: Commit and push
+        run: |
+          cd cross-platform-src
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "No changes to sync"
+          else
+            git add data/symbols.json data/snippets.json
+            git commit -m "Sync data from windows branch"
+            git push
+          fi

@@ -53,3 +53,5 @@ vision.md
 vcpkg/
 vcpkg-temp/
 vcpkg_installed/
+cross-platform/
+deps/
