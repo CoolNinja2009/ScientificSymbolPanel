@@ -49,3 +49,7 @@ Desktop.ini
 
 # Project-specific
 vision.md
+# vcpkg artifacts
+vcpkg/
+vcpkg-temp/
+vcpkg_installed/
