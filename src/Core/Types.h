@@ -183,7 +183,7 @@ struct SizeF {
 constexpr float kSearchBarHeight    = 40.0f;
 constexpr float kCategoryBarHeight  = 36.0f;
 constexpr float kSymbolCellSize     = 48.0f;
-constexpr float kFontSizeSymbol     = 24.0f;
+constexpr float kFontSizeSymbol     = 27.0f;
 constexpr float kFontSizeSmall      = 12.0f;
 constexpr float kFontSizeBody       = 14.0f;
 constexpr float kFontSizeTitle      = 16.0f;

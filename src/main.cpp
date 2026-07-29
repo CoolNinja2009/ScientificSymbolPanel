@@ -257,10 +257,10 @@ int main() {
     symBuilder.BuildRanges(&symRanges);
 
 #ifdef _WIN32
-    ImFontConfig baseCfg; baseCfg.SizePixels = 24.0f;
-    io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 24.0f, &baseCfg, io.Fonts->GetGlyphRangesDefault());
-    ImFontConfig symCfg; symCfg.SizePixels = 24.0f; symCfg.MergeMode = true; symCfg.GlyphMinAdvanceX = 24.0f;
-    io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\seguisym.ttf", 24.0f, &symCfg, symRanges.Data);
+    ImFontConfig baseCfg; baseCfg.SizePixels = 27.0f;
+    io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 27.0f, &baseCfg, io.Fonts->GetGlyphRangesDefault());
+    ImFontConfig symCfg; symCfg.SizePixels = 27.0f; symCfg.MergeMode = true; symCfg.GlyphMinAdvanceX = 27.0f;
+    io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\seguisym.ttf", 27.0f, &symCfg, symRanges.Data);
 #else
     const char* fonts[] = {
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", nullptr
@@ -268,7 +268,7 @@ int main() {
     bool loaded = false;
     for (int i = 0; fonts[i]; i++) {
         FILE* f = fopen(fonts[i], "rb");
-        if (f) { fclose(f); io.Fonts->AddFontFromFileTTF(fonts[i], 24.0f, nullptr, symRanges.Data); loaded = true; break; }
+        if (f) { fclose(f); io.Fonts->AddFontFromFileTTF(fonts[i], 27.0f, nullptr, symRanges.Data); loaded = true; break; }
     }
     if (!loaded) io.Fonts->AddFontDefault(nullptr);
 #endif
