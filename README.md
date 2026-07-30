@@ -1,6 +1,6 @@
 # Scientific Symbol Panel
 
-A cross-platform utility for quickly inserting scientific and mathematical symbols — the scientific equivalent of the Windows Emoji Panel (`Win + .`). Now runs on Windows, Linux, and macOS.
+A utility for quickly inserting scientific and mathematical symbols — the scientific equivalent of the Windows Emoji Panel (`Win + .`). Two rendering backends in one codebase: native Windows Direct2D (zero deps) and cross-platform GLFW + ImGui.
 
 ## Features
 
@@ -20,12 +20,18 @@ A cross-platform utility for quickly inserting scientific and mathematical symbo
 
 ## Requirements
 
-- **Windows 10+**, **Linux** (X11/Wayland), or **macOS 12+**
+### Windows Direct2D Backend (zero external deps)
+- Windows 10+
+- CMake 3.28+
+- MSVC 2022 or Build Tools (C++23)
+
+### Cross-Platform GLFW Backend
+- Windows 10+, Linux (X11/Wayland), or macOS 12+
 - CMake 3.28+
 - C++23 compiler (MSVC 2022, GCC 13+, Clang 17+)
 - OpenGL 3.3+
 
-### Dependency Options
+**Dependency options:**
 
 **Option A — vcpkg (recommended):**
 ```bash
@@ -33,7 +39,6 @@ git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg && ./bootstrap-vcpkg.sh  # or bootstrap-vcpkg.bat on Windows
 ./vcpkg install glfw3 imgui
 ```
-
 Then build with `-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake`.
 
 **Option B — FetchContent (automatic):**
@@ -41,14 +46,26 @@ Dependencies (GLFW, ImGui) are fetched automatically at configure time. No pre-i
 
 ## Build
 
+### Windows (build_release.bat)
+```batch
+build_release.bat
+```
+Interactive menu:
+- `[1]` Windows Direct2D — native Win32, statically linked, **zero external dependencies**
+- `[2]` Cross-platform — GLFW + ImGui (vcpkg or FetchContent)
+
+### Manual CMake
 ```bash
-# Configure (vcpkg)
-cmake -B build -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
+# Windows Direct2D backend
+cmake -B build -DSSP_BACKEND=Win32 -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
 
-# Configure (FetchContent — no vcpkg)
-cmake -B build
+# Cross-platform GLFW backend (vcpkg)
+cmake -B build -DSSP_BACKEND=GLFW -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
 
-# Build
+# Cross-platform GLFW backend (FetchContent — no vcpkg)
+cmake -B build -DSSP_BACKEND=GLFW -DCMAKE_BUILD_TYPE=Release
+
 cmake --build build --config Release
 ```
 
@@ -56,9 +73,9 @@ cmake --build build --config Release
 
 | Platform | Notes |
 |----------|-------|
-| **Windows** | Visual Studio 2022 or MSVC Build Tools. vcpkg triplet: `x64-windows`. |
-| **Linux** | Install OpenGL dev packages: `sudo apt install libgl1-mesa-dev xorg-dev` (Debian/Ubuntu) or equivalent. |
-| **macOS** | OpenGL is deprecated but still functional. Framework linking is automatic. |
+| **Windows** | Visual Studio 2022 or MSVC Build Tools. Direct2D backend needs nothing else. |
+| **Linux** | GLFW backend only. Install OpenGL dev packages: `sudo apt install libgl1-mesa-dev xorg-dev` (Debian/Ubuntu) or equivalent. |
+| **macOS** | GLFW backend only. OpenGL is deprecated but still functional. Framework linking is automatic. |
 
 ## Usage
 
@@ -83,13 +100,17 @@ Type `\` for LaTeX aliases: `\alpha` → `α`, `\beta` → `β`, `\sum` → `∑
 
 ```
 ScientificSymbolPanel/
-├── CMakeLists.txt             # CMake build (vcpkg or FetchContent)
-├── vcpkg.json                 # vcpkg manifest
+├── CMakeLists.txt             # Unified CMake (SSP_BACKEND=Win32|GLFW)
+├── build_release.bat          # Windows one-click build with backend menu
+├── vcpkg.json                 # vcpkg manifest (GLFW backend)
+├── assets/                    # Icons, Windows resource file
 ├── src/
-│   ├── main.cpp               # GLFW entry point, ImGui init
-│   ├── UI/                    # ImGui rendering, themes, layout, panel
+│   ├── main_glfw.cpp          # GLFW + ImGui entry point
+│   ├── main_win32.cpp         # Win32 Direct2D entry point
+│   ├── App/                   # Win32 backend: application, input handler
+│   ├── UI/                    # Panel (GLFW) + Renderer, Layout, Themes (Win32)
 │   ├── Core/                  # Shared types, config, logging
-│   ├── Platform/              # Platform abstraction (clipboard, hotkey, DPI)
+│   ├── Platform/              # Platform abstraction + Win32 helpers
 │   ├── Storage/               # JSON persistence (settings, recent, favorites)
 │   ├── Search/                # Trie + hash map search engine
 │   └── Symbols/               # Database, converters, snippets
@@ -99,15 +120,12 @@ ScientificSymbolPanel/
 
 ## Technology
 
-- C++23
-- **GLFW** — cross-platform windowing and input
-- **OpenGL 3.3** — rendering backend
-- **Dear ImGui** — immediate-mode UI toolkit
-- Zero runtime dependencies beyond system OpenGL
+| Backend | Rendering | Windowing | Dependencies |
+|---------|-----------|-----------|--------------|
+| **Win32** | Direct2D + DirectWrite | Win32 API | None (Windows SDK only) |
+| **GLFW** | OpenGL 3.3 + Dear ImGui | GLFW | GLFW, ImGui, OpenGL |
 
-### Windows-Specific Version
-
-A native Windows build using Win32 + Direct2D + DirectWrite is maintained on the [`windows`](https://github.com/CoolNinja2009/ScientificSymbolPanel/tree/windows) branch. It has zero external dependencies beyond the Windows SDK.
+Shared core: C++23, custom JSON parser, binary symbol database, trie-based search engine.
 
 ## License
 
