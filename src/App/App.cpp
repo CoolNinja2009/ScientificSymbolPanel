@@ -14,6 +14,7 @@
 #include "UI/Layout.h"
 #include "UI/Animation.h"
 #include "InputHandler.h"
+#include "Core/InlineExpander.h"
 
 #include <windows.h>
 #include <windowsx.h>
@@ -54,6 +55,10 @@ bool App::Initialize(HINSTANCE hInstance) {
     m_searchEngine = std::make_unique<SearchEngine>();
     m_searchEngine->Build(m_database->GetSymbols());
     InitSubsystems();
+    // Inline text expansion (runtime-configurable, no recompile)
+    m_inlineExpander = std::make_unique<InlineExpander>();
+    m_inlineExpander->Initialize(m_config.Get().inlineExpander);
+    m_inlineExpander->Start();
     return true;
 }
 
@@ -120,6 +125,7 @@ int App::Run() {
 }
 
 void App::Shutdown() {
+    if (m_inlineExpander) m_inlineExpander->Shutdown();
     UnregisterHotkey();
     if (m_recentManager) m_recentManager->Save();
     if (m_favoritesManager) m_favoritesManager->Save();
@@ -150,6 +156,7 @@ void App::ShowPanel() {
     m_dpiScale = static_cast<float>(GetDpiForWindow(m_hwnd)) / 96.0f;
     SetWindowPos(m_hwnd, HWND_TOPMOST, x, y, w, h, SWP_SHOWWINDOW | SWP_NOACTIVATE);
     m_visible = true;
+    m_inlineExpander->SetPanelVisible(true);
     if (m_inputHandler) m_inputHandler->Reset();
     if (m_animation && m_animation->enabled) { m_animation->StartFadeIn(); SetTimer(m_hwnd, 1, 8, nullptr); }
     SetTimer(m_hwnd, 2, 530, nullptr); // cursor blink
@@ -161,6 +168,7 @@ void App::ShowPanel() {
 void App::HidePanel() {
     if (!m_visible) return;
     m_visible = false;
+    m_inlineExpander->SetPanelVisible(false);
     KillTimer(m_hwnd, 1);
     KillTimer(m_hwnd, 2);
     ShowWindow(m_hwnd, SW_HIDE);

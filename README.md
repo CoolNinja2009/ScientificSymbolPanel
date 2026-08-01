@@ -14,6 +14,8 @@ A utility for quickly inserting scientific and mathematical symbols — the scie
 - **Superscript/Subscript builder** — `x^2` → `x²`, `H2O` → `H₂O`
 - **LaTeX mode** — type `\pi` → `π`, `\sum` → `∑`
 - **Command palette** — type commands like `/theme dark`, `/clear recent`
+- **Inline text expansion** — type `delta`` ` in any textbox → `δ` (system-wide, no panel needed)
+- **Runtime configurable** — trigger, case preference, custom keyword mappings via `settings.json`
 - **Borderless, lightweight** — <10 MB RAM, 0% CPU idle
 - **Zero telemetry, zero internet**
 - **High DPI support** (125%, 150%, 200%)
@@ -92,6 +94,40 @@ cmake --build build --config Release
 | `Page Up/Down` | Scroll results |
 | `/` | Command palette mode |
 
+### Inline Text Expansion
+
+Type a symbol name followed by the trigger and a space in **any textbox** — the word and trigger are replaced with the best-matching Unicode symbol. No panel needed.
+
+| Example | Result |
+|---------|--------|
+| `delta`` ` | δ |
+| `alpha`` ` | α |
+| `integral`` ` | ∫ |
+| `ohm`` ` | Ω |
+
+**Configurable** via `%LOCALAPPDATA%\ScientificSymbolPanel\settings.json`:
+
+```json
+{
+  "expanderEnabled": true,
+  "expanderTrigger": ";;",
+  "expanderPreferLowercase": true,
+  "expanderMappings": {
+    "delta": 80,
+    "ohm": 332
+  }
+}
+```
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `expanderEnabled` | `true` | Master toggle |
+| `expanderTrigger` | `"``"` | Trigger sequence (e.g. `";;"`, `"!!"`) |
+| `expanderPreferLowercase` | `true` | Prefer lowercase Greek among equal-score matches |
+| `expanderMappings` | `{}` | Keyword → symbol index overrides (see `data/symbol-index.txt` for indices) |
+
+Restart the app after editing the config — no recompile needed.
+
 ### LaTeX Mode
 
 Type `\` for LaTeX aliases: `\alpha` → `α`, `\beta` → `β`, `\sum` → `∑`, `\int` → `∫`, `\infty` → `∞`
@@ -105,16 +141,17 @@ ScientificSymbolPanel/
 ├── vcpkg.json                 # vcpkg manifest (GLFW backend)
 ├── assets/                    # Icons, Windows resource file
 ├── src/
-│   ├── main_glfw.cpp          # GLFW + ImGui entry point
+│   ├── main.cpp               # GLFW + ImGui entry point (cross-platform)
+│   ├── main_glfw.cpp          # (legacy, excluded from build)
 │   ├── main_win32.cpp         # Win32 Direct2D entry point
 │   ├── App/                   # Win32 backend: application, input handler
 │   ├── UI/                    # Panel (GLFW) + Renderer, Layout, Themes (Win32)
-│   ├── Core/                  # Shared types, config, logging
+│   ├── Core/                  # Shared types, config, inline expander, logging
 │   ├── Platform/              # Platform abstraction + Win32 helpers
 │   ├── Storage/               # JSON persistence (settings, recent, favorites)
 │   ├── Search/                # Trie + hash map search engine
 │   └── Symbols/               # Database, converters, snippets
-├── data/                      # Symbol database, snippets
+├── data/                      # Symbol database, snippets, symbol index
 └── deps/                      # Extra vendored dependencies (optional)
 ```
 

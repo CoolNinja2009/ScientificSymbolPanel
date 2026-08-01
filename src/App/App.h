@@ -17,6 +17,7 @@ class InputHandler;
 class RecentManager;
 class FavoritesManager;
 class SnippetManager;
+class InlineExpander;
 }
 
 struct IWICImagingFactory;
@@ -97,6 +98,7 @@ private:
     std::unique_ptr<RecentManager> m_recentManager;
     std::unique_ptr<FavoritesManager> m_favoritesManager;
     std::unique_ptr<SnippetManager> m_snippetManager;
+    std::unique_ptr<InlineExpander> m_inlineExpander;
 
     // COM/DirectX
     struct ComDeleter {

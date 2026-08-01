@@ -139,6 +139,28 @@ inline ThemeColors LightTheme() {
 }
 
 // ============================================================================
+// Inline Expander Settings (runtime-configurable, no recompile)
+// ============================================================================
+struct InlineExpanderSettings {
+    // Whether the system-wide keyboard hook is active
+    bool enabled = true;
+
+    // Trigger string (e.g. "``" or ";;" or "!!"). Max 4 chars.
+    // The hook watches for: <word><trigger><space>
+    std::wstring trigger = L"``";
+
+    // Prefer lowercase Greek letters among equal-score matches
+    bool preferLowercase = true;
+
+    // Custom keyword → symbol index overrides.
+    // Key: lowercase keyword (e.g. "delta"). Value: 0-based index into symbols.json.
+    // These take priority over search results — if the keyword matches, the
+    // mapped symbol is used directly without querying the search engine.
+    std::unordered_map<std::wstring, int32_t> customMappings;
+};
+
+
+// ============================================================================
 // App Settings
 // ============================================================================
 struct AppSettings {
@@ -160,6 +182,9 @@ struct AppSettings {
 
     // Search
     bool fuzzySearch = true;
+
+    // Inline expansion
+    InlineExpanderSettings inlineExpander;
 };
 
 // ============================================================================

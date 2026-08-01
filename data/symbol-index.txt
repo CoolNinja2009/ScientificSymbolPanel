@@ -1,0 +1,424 @@
+# Scientific Symbol Panel — Symbol Index
+# Generated 2026-08-01
+# Format: INDEX | CODEPOINT | SYMBOL | NAME
+# Use INDEX in settings.json expanderMappings to force a specific symbol.
+# Example: { "delta": 80 }  → always outputs δ (index 80) for "delta`` "
+# INDICES ARE ZERO-BASED. Restart SSP after editing settings.json.
+
+   0 | U+2200  | ∀ | For All
+   1 | U+2203  | ∃ | There Exists
+   2 | U+2204  | ∄ | There Does Not Exist
+   3 | U+2205  | ∅ | Empty Set
+   4 | U+2208  | ∈ | Element Of
+   5 | U+2209  | ∉ | Not An Element Of
+   6 | U+220B  | ∋ | Contains As Member
+   7 | U+2282  | ⊂ | Subset Of
+   8 | U+2283  | ⊃ | Superset Of
+   9 | U+2286  | ⊆ | Subset Of Or Equal To
+  10 | U+2287  | ⊇ | Superset Of Or Equal To
+  11 | U+222A  | ∪ | Union
+  12 | U+2229  | ∩ | Intersection
+  13 | U+2216  | ∖ | Set Minus
+  14 | U+00B1  | ± | Plus-Minus Sign
+  15 | U+2213  | ∓ | Minus-Plus Sign
+  16 | U+00D7  | × | Multiplication Sign
+  17 | U+00F7  | ÷ | Division Sign
+  18 | U+22C5  | ⋅ | Dot Operator
+  19 | U+2217  | ∗ | Asterisk Operator
+  20 | U+2260  | ≠ | Not Equal To
+  21 | U+2248  | ≈ | Almost Equal To
+  22 | U+2264  | ≤ | Less-Than Or Equal To
+  23 | U+2265  | ≥ | Greater-Than Or Equal To
+  24 | U+226A  | ≪ | Much Less-Than
+  25 | U+226B  | ≫ | Much Greater-Than
+  26 | U+227A  | ≺ | Precedes
+  27 | U+227B  | ≻ | Succeeds
+  28 | U+227C  | ≼ | Precedes Or Equal To
+  29 | U+227D  | ≽ | Succeeds Or Equal To
+  30 | U+221E  | ∞ | Infinity
+  31 | U+221D  | ∝ | Proportional To
+  32 | U+221A  | √ | Square Root
+  33 | U+221B  | ∛ | Cube Root
+  34 | U+221C  | ∜ | Fourth Root
+  35 | U+230A  | ⌊ | Left Floor
+  36 | U+230B  | ⌋ | Right Floor
+  37 | U+2308  | ⌈ | Left Ceiling
+  38 | U+2309  | ⌉ | Right Ceiling
+  39 | U+2261  | ≡ | Identical To
+  40 | U+2262  | ≢ | Not Identical To
+  41 | U+223C  | ∼ | Tilde Operator
+  42 | U+2241  | ≁ | Not Tilde
+  43 | U+2243  | ≃ | Asymptotically Equal To
+  44 | U+2245  | ≅ | Approximately Equal To
+  45 | U+224D  | ≍ | Equivalent To
+  46 | U+2016  | ‖ | Double Vertical Line
+  47 | U+27E8  | ⟨ | Left Angle Bracket
+  48 | U+27E9  | ⟩ | Right Angle Bracket
+  49 | U+2223  | ∣ | Divides
+  50 | U+2224  | ∤ | Does Not Divide
+  51 | U+2225  | ∥ | Parallel To
+  52 | U+2226  | ∦ | Not Parallel To
+  53 | U+0391  | Α | Greek Capital Letter Alpha
+  54 | U+0392  | Β | Greek Capital Letter Beta
+  55 | U+0393  | Γ | Greek Capital Letter Gamma
+  56 | U+0394  | Δ | Greek Capital Letter Delta
+  57 | U+0395  | Ε | Greek Capital Letter Epsilon
+  58 | U+0396  | Ζ | Greek Capital Letter Zeta
+  59 | U+0397  | Η | Greek Capital Letter Eta
+  60 | U+0398  | Θ | Greek Capital Letter Theta
+  61 | U+0399  | Ι | Greek Capital Letter Iota
+  62 | U+039A  | Κ | Greek Capital Letter Kappa
+  63 | U+039B  | Λ | Greek Capital Letter Lambda
+  64 | U+039C  | Μ | Greek Capital Letter Mu
+  65 | U+039D  | Ν | Greek Capital Letter Nu
+  66 | U+039E  | Ξ | Greek Capital Letter Xi
+  67 | U+039F  | Ο | Greek Capital Letter Omicron
+  68 | U+03A0  | Π | Greek Capital Letter Pi
+  69 | U+03A1  | Ρ | Greek Capital Letter Rho
+  70 | U+03A3  | Σ | Greek Capital Letter Sigma
+  71 | U+03A4  | Τ | Greek Capital Letter Tau
+  72 | U+03A5  | Υ | Greek Capital Letter Upsilon
+  73 | U+03A6  | Φ | Greek Capital Letter Phi
+  74 | U+03A7  | Χ | Greek Capital Letter Chi
+  75 | U+03A8  | Ψ | Greek Capital Letter Psi
+  76 | U+03A9  | Ω | Greek Capital Letter Omega
+  77 | U+03B1  | α | Greek Small Letter Alpha
+  78 | U+03B2  | β | Greek Small Letter Beta
+  79 | U+03B3  | γ | Greek Small Letter Gamma
+  80 | U+03B4  | δ | Greek Small Letter Delta
+  81 | U+03B5  | ε | Greek Small Letter Epsilon
+  82 | U+03B6  | ζ | Greek Small Letter Zeta
+  83 | U+03B7  | η | Greek Small Letter Eta
+  84 | U+03B8  | θ | Greek Small Letter Theta
+  85 | U+03B9  | ι | Greek Small Letter Iota
+  86 | U+03BA  | κ | Greek Small Letter Kappa
+  87 | U+03BB  | λ | Greek Small Letter Lambda
+  88 | U+03BC  | μ | Greek Small Letter Mu
+  89 | U+03BD  | ν | Greek Small Letter Nu
+  90 | U+03BE  | ξ | Greek Small Letter Xi
+  91 | U+03BF  | ο | Greek Small Letter Omicron
+  92 | U+03C0  | π | Greek Small Letter Pi
+  93 | U+03C1  | ρ | Greek Small Letter Rho
+  94 | U+03C3  | σ | Greek Small Letter Sigma
+  95 | U+03C2  | ς | Greek Small Letter Final Sigma
+  96 | U+03C4  | τ | Greek Small Letter Tau
+  97 | U+03C5  | υ | Greek Small Letter Upsilon
+  98 | U+03C6  | φ | Greek Small Letter Phi
+  99 | U+03C7  | χ | Greek Small Letter Chi
+ 100 | U+03C8  | ψ | Greek Small Letter Psi
+ 101 | U+03C9  | ω | Greek Small Letter Omega
+ 102 | U+03D1  | ϑ | Greek Theta Symbol
+ 103 | U+03D6  | ϖ | Greek Pi Symbol
+ 104 | U+03D5  | ϕ | Greek Phi Symbol
+ 105 | U+03F5  | ϵ | Greek Lunate Epsilon Symbol
+ 106 | U+03F1  | ϱ | Greek Rho Symbol
+ 107 | U+210F  | ℏ | Planck Constant Over Two Pi
+ 108 | U+2113  | ℓ | Script Small L
+ 109 | U+03B5  | ε₀ | Epsilon Naught (Vacuum Permittivity)
+ 110 | U+03BC  | μ₀ | Mu Naught (Vacuum Permeability)
+ 111 | U+2103  | ℃ | Degree Celsius
+ 112 | U+2109  | ℉ | Degree Fahrenheit
+ 113 | U+0127  | ħ | H Bar (Reduced Planck Constant)
+ 114 | U+2460  | ① | Circled Digit One
+ 115 | U+2461  | ② | Circled Digit Two
+ 116 | U+2462  | ③ | Circled Digit Three
+ 117 | U+2463  | ④ | Circled Digit Four
+ 118 | U+2464  | ⑤ | Circled Digit Five
+ 119 | U+0063  | c | Speed of Light
+ 120 | U+0047  | G | Gravitational Constant
+ 121 | U+0067  | g | Acceleration of Gravity
+ 122 | U+006B  | k | Boltzmann Constant
+ 123 | U+004E  | N_A | Avogadro Constant
+ 124 | U+0068  | h | Planck Constant
+ 125 | U+0065  | eV | Electronvolt
+ 126 | U+00C5  | Å | Angstrom
+ 127 | U+00B0  | ° | Degree Sign
+ 128 | U+2126  | Ω | Ohm Sign
+ 129 | U+21CC  | ⇌ | Equilibrium
+ 130 | U+2192  | → | Rightwards Arrow (Reaction)
+ 131 | U+2190  | ← | Leftwards Arrow (Reverse)
+ 132 | U+2191  | ↑ | Upwards Arrow (Gas)
+ 133 | U+2193  | ↓ | Downwards Arrow (Precipitate)
+ 134 | U+2697  | ⚗ | Alembic
+ 135 | U+2620  | ☠ | Skull And Crossbones
+ 136 | U+2622  | ☢ | Radioactive Sign
+ 137 | U+2623  | ☣ | Biohazard Sign
+ 138 | U+29B5  | ⦵ | Circle With Horizontal Bar
+ 139 | U+21C0  | ⇀ | Rightwards Harpoon With Barb Upwards
+ 140 | U+21C1  | ⇁ | Rightwards Harpoon With Barb Downwards
+ 141 | U+269B  | ⚛ | Atom Symbol
+ 142 | U+0070  | pH | pH (Acidity)
+ 143 | U+0394  | ΔH | Enthalpy Change
+ 144 | U+0394  | ΔG | Gibbs Free Energy
+ 145 | U+004D  | M | Molar (Concentration)
+ 146 | U+006B  | kΩ | Kiloohm
+ 147 | U+004D  | MΩ | Megaohm
+ 148 | U+00B5  | µF | Microfarad
+ 149 | U+0070  | pF | Picofarad
+ 150 | U+006E  | nF | Nanofarad
+ 151 | U+00B5  | µH | Microhenry
+ 152 | U+006D  | mH | Millihenry
+ 153 | U+23DA  | ⏚ | Earth Ground
+ 154 | U+23DB  | ⏛ | Fuse
+ 155 | U+2393  | ⎓ | Alternating Current
+ 156 | U+238F  | ⎏ | Direct Current
+ 157 | U+26A1  | ⚡ | High Voltage Sign
+ 158 | U+2295  | ⊕ | Positive Terminal
+ 159 | U+2296  | ⊖ | Negative Terminal
+ 160 | U+0056  | V | Volt
+ 161 | U+0041  | A | Ampere
+ 162 | U+0057  | W | Watt
+ 163 | U+0048  | Hz | Hertz
+ 164 | U+0064  | dB | Decibel
+ 165 | U+005A  | Z | Impedance
+ 166 | U+006A  | j | Imaginary Unit (j)
+ 167 | U+22A5  | ⊥ | Logic Ground
+ 168 | U+006D  | m | Meter
+ 169 | U+006B  | km | Kilometer
+ 170 | U+0063  | cm | Centimeter
+ 171 | U+006D  | mm | Millimeter
+ 172 | U+00B5  | µm | Micrometer
+ 173 | U+006E  | nm | Nanometer
+ 174 | U+0070  | pm | Picometer
+ 175 | U+006B  | kg | Kilogram
+ 176 | U+006D  | mg | Milligram
+ 177 | U+00B5  | µg | Microgram
+ 178 | U+0073  | s | Second
+ 179 | U+006D  | ms | Millisecond
+ 180 | U+00B5  | µs | Microsecond
+ 181 | U+006E  | ns | Nanosecond
+ 182 | U+004B  | K | Kelvin
+ 183 | U+006D  | mol | Mole
+ 184 | U+0063  | cd | Candela
+ 185 | U+006B  | kHz | Kilohertz
+ 186 | U+004D  | MHz | Megahertz
+ 187 | U+0047  | GHz | Gigahertz
+ 188 | U+004E  | N | Newton
+ 189 | U+006B  | kN | Kilonewton
+ 190 | U+0050  | Pa | Pascal
+ 191 | U+006B  | kPa | Kilopascal
+ 192 | U+004D  | MPa | Megapascal
+ 193 | U+0047  | GPa | Gigapascal
+ 194 | U+004A  | J | Joule
+ 195 | U+006B  | kJ | Kilojoule
+ 196 | U+006B  | kW | Kilowatt
+ 197 | U+004D  | MW | Megawatt
+ 198 | U+0043  | C | Coulomb
+ 199 | U+006B  | kV | Kilovolt
+ 200 | U+006D  | mV | Millivolt
+ 201 | U+0046  | F | Farad
+ 202 | U+0053  | S | Siemens
+ 203 | U+0057  | Wb | Weber
+ 204 | U+0054  | T | Tesla
+ 205 | U+0048  | H | Henry
+ 206 | U+006C  | lm | Lumen
+ 207 | U+006C  | lx | Lux
+ 208 | U+0042  | Bq | Becquerel
+ 209 | U+0047  | Gy | Gray
+ 210 | U+0053  | Sv | Sievert
+ 211 | U+006B  | kat | Katal
+ 212 | U+004C  | L | Liter
+ 213 | U+006D  | mL | Milliliter
+ 214 | U+00AC  | ¬ | Not Sign
+ 215 | U+2227  | ∧ | Logical And
+ 216 | U+2228  | ∨ | Logical Or
+ 217 | U+22A4  | ⊤ | True (Top)
+ 218 | U+22A2  | ⊢ | Provable (Turnstile)
+ 219 | U+22A8  | ⊨ | Entails (Double Turnstile)
+ 220 | U+22AD  | ⊭ | Does Not Entail
+ 221 | U+2234  | ∴ | Therefore
+ 222 | U+2235  | ∵ | Because
+ 223 | U+22BB  | ⊻ | Exclusive Or (XOR Symbol)
+ 224 | U+21AE  | ↮ | Not Biconditional
+ 225 | U+25A1  | □ | Necessarily
+ 226 | U+25C7  | ◇ | Possibly
+ 227 | U+007B  | { | Left Curly Bracket
+ 228 | U+007D  | } | Right Curly Bracket
+ 229 | U+005B  | [ | Left Square Bracket
+ 230 | U+005D  | ] | Right Square Bracket
+ 231 | U+0028  | ( | Left Parenthesis
+ 232 | U+0029  | ) | Right Parenthesis
+ 233 | U+003C  | < | Less-Than Sign
+ 234 | U+003E  | > | Greater-Than Sign
+ 235 | U+0026  | & | Ampersand
+ 236 | U+007C  | | | Vertical Bar
+ 237 | U+005E  | ^ | Circumflex Accent
+ 238 | U+007E  | ~ | Tilde
+ 239 | U+0023  | # | Number Sign
+ 240 | U+0040  | @ | Commercial At
+ 241 | U+0024  | $ | Dollar Sign
+ 242 | U+0025  | % | Percent Sign
+ 243 | U+0021  | ! | Exclamation Mark
+ 244 | U+003A  | : | Colon
+ 245 | U+003B  | ; | Semicolon
+ 246 | U+005F  | _ | Low Line (Underscore)
+ 247 | U+005C  | \ | Reverse Solidus (Backslash)
+ 248 | U+0060  | ` | Grave Accent (Backtick)
+ 249 | U+0027  | ' | Apostrophe (Single Quote)
+ 250 | U+0022  | " | Quotation Mark (Double Quote)
+ 251 | U+2194  | ↔ | Left Right Arrow
+ 252 | U+2195  | ↕ | Up Down Arrow
+ 253 | U+2196  | ↖ | North West Arrow
+ 254 | U+2197  | ↗ | North East Arrow
+ 255 | U+2198  | ↘ | South East Arrow
+ 256 | U+2199  | ↙ | South West Arrow
+ 257 | U+21A9  | ↩ | Leftwards Arrow With Hook
+ 258 | U+21AA  | ↪ | Rightwards Arrow With Hook
+ 259 | U+21BA  | ↺ | Anticlockwise Open Circle Arrow
+ 260 | U+21BB  | ↻ | Clockwise Open Circle Arrow
+ 261 | U+21D2  | ⇒ | Rightwards Double Arrow
+ 262 | U+21D0  | ⇐ | Leftwards Double Arrow
+ 263 | U+21D1  | ⇑ | Upwards Double Arrow
+ 264 | U+21D3  | ⇓ | Downwards Double Arrow
+ 265 | U+21D4  | ⇔ | Left Right Double Arrow
+ 266 | U+21A6  | ↦ | Rightwards Arrow From Bar
+ 267 | U+27F6  | ⟶ | Long Rightwards Arrow
+ 268 | U+00A2  | ¢ | Cent Sign
+ 269 | U+20AC  | € | Euro Sign
+ 270 | U+00A3  | £ | Pound Sign
+ 271 | U+00A5  | ¥ | Yen Sign
+ 272 | U+20A9  | ₩ | Won Sign
+ 273 | U+20AA  | ₪ | New Sheqel Sign
+ 274 | U+20B9  | ₹ | Indian Rupee Sign
+ 275 | U+20BD  | ₽ | Ruble Sign
+ 276 | U+20BF  | ₿ | Bitcoin Sign
+ 277 | U+20AB  | ₫ | Dong Sign
+ 278 | U+20B1  | ₱ | Peso Sign
+ 279 | U+20B4  | ₴ | Hryvnia Sign
+ 280 | U+20AE  | ₮ | Tugrik Sign
+ 281 | U+00BD  | ½ | Vulgar Fraction One Half
+ 282 | U+2153  | ⅓ | Vulgar Fraction One Third
+ 283 | U+2154  | ⅔ | Vulgar Fraction Two Thirds
+ 284 | U+00BC  | ¼ | Vulgar Fraction One Quarter
+ 285 | U+00BE  | ¾ | Vulgar Fraction Three Quarters
+ 286 | U+2155  | ⅕ | Vulgar Fraction One Fifth
+ 287 | U+2156  | ⅖ | Vulgar Fraction Two Fifths
+ 288 | U+2157  | ⅗ | Vulgar Fraction Three Fifths
+ 289 | U+2158  | ⅘ | Vulgar Fraction Four Fifths
+ 290 | U+2159  | ⅙ | Vulgar Fraction One Sixth
+ 291 | U+215A  | ⅚ | Vulgar Fraction Five Sixths
+ 292 | U+215B  | ⅛ | Vulgar Fraction One Eighth
+ 293 | U+215C  | ⅜ | Vulgar Fraction Three Eighths
+ 294 | U+215D  | ⅝ | Vulgar Fraction Five Eighths
+ 295 | U+215E  | ⅞ | Vulgar Fraction Seven Eighths
+ 296 | U+2070  | ⁰ | Superscript Zero
+ 297 | U+00B9  | ¹ | Superscript One
+ 298 | U+00B2  | ² | Superscript Two
+ 299 | U+00B3  | ³ | Superscript Three
+ 300 | U+2074  | ⁴ | Superscript Four
+ 301 | U+2075  | ⁵ | Superscript Five
+ 302 | U+2076  | ⁶ | Superscript Six
+ 303 | U+2077  | ⁷ | Superscript Seven
+ 304 | U+2078  | ⁸ | Superscript Eight
+ 305 | U+2079  | ⁹ | Superscript Nine
+ 306 | U+207A  | ⁺ | Superscript Plus Sign
+ 307 | U+207B  | ⁻ | Superscript Minus
+ 308 | U+207C  | ⁼ | Superscript Equals Sign
+ 309 | U+207D  | ⁽ | Superscript Left Parenthesis
+ 310 | U+207E  | ⁾ | Superscript Right Parenthesis
+ 311 | U+207F  | ⁿ | Superscript Latin Small Letter N
+ 312 | U+2071  | ⁱ | Superscript Latin Small Letter I
+ 313 | U+2080  | ₀ | Subscript Zero
+ 314 | U+2081  | ₁ | Subscript One
+ 315 | U+2082  | ₂ | Subscript Two
+ 316 | U+2083  | ₃ | Subscript Three
+ 317 | U+2084  | ₄ | Subscript Four
+ 318 | U+2085  | ₅ | Subscript Five
+ 319 | U+2086  | ₆ | Subscript Six
+ 320 | U+2087  | ₇ | Subscript Seven
+ 321 | U+2088  | ₈ | Subscript Eight
+ 322 | U+2089  | ₉ | Subscript Nine
+ 323 | U+208A  | ₊ | Subscript Plus Sign
+ 324 | U+208B  | ₋ | Subscript Minus
+ 325 | U+2090  | ₐ | Subscript Latin Small Letter A
+ 326 | U+2091  | ₑ | Subscript Latin Small Letter E
+ 327 | U+2092  | ₒ | Subscript Latin Small Letter O
+ 328 | U+2093  | ₓ | Subscript Latin Small Letter X
+ 329 | U+2095  | ₕ | Subscript Latin Small Letter H
+ 330 | U+2096  | ₖ | Subscript Latin Small Letter K
+ 331 | U+2097  | ₗ | Subscript Latin Small Letter L
+ 332 | U+2098  | ₘ | Subscript Latin Small Letter M
+ 333 | U+2099  | ₙ | Subscript Latin Small Letter N
+ 334 | U+209A  | ₚ | Subscript Latin Small Letter P
+ 335 | U+209B  | ₛ | Subscript Latin Small Letter S
+ 336 | U+209C  | ₜ | Subscript Latin Small Letter T
+ 337 | U+0078  | x̄ | X Bar (Sample Mean)
+ 338 | U+0070  | p̂ | P Hat (Sample Proportion)
+ 339 | U+03C7  | χ² | Chi Squared
+ 340 | U+0045  | E | Expected Value
+ 341 | U+0056  | Var | Variance
+ 342 | U+0043  | Cov | Covariance
+ 343 | U+0050  | P | Probability
+ 344 | U+0052  | R² | R Squared (Coefficient of Determination)
+ 345 | U+006E  | n | Sample Size
+ 346 | U+0048  | H₀ | Null Hypothesis
+ 347 | U+0048  | H₁ | Alternative Hypothesis
+ 348 | U+2220  | ∠ | Angle
+ 349 | U+221F  | ∟ | Right Angle
+ 350 | U+25B3  | △ | White Up-Pointing Triangle
+ 351 | U+25CB  | ○ | White Circle
+ 352 | U+25CE  | ◎ | Bullseye
+ 353 | U+25CF  | ● | Black Circle
+ 354 | U+25D0  | ◐ | Circle With Left Half Black
+ 355 | U+25D1  | ◑ | Circle With Right Half Black
+ 356 | U+25D2  | ◒ | Circle With Lower Half Black
+ 357 | U+25D3  | ◓ | Circle With Upper Half Black
+ 358 | U+25D4  | ◔ | Circle With Upper Right Quadrant Black
+ 359 | U+2B20  | ⬠ | White Pentagon
+ 360 | U+2B21  | ⬡ | White Hexagon
+ 361 | U+2B22  | ⬢ | White Hexagon (Horizontal)
+ 362 | U+22BF  | ⊿ | Right Triangle
+ 363 | U+25B1  | ▱ | White Parallelogram
+ 364 | U+222B  | ∫ | Integral
+ 365 | U+222C  | ∬ | Double Integral
+ 366 | U+222D  | ∭ | Triple Integral
+ 367 | U+222E  | ∮ | Contour Integral
+ 368 | U+2202  | ∂ | Partial Derivative
+ 369 | U+2207  | ∇ | Nabla (Del Operator)
+ 370 | U+2206  | ∆ | Laplace Operator
+ 371 | U+006C  | lim | Limit
+ 372 | U+2211  | ∑ | Summation (Series)
+ 373 | U+220F  | ∏ | Product (Series)
+ 374 | U+004F  | O | Big O Notation
+ 375 | U+0065  | e | Euler's Number
+ 376 | U+0069  | i | Imaginary Unit
+ 377 | U+0064  | d/dx | Derivative Notation (d/dx)
+ 378 | U+2202  | ∂/∂x | Partial Derivative Notation
+ 379 | U+0066  | f'(x) | Derivative (Prime Notation)
+ 380 | U+0066  | f''(x) | Second Derivative (Double Prime)
+ 381 | U+2609  | ☉ | Sun
+ 382 | U+263F  | ☿ | Mercury
+ 383 | U+2640  | ♀ | Venus
+ 384 | U+2641  | ♁ | Earth
+ 385 | U+2642  | ♂ | Mars
+ 386 | U+2643  | ♃ | Jupiter
+ 387 | U+2644  | ♄ | Saturn
+ 388 | U+2645  | ♅ | Uranus
+ 389 | U+2646  | ♆ | Neptune
+ 390 | U+2647  | ♇ | Pluto
+ 391 | U+2600  | ☀ | Black Sun With Rays
+ 392 | U+2601  | ☁ | Cloud
+ 393 | U+263D  | ☽ | First Quarter Moon
+ 394 | U+263E  | ☾ | Last Quarter Moon
+ 395 | U+2605  | ★ | Black Star
+ 396 | U+2606  | ☆ | White Star
+ 397 | U+2713  | ✓ | Check Mark
+ 398 | U+2717  | ✗ | Ballot X
+ 399 | U+2610  | ☐ | Ballot Box (Unchecked)
+ 400 | U+2611  | ☑ | Ballot Box With Check
+ 401 | U+2612  | ☒ | Ballot Box With X
+ 402 | U+2665  | ♥ | Black Heart Suit
+ 403 | U+2666  | ♦ | Black Diamond Suit
+ 404 | U+2663  | ♣ | Black Club Suit
+ 405 | U+2660  | ♠ | Black Spade Suit
+ 406 | U+266A  | ♪ | Eighth Note
+ 407 | U+266B  | ♫ | Beamed Eighth Notes
+ 408 | U+266C  | ♬ | Beamed Sixteenth Notes
+ 409 | U+266D  | ♭ | Music Flat Sign
+ 410 | U+266E  | ♮ | Music Natural Sign
+ 411 | U+266F  | ♯ | Music Sharp Sign
+ 412 | U+2122  | ™ | Trade Mark Sign
+ 413 | U+00AE  | ® | Registered Sign
+ 414 | U+00A9  | © | Copyright Sign
+ 415 | U+00B5  | µ | Micro Sign
+ 416 | U+2030  | ‰ | Per Mille Sign

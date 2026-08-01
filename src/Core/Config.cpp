@@ -190,6 +190,56 @@ bool Config::Load() {
     m_settings.maxRecent       = static_cast<int32_t>(JsonGetInt(content, L"maxRecent", m_settings.maxRecent));
     m_settings.fuzzySearch     = JsonGetBool(content, L"fuzzySearch", m_settings.fuzzySearch);
 
+
+    // --- Inline expander settings ---
+    m_settings.inlineExpander.enabled =
+        JsonGetBool(content, L"expanderEnabled", m_settings.inlineExpander.enabled);
+    m_settings.inlineExpander.trigger =
+        JsonGetString(content, L"expanderTrigger", m_settings.inlineExpander.trigger);
+    m_settings.inlineExpander.preferLowercase =
+        JsonGetBool(content, L"expanderPreferLowercase", m_settings.inlineExpander.preferLowercase);
+
+    // Custom mappings: JSON object of keyword → index
+    // Format: "expanderMappings": { "delta": 408, "alpha": 397 }
+    std::wstring mappingsKey = L"\"expanderMappings\":";
+    auto mapPos = content.find(mappingsKey);
+    if (mapPos != std::wstring::npos) {
+        mapPos += mappingsKey.size();
+        while (mapPos < content.size() && std::iswspace(content[mapPos])) mapPos++;
+        if (mapPos < content.size() && content[mapPos] == L'{') {
+            mapPos++; // skip {
+            m_settings.inlineExpander.customMappings.clear();
+            while (mapPos < content.size()) {
+                while (mapPos < content.size() && std::iswspace(content[mapPos])) mapPos++;
+                if (mapPos >= content.size() || content[mapPos] == L'}') break;
+                // Read key string
+                if (content[mapPos] != L'"') break;
+                mapPos++;
+                std::wstring key;
+                while (mapPos < content.size() && content[mapPos] != L'"') {
+                    if (content[mapPos] == L'\\' && mapPos + 1 < content.size()) mapPos++;
+                    key += content[mapPos];
+                    mapPos++;
+                }
+                if (mapPos < content.size()) mapPos++; // skip closing "
+                while (mapPos < content.size() && std::iswspace(content[mapPos])) mapPos++;
+                if (mapPos >= content.size() || content[mapPos] != L':') break;
+                mapPos++; // skip :
+                while (mapPos < content.size() && std::iswspace(content[mapPos])) mapPos++;
+                // Read integer value
+                int sign = 1;
+                if (mapPos < content.size() && content[mapPos] == L'-') { sign = -1; mapPos++; }
+                int32_t val = 0;
+                while (mapPos < content.size() && std::iswdigit(content[mapPos])) {
+                    val = val * 10 + (content[mapPos] - L'0');
+                    mapPos++;
+                }
+                m_settings.inlineExpander.customMappings[key] = val * sign;
+                while (mapPos < content.size() && std::iswspace(content[mapPos])) mapPos++;
+                if (mapPos < content.size() && content[mapPos] == L',') mapPos++;
+            }
+        }
+    }
     SSP_LOG_DEBUG("Config: loaded from %ls", path.c_str());
     return true;
 }
@@ -210,7 +260,18 @@ bool Config::Save() const {
     json += L"  \"animations\": " + std::wstring(s.animations ? L"true" : L"false") + L",\n";
     json += L"  \"startWithWindows\": " + std::wstring(s.startWithWindows ? L"true" : L"false") + L",\n";
     json += L"  \"maxRecent\": " + std::to_wstring(s.maxRecent) + L",\n";
-    json += L"  \"fuzzySearch\": " + std::wstring(s.fuzzySearch ? L"true" : L"false") + L"\n";
+    json += L"  \"fuzzySearch\": " + std::wstring(s.fuzzySearch ? L"true" : L"false") + L",\n";
+    json += L"  \"expanderEnabled\": " + std::wstring(s.inlineExpander.enabled ? L"true" : L"false") + L",\n";
+    json += L"  \"expanderTrigger\": \"" + EscapeJson(s.inlineExpander.trigger) + L"\",\n";
+    json += L"  \"expanderPreferLowercase\": " + std::wstring(s.inlineExpander.preferLowercase ? L"true" : L"false") + L",\n";
+    json += L"  \"expanderMappings\": {";
+    bool first = true;
+    for (const auto& [key, idx] : s.inlineExpander.customMappings) {
+        if (!first) json += L", ";
+        first = false;
+        json += L"\"" + EscapeJson(key) + L"\": " + std::to_wstring(idx);
+    }
+    json += L"}\n";
     json += L"}\n";
 
     bool ok = WriteFileContents(path, json);

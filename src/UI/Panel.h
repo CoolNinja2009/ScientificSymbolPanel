@@ -34,6 +34,9 @@ public:
     bool HasPendingInsert() const; // Symbol selected, ready to type
     std::wstring TakePendingInsert();
 
+    // Access config (read by InlineExpander for runtime settings)
+    const Config& GetConfig() const { return m_config; }
+
 private:
     Config m_config;
     std::unique_ptr<SymbolDatabase> m_database;

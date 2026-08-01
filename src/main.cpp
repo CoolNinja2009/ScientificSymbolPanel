@@ -1,5 +1,6 @@
 #include "UI/Panel.h"
 #include "Core/Log.h"
+#include "Core/InlineExpander.h"
 
 #include <GLFW/glfw3.h>
 #ifdef _WIN32
@@ -29,6 +30,9 @@ static ssp::Panel* g_panel = nullptr;
 static HWND g_hwndPrevFocus = nullptr;  // Window that had focus before panel appeared
 static HWND g_sspHwnd = nullptr;
 static bool g_inserting = false;
+#endif
+#ifdef _WIN32
+static ssp::InlineExpander g_expander;
 #endif
 
 // ============================================================================
@@ -137,6 +141,7 @@ static void ShowPanel() {
     glfwFocusWindow(g_window);
     g_panelVisible = true;
     g_panel->OnShow();
+    g_expander.SetPanelVisible(true);
 #endif
 }
 
@@ -147,6 +152,7 @@ static void HidePanel() {
 #ifdef _WIN32
     g_panelVisible = false;
     g_panel->OnHide();
+    g_expander.SetPanelVisible(false);
     glfwHideWindow(g_window);
 
     // Restore focus to the window that had it before the panel appeared
@@ -291,6 +297,13 @@ int main() {
     std::thread hotkeyThread(HotkeyThread);
     hotkeyThread.detach();
 #endif
+
+    // Inline text expansion (system-wide, runtime-configurable)
+#ifdef _WIN32
+    if (g_expander.Initialize(panel.GetConfig().Get().inlineExpander)) {
+        g_expander.Start();
+    }
+#endif
     // Insert dance state — done between frames to avoid corrupting ImGui
     // Main loop
     while (!glfwWindowShouldClose(g_window)) {
@@ -328,6 +341,9 @@ int main() {
     panel.Shutdown();
 #ifdef _WIN32
     UnregisterHotkey();
+#endif
+#ifdef _WIN32
+    g_expander.Shutdown();
 #endif
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
